@@ -1,36 +1,33 @@
 /**************************************************
-Activity 2 - draw an alien
+Drawing experiments
 Jacob Garneau
 
-Drawing an alien using the p5 library
+Experimenting with p5's drawing and color functions.
 
-Currently draws an alien
+Currently draws a face
 **************************************************/
 
 // setup()
 //
-// Draws an alien
+// Draws a face on the canvas
 function setup() {
-  createCanvas(640,480);
+  createCanvas(500,500);
 
-  //  Set the background to pink
-  background(255,192,203);
+  //  Set the background to mint
+  background(191,255,199);
 
-  //  Draw the body
-  noStroke();
-  fill(150,150,150);
-  ellipse(320,480,420,300);
+  //  Draw a flesh-colored head
+  fill(250,200,200);
+  ellipse(250,250,200,200);
 
-  //  Draw the head
-  fill(120,120,120);
-  ellipse(320,240,260,360);
+  //  Draw the eyes (black as the void of space)
+  fill(0,0,255);
+  ellipse(200,250,30,30);
+  ellipse(300,250,30,30);
 
-  //  Draw the eyes
-  fill(0);
-  ellipse(260,200,100,160);
-  ellipse(380,200,100,160);
-
-  //  Draw the nostrils
+  //  Draw the mouth
+  strokeWeight(10);
+  line(200,300,300,300);
 }
 
 // draw()
