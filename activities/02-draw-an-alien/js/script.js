@@ -74,7 +74,7 @@ function setup() {
   quad(200,360,320,300,440,360,320,480);
 
   //  DRAW THE BODY
-
+ 
   //Neck
   fill(70, 84, 166);
   rectMode(CENTER);
