@@ -18,9 +18,33 @@ function setup() {
 
   //  DRAW THE BACKGROUND
 
+  noStroke();
+  fill(85, 55, 166, 50);
+  ellipse(320,480,280,280);
+  ellipse(320,480,380,380);
+  ellipse(320,480,480,480);
+  ellipse(320,480,580,580);
+  ellipse(320,480,680,680);
+  ellipse(320,480,780,780);
+  ellipse(320,480,880,880);
+  ellipse(320,480,980,980);
+  ellipse(320,480,1080,1080);
+
+  // Planet
+
+  fill(127, 204, 235);
+  ellipse(0,0,460,460);
+  fill(137, 245, 180);
+  ellipse(100,10,100,100);
+  ellipse(60,160,100,100);
+  ellipse(200,80,40,40);
+  ellipse(130,110,40,40);
+  ellipse(10,40,40,40);
+  ellipse(180,00,40,40);
+
+
   //  DRAW THE BACK ARMOR
 
-  noStroke();
   fill(199, 92, 80);
   triangle(500,400,500,240,460,400);
   fill(184, 85, 73);
@@ -56,6 +80,10 @@ function setup() {
   rectMode(CENTER);
   rect(320,380,140,200);
   rectMode(CORNER);
+  fill(122, 45, 176); //  Darker purple
+  quad(270,280,370,280,350,480,290,480);
+  fill(112, 35, 166); //  Darkest purple
+  quad(280,280,360,280,340,480,300,480);
 
   //  DRAW THE BACK HAIR
   fill(199, 124, 252); //  Medium purple
@@ -216,11 +244,6 @@ function setup() {
   fill(199, 124, 252);  //  Medium purple
   triangle(320,160,320,120,260,80);
   triangle(240,260,300,108,260,80);
-
-
-
-
-
 }
 
 // draw()
