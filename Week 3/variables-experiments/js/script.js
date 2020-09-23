@@ -7,10 +7,13 @@ Here is a description of this template p5 project.
 
 let backgroundShade = 0;
 
-let circleX = 0;
-let circleY = 250;
-let circleSize = 200;
-let circleSpeed = 2;
+let circle = {
+  x: 250,
+  y:250,
+  size: 100,
+  speed: 2,
+  fill: 0
+};
 
 // setup()
 //
@@ -24,8 +27,12 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   background(backgroundShade);
-  circleX += circleSpeed;
-  ellipse(circleX,circleY,circleSize);
 
-  console.log(`circleX: ${circleX}, circleY: ${circleY}, circleSize: ${circleSize}, circleSpeed: ${circleSpeed}`);
+  circle.speed = random(-5,5);
+  circle.x += circle.speed;
+  circle.size = random(10,100);
+
+  circle.fill = random(0,255);
+  fill(circle.fill);
+  ellipse(circle.x,circle.y,circle.size);
 }
