@@ -5,7 +5,7 @@ Jacob Garneau
 Draws two moving and growing circles on a background that goes from black to red
 **************************************************/
 
-//  Declare background
+//  Declare the background
 let bg = {
   r: 0,
   g: 0,
