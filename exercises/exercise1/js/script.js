@@ -148,21 +148,30 @@ function draw() {
   ellipse (moon.x,moon.y,moon.hole);
 
   //  Draw Mountain 1
+  mountain1.fill = map(mouseY,0,500,150,110);
+
   fill(mountain1.fill);
   triangle(mountain1.x + mountain1.displacement,height,mountain1.x + mountain1.displacement + mountain1.width,height,mountain1.x + mountain1.displacement + mountain1.width / 2, height - mountain1.height);
 
   //  Draw Mountain 2
+  mountain2.fill = map(mouseY,0,500,160,120);
+
   fill(mountain2.fill);
   triangle(mountain2.x + mountain2.displacement,height,mountain2.x + mountain2.displacement + mountain2.width,height,mountain2.x + mountain2.displacement + mountain2.width / 2, height - mountain2.height);
 
-  //  Draw Mountain 3
-  fill(mountain3.fill);
-  triangle(mountain3.x + mountain3.displacement,height,mountain3.x + mountain3.displacement + mountain3.width,height,mountain3.x + mountain3.displacement + mountain3.width / 2, height - mountain3.height);
-
   //  Draw Cloud
+  cloud.x = map(mouseX,0,250,0,50);
+  cloud.fill = map(mouseY,0,500,255,200);
+
   fill(cloud.fill);
   rect(cloud.x + cloud.rectangle.x,cloud.y + cloud.rectangle.y,cloud.rectangle.width,cloud.rectangle.height);
   ellipse(cloud.x + cloud.circle1.x,cloud.y + cloud.circle1.y,cloud.circle1.size);
   ellipse(cloud.x + cloud.circle2.x,cloud.y + cloud.circle2.y,cloud.circle2.size);
   ellipse(cloud.x + cloud.circle3.x,cloud.y + cloud.circle3.y,cloud.circle3.size);
+
+  //  Draw Mountain 3
+  mountain3.fill = map(mouseY,0,500,170,130);
+
+  fill(mountain3.fill);
+  triangle(mountain3.x + mountain3.displacement,height,mountain3.x + mountain3.displacement + mountain3.width,height,mountain3.x + mountain3.displacement + mountain3.width / 2, height - mountain3.height);
 }
