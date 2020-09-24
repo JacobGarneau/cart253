@@ -2,7 +2,7 @@
 Exercise 1 - I like to move it move it
 Jacob Garneau
 
-Draws a scenery that alternates between night and day according to the user's mouse height
+Draws a scenery with mountains, a cloud, and the sun or the moon depending on the user's mouse position
 **************************************************/
 
 //  Declare the background
@@ -50,9 +50,10 @@ let stars = {
 
 //  Declare Sun
 let sun = {
-  x: 450,
+  x: 650,
   y: 50,
   size: 200,
+  growth: 0.5,
   fill: {
     r: 255,
     g: 200,
@@ -62,10 +63,11 @@ let sun = {
 
 //  Declare Moon
 let moon = {
-  x: 320,
+  x: 520,
   y: 50,
   size: 150,
-  hole: 100,
+  growth: 0.15,
+  hole: 0.7,
   fill: {
     r: 220,
     g: 255,
@@ -127,12 +129,22 @@ function draw() {
     ellipse(random(0,width),random(0,height),stars.size,stars.size);
   };
 
-  //  Link star opacity to mouse height
+  //  Map star opacity to mouse height
   stars.alpha = map(mouseY,0,height,0,255);
 
   //  Draw Sun
   sun.fill.g = map(mouseY,0,250,255,180);
   sun.y = map(mouseY,height / 2,0,600,50);
+
+  if(sun.size <= 200) {
+    sun.growth = 0.5;
+  } else if(sun.size >= 250) {
+    sun.growth = -0.5;
+  }
+  sun.size += sun.growth;
+
+  sun.x--;
+  sun.x = constrain(sun.x,450,650);
 
   ellipseMode(CENTER);
   fill(sun.fill.r,sun.fill.g,sun.fill.b);
@@ -141,11 +153,21 @@ function draw() {
   //  Draw Moon
   moon.y = map(mouseY,height,height / 2,120,-100);
 
+  if(moon.size <= 150) {
+    moon.growth = 0.15;
+  } else if(moon.size >= 175) {
+    moon.growth = -0.15;
+  }
+  moon.size += moon.growth;
+
+  moon.x--;
+  moon.x = constrain(moon.x,320,520);
+
   ellipseMode(CORNER);
   fill(moon.fill.r,moon.fill.g,moon.fill.b);
   ellipse(moon.x,moon.y,moon.size);
   fill(bg.r,bg.g,bg.b);
-  ellipse (moon.x,moon.y,moon.hole);
+  ellipse (moon.x,moon.y,moon.size * moon.hole);
 
   //  Draw Mountain 1
   mountain1.fill = map(mouseY,0,500,150,110);
@@ -161,7 +183,7 @@ function draw() {
 
   //  Draw Cloud
   cloud.x = map(mouseX,0,250,0,50);
-  cloud.fill = map(mouseY,0,500,255,200);
+  cloud.fill = map(mouseY,0,300,255,200);
 
   fill(cloud.fill);
   rect(cloud.x + cloud.rectangle.x,cloud.y + cloud.rectangle.y,cloud.rectangle.width,cloud.rectangle.height);
