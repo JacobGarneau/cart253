@@ -73,19 +73,12 @@ let moon = {
   }
 }
 
-let starGroup = [];
-
 // setup()
 //
 // Description of setup() goes here.
 function setup() {
   createCanvas(500,500);
   noStroke();
-
-  fill(stars.fill, stars.alpha);
-  for(let i = 0; i < stars.amount; i++) {
-    starGroup.push(ellipse(random(0,width),random(0,height),stars.size,stars.size));
-  };
 }
 
 // draw()
@@ -101,7 +94,10 @@ function draw() {
   bg.b = map(mouseY,0,height,255,180);
 
   //  Draw Stars
-  starGroup
+  fill(stars.fill, stars.alpha);
+  for(let i = 0; i < stars.amount; i++) {
+    ellipse(random(0,width),random(0,height),stars.size,stars.size);
+  };
 
   //  Link star opacity to mouse height
   stars.alpha = map(mouseY,0,height,0,255);
