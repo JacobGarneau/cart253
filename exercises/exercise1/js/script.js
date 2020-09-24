@@ -60,12 +60,32 @@ let sun = {
   }
 }
 
+//  Declare Moon
+let moon = {
+  x: 320,
+  y: 50,
+  size: 150,
+  hole: 100,
+  fill: {
+    r: 220,
+    g: 255,
+    b: 255
+  }
+}
+
+let starGroup = [];
+
 // setup()
 //
 // Description of setup() goes here.
 function setup() {
   createCanvas(500,500);
   noStroke();
+
+  fill(stars.fill, stars.alpha);
+  for(let i = 0; i < stars.amount; i++) {
+    starGroup.push(ellipse(random(0,width),random(0,height),stars.size,stars.size));
+  };
 }
 
 // draw()
@@ -75,25 +95,33 @@ function draw() {
   //  BACKGROUND
   //  Draw the background
   background(bg.r,bg.g,bg.b);
-  //  Make the background's color relative to height of mouse
+  //  Make the background's color relative to mouse height
   bg.r = map(mouseY,0,height,127,80);
   bg.g = map(mouseY,0,height,210,70);
   bg.b = map(mouseY,0,height,255,180);
 
   //  Draw Stars
-  fill(stars.fill, stars.alpha);
-  for(let i = 0; i < stars.amount; i++) {
-    ellipse(random(0,width),random(0,height),stars.size,stars.size);
-  };
+  starGroup
+
+  //  Link star opacity to mouse height
+  stars.alpha = map(mouseY,0,height,0,255);
 
   //  Draw Sun
-  sun.fill.g = map(mouseY,0,250,255,220);
-  sun.y = map (mouseY,250,0,50,600);
-  sun.y = constrain(mouseY,50,height+100);
+  sun.fill.g = map(mouseY,0,250,255,180);
+  sun.y = map(mouseY,height / 2,0,600,50);
 
+  ellipseMode(CENTER);
   fill(sun.fill.r,sun.fill.g,sun.fill.b);
   ellipse(sun.x,sun.y,sun.size);
-  console.log(sun.y + ", " + mouseY);
+
+  //  Draw Moon
+  moon.y = map(mouseY,height,height / 2,120,-100);
+
+  ellipseMode(CORNER);
+  fill(moon.fill.r,moon.fill.g,moon.fill.b);
+  ellipse(moon.x,moon.y,moon.size);
+  fill(bg.r,bg.g,bg.b);
+  ellipse (moon.x,moon.y,moon.hole);
 
   //  Draw Mountain 1
   fill(mountain1.fill);
