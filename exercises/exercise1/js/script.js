@@ -73,6 +73,34 @@ let moon = {
   }
 }
 
+//  Declare Cloud
+let cloud = {
+  x: 200,
+  y: 200,
+  fill: 255,
+  circle1: {
+    x: -70,
+    y: 0,
+    size: 150
+  },
+  circle2: {
+    x: 120,
+    y: 0,
+    size: 150
+  },
+  circle3: {
+    x: -20,
+    y: -80,
+    size: 200
+  },
+  rectangle: {
+    x: 0,
+    y: 0,
+    width: 200,
+    height: 150
+  }
+}
+
 // setup()
 //
 // Description of setup() goes here.
@@ -130,4 +158,11 @@ function draw() {
   //  Draw Mountain 3
   fill(mountain3.fill);
   triangle(mountain3.x + mountain3.displacement,height,mountain3.x + mountain3.displacement + mountain3.width,height,mountain3.x + mountain3.displacement + mountain3.width / 2, height - mountain3.height);
+
+  //  Draw Cloud
+  fill(cloud.fill);
+  rect(cloud.x + cloud.rectangle.x,cloud.y + cloud.rectangle.y,cloud.rectangle.width,cloud.rectangle.height);
+  ellipse(cloud.x + cloud.circle1.x,cloud.y + cloud.circle1.y,cloud.circle1.size);
+  ellipse(cloud.x + cloud.circle2.x,cloud.y + cloud.circle2.y,cloud.circle2.size);
+  ellipse(cloud.x + cloud.circle3.x,cloud.y + cloud.circle3.y,cloud.circle3.size);
 }
