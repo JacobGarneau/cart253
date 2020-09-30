@@ -5,17 +5,8 @@ Jacob Garneau
 Experiments with the conditionals.
 **************************************************/
 
-let circle = {
-  x: 250,
-  y: 250,
-  size: 100,
-  vx: 0,
-  vy: 0,
-  ax: 0,
-  ay: 0,
-  acceleration: 0.25,
-  maxSpeed: 5
-}
+let angle = 0;
+let rectScale = 0;
 
 // setup()
 //
@@ -28,28 +19,17 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
-  background(0);
+  background(255);
 
-  if (mouseX < circle.x) {
-    circle.ax = -circle.acceleration;
+  push();
+  fill(255,0,0);
+  rectMode(CENTER);
+  translate(width/2,height/2);
+  rotate(angle);
+  scale(rectScale);
+  rect(0,0,100,100);
+  pop();
 
-  } else {
-    circle.ax = circle.acceleration;
-  }
-
-  if (mouseY < circle.y) {
-    circle.ay = -circle.acceleration;
-  } else {
-    circle.ay = circle.acceleration;
-  }
-
-  circle.vx += circle.ax;
-  circle.vx = constrain(circle.vx,-circle.maxSpeed,circle.maxSpeed);
-  circle.vy += circle.ay;
-  circle.vy = constrain(circle.vy,-circle.maxSpeed,circle.maxSpeed);
-
-  circle.x += circle.vx;
-  circle.y += circle.vy;
-
-  ellipse(circle.x,circle.y,circle.size);
+  angle += 0.01;
+  rectScale += 0.01;
 }
