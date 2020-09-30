@@ -11,7 +11,7 @@ let covid19 = {
   size: 100,
   vx: 0,
   vy: 0,
-  speed: 5,
+  speed: 10,
   fill: {
     r: 255,
     g: 0,
@@ -23,7 +23,7 @@ let covid19 = {
 let user = {
   x: 250,
   y: 250,
-  size: 100,
+  size: 90,
   fill: {
     r: 0,
     g: 255,
@@ -79,6 +79,7 @@ function draw() {
   if (covid19.x > width) {
     covid19.x = 0;
     covid19.y = random(0,height);
+    covid19.speed += covid19.speed/3;
   }
 
   imageMode(CENTER);
@@ -90,7 +91,7 @@ function draw() {
   ellipse(user.x,user.y,user.size);
   image(user.img,user.x,user.y,30,72);
 
-  // Detect collision
+  // Detect collision and subtract health
 
   let d = dist(covid19.x,covid19.y,user.x,user.y);
 
@@ -98,14 +99,16 @@ function draw() {
     covid19.x = 0;
     covid19.y = random(0,height);
     user.health -= 1;
+  }
 
-    if (user.health === 2) {
-      user.fill.r = 255;
-    } else if (user.health === 1) {
-      user.fill.g = 0;
-    } else if (user.health === 0) {
-      noLoop();
-    }
+  // Effects of losing health (color change, game end)
+
+  if (user.health === 2 && user.fill.r <= 255) {
+    user.fill.r += 25;
+  } else if (user.health === 1) {
+    user.fill.g -= 25;
+  } else if (user.health === 0) {
+    noLoop();
   }
 }
 
