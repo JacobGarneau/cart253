@@ -1,17 +1,11 @@
 /**************************************************
-Template p5 project
-Pippin Barr
+Conditionals experiments
+Jacob Garneau
 
-Here is a description of this template p5 project.
+Experiments with the conditionals.
 **************************************************/
-let backgroundShade = 0;
 
-let circle = {
-  x: 0,
-  y: 250,
-  size: 100,
-  speed: 1
-}
+let displayCircle = false;
 
 // setup()
 //
@@ -24,15 +18,13 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
-  background(backgroundShade);
+  background(0);
 
-  circle.x += circle.speed;
-
-  fill(255,255,255);
-
-  if (!(circle.x < width/3)) {
-    fill(255,0,0);
+  if (mouseIsPressed) {
+    displayCircle = true;
   }
 
-  ellipse(circle.x,circle.y,circle.size);
+  if (displayCircle) {
+    ellipse (250,250,100,100);
+  }
 }
