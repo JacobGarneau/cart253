@@ -5,6 +5,8 @@ Jacob Garneau
 A gruesome battle against COVID-19 for the fate of humanity
 **************************************************/
 
+// Declare COVID-19
+
 let covid19 = {
   x: 0,
   y: 250,
@@ -21,6 +23,8 @@ let covid19 = {
   img: undefined
 }
 
+// Declare the user
+
 let user = {
   x: 400,
   y: 450,
@@ -36,8 +40,14 @@ let user = {
   score: 0
 }
 
-let staticAmount = 10000;
+// Declare single variables (square amount for background and displayed font)
+
+let squareAmount = 10000;
 let displayFont;
+
+// preload()
+// Loads the required resources for this program
+// 2 images and 1 font
 
 function preload() {
   covid19.img = loadImage("assets/images/covid19.png");
@@ -46,6 +56,9 @@ function preload() {
   displayFont = loadFont("assets/fonts/CourierPrime-Bold.ttf")
 }
 
+// setup()
+// Creates canvas and sets up necessary variables
+
 function setup() {
   createCanvas(windowWidth,windowHeight);
   covid19.y = random(0,height);
@@ -53,12 +66,15 @@ function setup() {
   covid19.vy = covid19.speed;
 }
 
+// draw()
+// Draws the background and the animated/interactive elements every frame (60 fps)
+
 function draw() {
   background(80,0,180);
 
-  // Draw static background (as in electricity, not unmoving)
+  // Draw randomly animated background
 
-  for (let i = 0; i < staticAmount; i++) {
+  for (let i = 0; i < squareAmount; i++) {
     let x = random(0,width);
     let y = random(0,height);
     fill(100,0,200);
@@ -142,7 +158,8 @@ function draw() {
   text("SCORE: " + user.score, width - 220, 100);
 }
 
-// Drag user with mouse
+// mousePressed() and mouseReleased()
+// Allow to drag the user with the mouse
 
 function mousePressed() {
   let d = dist(mouseX,mouseY,user.x,user.y);
