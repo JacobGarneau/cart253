@@ -94,6 +94,13 @@ function draw() {
     covid19.x = 0;
     covid19.y = random(0,height);
     covid19.vx += 2;
+    if (covid19.vx > covid19.maxSpeed) {
+      covid19.vx = covid19.maxSpeed;
+    }
+    covid19.vy += 1;
+    if (covid19.vy > covid19.maxSpeed/1.5) {
+      covid19.vy = covid19.maxSpeed/1.5;
+    }
     user.score++;
   }
 
