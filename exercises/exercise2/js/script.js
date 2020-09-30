@@ -12,6 +12,7 @@ let covid19 = {
   vx: 0,
   vy: 0,
   speed: 10,
+  maxSpeed: 50,
   fill: {
     r: 255,
     g: 0,
@@ -21,8 +22,8 @@ let covid19 = {
 }
 
 let user = {
-  x: 250,
-  y: 250,
+  x: 400,
+  y: 450,
   size: 90,
   fill: {
     r: 0,
@@ -31,7 +32,8 @@ let user = {
   },
   dragging: false,
   img: undefined,
-  health: 3
+  health: 3,
+  score: 0
 }
 
 let staticAmount = 10000;
@@ -48,31 +50,40 @@ function setup() {
   createCanvas(windowWidth,windowHeight);
   covid19.y = random(0,height);
   covid19.vx = covid19.speed;
+  covid19.vy = covid19.speed;
 }
 
 function draw() {
-  background(0);
+  background(80,0,180);
 
   // Draw static background (as in electricity, not unmoving)
 
   for (let i = 0; i < staticAmount; i++) {
     let x = random(0,width);
     let y = random(0,height);
-    stroke(255);
-    point(x,y);
+    fill(100,0,200);
+    noStroke();
+    rect(x,y,10,10);
   }
 
   // Move the user
 
   if (user.dragging) {
     user.x = mouseX;
+    user.x = constrain(user.x, 0 + user.size/2,width - user.size/2);
     user.y = mouseY;
+    user.y = constrain(user.y, 0 + user.size/2,height - user.size/2);
   }
 
   // Move COVID-19
 
   covid19.x += covid19.vx;
-  covid19.y += covid19.vy;
+
+  if (user.y < covid19.y) {
+    covid19.y -= covid19.vy;
+  } else {
+    covid19.y += covid19.vy;
+  }
 
   // Draw COVID-19
 
@@ -82,7 +93,8 @@ function draw() {
   if (covid19.x > width) {
     covid19.x = 0;
     covid19.y = random(0,height);
-    covid19.speed += covid19.speed/3;
+    covid19.vx += 2;
+    user.score++;
   }
 
   imageMode(CENTER);
@@ -116,11 +128,14 @@ function draw() {
 
   // Display user health
 
-  push();
   textFont(displayFont, 32);
   text("HEALTH: " + user.health, width - 220, 50);
-  pop();
+
+  fill(255);
+  text("SCORE: " + user.score, width - 220, 100);
 }
+
+// Drag user with mouse
 
 function mousePressed() {
   let d = dist(mouseX,mouseY,user.x,user.y);
