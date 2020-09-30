@@ -35,10 +35,13 @@ let user = {
 }
 
 let staticAmount = 10000;
+let displayFont;
 
 function preload() {
   covid19.img = loadImage("assets/images/covid19.png");
   user.img = loadImage("assets/images/person.png");
+
+  displayFont = loadFont("assets/fonts/CourierPrime-Bold.ttf")
 }
 
 function setup() {
@@ -110,6 +113,13 @@ function draw() {
   } else if (user.health === 0) {
     noLoop();
   }
+
+  // Display user health
+
+  push();
+  textFont(displayFont, 32);
+  text("HEALTH: " + user.health, width - 220, 50);
+  pop();
 }
 
 function mousePressed() {
