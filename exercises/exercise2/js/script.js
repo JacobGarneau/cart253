@@ -42,7 +42,7 @@ let user = {
 
 // Declare single variables (square amount for background and displayed font)
 
-let squareAmount = 10000;
+let squareAmount = 5000;
 let displayFont;
 
 // preload()
