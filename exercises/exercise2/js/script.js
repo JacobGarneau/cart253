@@ -36,7 +36,7 @@ let user = {
   },
   dragging: false,
   img: undefined,
-  health: 3,
+  health: 4,
   score: 0
 }
 
@@ -141,10 +141,12 @@ function draw() {
 
   // Effects of losing health (color change, game end)
 
-  if (user.health === 2 && user.fill.r <= 255) {
+  if (user.health === 3 && user.fill.r <= 255) {
     user.fill.r += 25;
-  } else if (user.health === 1) {
-    user.fill.g -= 25;
+  } else if (user.health === 2 && user.fill.g >= 127) {
+    user.fill.g -= 12;
+  } else if (user.health === 1 && user.fill.g >= 0) {
+    user.fill.g -= 12;
   } else if (user.health === 0) {
     noLoop();
   }
