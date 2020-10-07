@@ -2,7 +2,7 @@
 Exercise 3 - Love, Actually
 Jacob Garneau
 
-A lonely circle looking for the love of his life, but only for 7 seconds because he doesn't have much free time
+A lonely circle looking for the love of his life, but only for 7 seconds because he doesn't have much free time and would rather be doing something else anyway
 **************************************************/
 
 let circle1 = {
@@ -27,10 +27,11 @@ let state = `title`;  //  title,love,sadness,simulation,bored
 let frames = 0;
 let seconds = 7;
 
-// setup()
+//  setup()
 //  Draws the canvas and sets initial speed and text parameters
 function setup() {
   createCanvas(600,600);
+
   circle1.vx = random(-circle1.speed,circle1.speed);
   circle1.vy = random(-circle1.speed,circle1.speed);
 
@@ -42,7 +43,8 @@ function setup() {
 //  draw()
 //  Draws the background and takes care of the states
 function draw() {
-  background(0);
+  background(40,0,40);
+  noStroke();
 
   //  Triggers the various states depending on the value inside the state variable
   if (state === `simulation`) {
@@ -61,7 +63,7 @@ function draw() {
 //  title()
 //  Displays the title
 function title() {
-  text(`LOVE?`,300,300);
+  text(`Guess I'll give this\n"love" thing a try.`,300,300);
 }
 
 //  simulation()
@@ -117,9 +119,9 @@ function move() {
 //  display()
 //  Displays both circles and the countdown text
 function display() {
-  fill(255,0,0);
+  fill(255,0,127);
   ellipse(circle1.x,circle1.y,circle1.size);
-  fill(0,0,255);
+  fill(0,127,255);
   ellipse(circle2.x,circle2.y,circle2.size);
 
   push();
@@ -139,7 +141,7 @@ function checkOffscreen() {
 }
 
 //  stayOnScreen()
-//  Makes it so the red circle never leaves the screen
+//  Makes it so the pink circle never leaves the screen
 function stayOnScreen() {
   if (circle1.x < 0 || circle1.x > width) {
     circle1.vx = -circle1.vx
@@ -190,6 +192,10 @@ function countdown() {
   if (frames === 60) {
     seconds--;
     frames = 0;
+
+    //  Gives a new direction and speed to the pink circle every second
+    circle1.vx = random(-circle1.speed,circle1.speed);
+    circle1.vy = random(-circle1.speed,circle1.speed);
   }
 
   if (seconds === 0) {
