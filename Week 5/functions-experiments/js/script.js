@@ -5,17 +5,20 @@ Jacob Garneau
 Experiments with functions
 **************************************************/
 
+let hello = {
+  string: `Hello, world!`,
+  x: 250,
+  y: 250,
+  vx: 5,
+  vy: 1,
+  size: 64
+}
+
 // setup()
 //
 // Description of setup() goes here.
 function setup() {
   createCanvas(500,500);
-
-  let hotCelsius = toCelsius(100);
-  let coldCelsius = toCelsius(10);
-
-  console.log(`100 degrees Fahrenheit is ${hotCelsius} degrees Celsius.`);
-  console.log(`10 degrees Fahrenheit is ${coldCelsius} degrees Celsius.`);
 }
 
 // draw()
@@ -24,13 +27,18 @@ function setup() {
 function draw() {
   background(0);
 
-  let x = random(0,width);
-  let y = random(0,height);
+  hello.x += hello.vx;
+  hello.y += hello.vy;
 
-  ellipse(x,y,100);
-}
+  hello.size++;
 
-function toCelsius(fahrenheit) {
-  let celsius = (fahrenheit - 32) * 5/9;
-  return celsius;
+  textAlign(CENTER,CENTER);
+  textSize(hello.size);
+  textStyle(BOLD);
+
+  fill(200,50,200);
+  stroke(0,255,0);
+  strokeWeight(3);
+
+  text(hello.string,hello.x,hello.y);
 }
