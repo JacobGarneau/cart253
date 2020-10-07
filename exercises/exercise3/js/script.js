@@ -125,19 +125,19 @@ function control() {
   circle2.vx = 0;
   circle2.vy = 0;
 
-  if (keyIsDown(UP_ARROW)) {
+  if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
     circle2.vy = -circle2.speed;
   }
 
-  if (keyIsDown(DOWN_ARROW)) {
+  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
     circle2.vy = circle2.speed;
   }
 
-  if (keyIsDown(LEFT_ARROW)) {
+  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
     circle2.vx = -circle2.speed;
   }
 
-  if (keyIsDown(RIGHT_ARROW)) {
+  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
     circle2.vx = circle2.speed;
   }
 }
