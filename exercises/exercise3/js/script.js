@@ -33,9 +33,6 @@ function setup() {
   circle1.vx = random(-circle1.speed,circle1.speed);
   circle1.vy = random(-circle1.speed,circle1.speed);
 
-  circle2.vx = random(-circle2.speed,circle2.speed);
-  circle2.vy = random(-circle2.speed,circle2.speed);
-
   textAlign(CENTER,CENTER);
   textSize(64);
   fill(255);
@@ -65,9 +62,7 @@ function title() {
 function simulation() {
   move();
 
-  if (checkOffscreen(circle1) || checkOffscreen(circle2)) {
-    state = `sadness`;
-  }
+  stayOnScreen();
 
   if (checkOverlap()) {
     state = `love`;
@@ -77,10 +72,12 @@ function simulation() {
 }
 
 function love() {
+  fill(255);
   text(`LOVE!`,300,300);
 }
 
 function sadness() {
+  fill(255);
   text(`D:`,300,300);
 }
 
@@ -90,18 +87,24 @@ function move() {
 
   circle2.x += circle2.vx;
   circle2.y += circle2.vy;
+
+  control();
 }
 
 function display() {
+  fill(255,0,0);
   ellipse(circle1.x,circle1.y,circle1.size);
+  fill(0,0,255);
   ellipse(circle2.x,circle2.y,circle2.size);
 }
 
-function checkOffscreen(circle) {
-  if (circle.x < 0 || circle.x > width || circle.y < 0 || circle.y > height) {
-    return true;
-  } else {
-    return false;
+function stayOnScreen() {
+  if (circle1.x < 0 || circle1.x > width) {
+    circle1.vx = -circle1.vx
+  }
+
+  if (circle1.y < 0 || circle1.y > width) {
+    circle1.vy = -circle1.vy
   }
 }
 
@@ -115,5 +118,26 @@ function checkOverlap() {
 function mousePressed() {
   if (state === `title`) {
     state = `simulation`;
+  }
+}
+
+function control() {
+  circle2.vx = 0;
+  circle2.vy = 0;
+
+  if (keyIsDown(UP_ARROW)) {
+    circle2.vy = -circle2.speed;
+  }
+
+  if (keyIsDown(DOWN_ARROW)) {
+    circle2.vy = circle2.speed;
+  }
+
+  if (keyIsDown(LEFT_ARROW)) {
+    circle2.vx = -circle2.speed;
+  }
+
+  if (keyIsDown(RIGHT_ARROW)) {
+    circle2.vx = circle2.speed;
   }
 }
