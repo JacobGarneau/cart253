@@ -129,6 +129,8 @@ function display() {
   textSize(32);
   fill(255);
   text(`Time remaining: ${seconds}`,20,40);
+  textAlign(CENTER,CENTER);
+  text(`Move with the arrows keys or WASD`,300,560);
   pop();
 }
 
