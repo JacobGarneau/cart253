@@ -51,10 +51,10 @@ let scaleNotes = {
 };
 
 let activeScale = scaleNotes.major;
-let state = `simulation`; //  title,simulation,ending
+let state = `title`; //  title,simulation,ending
 let score = 0;
 let time = 60;
-let seconds = 30;
+let seconds = 5;
 let dislayFont;
 
 //  preload()
@@ -95,7 +95,46 @@ function draw() {
 //  title()
 //  Displays the title screen and the options
 function title() {
+  background(20);
 
+  push();
+  fill(255);
+  textSize(96);
+  textAlign(CENTER,CENTER);
+  textFont(displayFont);
+  text(`Keyboard Hero`,width / 2,100);
+
+  textSize(32);
+  textAlign(LEFT,CENTER);
+  text(`Instrument`, width / 4 - 50, 300);
+  text(`Scale`, width / 4 * 3 - 50, 300);
+
+  textSize(24);
+  text(`Piano`, width / 4,375);
+  text(`Instrument2`, width / 4,417);
+  text(`Instrument3`, width / 4,459);
+  text(`Instrument4`, width / 4,501);
+
+  text(`Natural major`, width / 4 * 3,375);
+  text(`Natural minor`, width / 4 * 3,417);
+  text(`Pentatonic major`, width / 4 * 3,459);
+  text(`Chromatic`, width / 4 * 3,501);
+  pop();
+
+  push();
+  stroke(255);
+  strokeWeight(2);
+  fill(20);
+  ellipse(width / 4 - 28,379,20);
+  ellipse(width / 4 - 28,421,20);
+  ellipse(width / 4 - 28,463,20);
+  ellipse(width / 4 - 28,505,20);
+
+  ellipse(width / 4 * 3 - 28,379,20);
+  ellipse(width / 4 * 3 - 28,421,20);
+  ellipse(width / 4 * 3 - 28,463,20);
+  ellipse(width / 4 * 3 - 28,505,20);
+  pop();
 }
 
 //  simulation()
@@ -116,6 +155,11 @@ function simulation() {
   detectNoteHeight();
 
   displayTopbar();
+}
+
+function ending() {
+  background(20);
+
 }
 
 //  keyboard()
@@ -278,7 +322,7 @@ function highlightNote(noteIndex,notePosition) {
 
 function displayTopbar() {
   push();
-  fill(20,20,20);
+  fill(20);
   noStroke();
   rect(0,0,width,80);
   pop();
@@ -290,9 +334,19 @@ function displayTopbar() {
   text(`Score: ${score}`,40,36);
   text(`Time: ${seconds}`,400,36);
 
+  checkTime();
+}
+
+//  checkTime()
+//  Decreases the remaining time and checks if time is up
+function checkTime() {
   time--;
   if (time <= 0) {
     seconds--;
     time = 60;
+  }
+
+  if (seconds <= 0) {
+    state = `ending`;
   }
 }
