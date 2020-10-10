@@ -34,7 +34,12 @@ let rightPercent = 90;
 
 let highlight = {
   x: undefined,
-  played: undefined
+  played: undefined,
+  fill: {
+    r: 0,
+    g: 0,
+    b: 0
+  }
 };
 
 //  Various musical scales and the notes they contain
@@ -45,7 +50,12 @@ let scaleNotes = {
   pentatonic: [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
 };
 
+let activeScale = scaleNotes.major;
 let state = `simulation`; //  title,simulation,ending
+let score = 0;
+let time = 60;
+let seconds = 30;
+let dislayFont;
 
 //  preload()
 //  Preloads the necessary files (mainly sound files)
@@ -53,6 +63,8 @@ function preload() {
   for (let i = 0; i < numWhiteKeys + numWhiteKeys / 7 * 5; i++) {
     instrument.piano[i] = loadSound(`assets/sounds/piano${i}.wav`);
   }
+
+  displayFont = loadFont("assets/fonts/bahnschrift.ttf");
 }
 
 // setup()
@@ -60,24 +72,30 @@ function preload() {
 function setup() {
   createCanvas(windowWidth,windowHeight);
 
-  createScale(scaleNotes.major);
-
-  placeNote();
+  createScale(activeScale);
 
   note.vy = note.speed;
-
-  console.log(rightNotes);
-  console.log(wrongNotes);
-
   instrument.active = `piano`;
+
+  placeNote();
 }
 
 // draw()
 // Description of draw() goes here.
 function draw() {
-  if (state = `simulation`) {
+  if (state === `title`) {
+    title();
+  } else if (state === `simulation`) {
     simulation();
+  } else if (state === `ending`) {
+    ending();
   }
+}
+
+//  title()
+//  Displays the title screen and the options
+function title() {
+
 }
 
 //  simulation()
@@ -96,6 +114,8 @@ function simulation() {
   keyboard();
 
   detectNoteHeight();
+
+  displayTopbar();
 }
 
 //  keyboard()
@@ -199,12 +219,32 @@ function detectNoteHeight() {
   if (note.y >= height - keyboardHeight + note.size / 2) {
     highlight.x = note.x;
     highlight.played = note.played;
+    highlight.fill.r = note.fill.r;
+    highlight.fill.g = note.fill.g;
+    highlight.fill.b = note.fill.b;
+
     setTimeout(function() {
       highlight.played = undefined;
       highlight.x = undefined;
     },500);
+
+    adjustScore();
     playNote(note.played);
     placeNote();
+  }
+}
+
+//  adjustScore()
+//  Adjusts the score depending on the note that just hit the keyboard
+function adjustScore() {
+  if (activeScale.includes(note.played)) {
+    score++;
+  } else {
+    score -= 5;
+
+    if (score < 0) {
+      score = 0;
+    }
   }
 }
 
@@ -216,21 +256,43 @@ function playNote(noteIndex) {
   }
 }
 
+//  highlightNote()
+//  Highlights the keys when a note hits them
 function highlightNote(noteIndex,notePosition) {
-  console.log(`Highlighting: ${noteIndex}, position: ${notePosition}`);
   //  Highlight the note that played
   if (noteIndex < 21) {
     push();
-    fill(255,0,0);
+    fill(highlight.fill.r,highlight.fill.g,highlight.fill.b);
     rect(notePosition - (width / numWhiteKeys) / 2,height - keyboardHeight,width / numWhiteKeys,keyboardHeight);
     pop();
   } else {
     push();
-    fill(255,0,0);
+    fill(highlight.fill.r,highlight.fill.g,highlight.fill.b);
     rect(notePosition - (width / numWhiteKeys - width / numWhiteKeys / 3) / 2,
         height - keyboardHeight,
         width / numWhiteKeys - width / numWhiteKeys / 3,
         keyboardHeight / 2);
     pop();
+  }
+}
+
+function displayTopbar() {
+  push();
+  fill(20,20,20);
+  noStroke();
+  rect(0,0,width,80);
+  pop();
+
+  fill(255);
+  textFont(displayFont);
+  textSize(32);
+  textAlign(LEFT,CENTER);
+  text(`Score: ${score}`,40,36);
+  text(`Time: ${seconds}`,400,36);
+
+  time--;
+  if (time <= 0) {
+    seconds--;
+    time = 60;
   }
 }
