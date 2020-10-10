@@ -21,16 +21,8 @@ let note = {
 }
 
 let instrument = {
-  piano: [],
-  active: undefined
+  piano: []
 }
-
-let numWhiteKeys = 21;
-let keyboardHeight = 300;
-
-let rightNotes = [];
-let wrongNotes = [];
-let rightPercent = 90;
 
 let highlight = {
   x: undefined,
@@ -50,11 +42,56 @@ let scaleNotes = {
   pentatonic: [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
 };
 
-let activeScale = scaleNotes.major;
+let menuButtons = {
+  instrument: {
+    y1: 379,
+    y2: 421,
+    y3: 463,
+    y4: 505,
+    size: 20
+  },
+  scale: {
+    y1: 379,
+    y2: 421,
+    y3: 463,
+    y4: 505,
+    size: 20
+  },
+  start: {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0
+  }
+}
+
+let menuCheckmarks = {
+  instrument: {
+    x: 0,
+    y: 379,
+    size: 12
+  },
+  scale: {
+    x: 0,
+    y: 379,
+    size: 12
+  }
+}
+
+
+let numWhiteKeys = 21;
+let keyboardHeight = 300;
+
+let rightNotes = [];
+let wrongNotes = [];
+let rightPercent = 90;
+
+let activeScale = undefined;
+let activeInstrument = undefined;
 let state = `title`; //  title,simulation,ending
 let score = 0;
 let time = 60;
-let seconds = 5;
+let seconds = 30;
 let dislayFont;
 
 //  preload()
@@ -71,13 +108,13 @@ function preload() {
 // Description of setup() goes here.
 function setup() {
   createCanvas(windowWidth,windowHeight);
-
-  createScale(activeScale);
-
   note.vy = note.speed;
-  instrument.active = `piano`;
 
-  placeNote();
+  activeInstrument = `piano`;
+  activeScale = scaleNotes.major;
+
+  menuCheckmarks.instrument.x = width / 4 - 28;
+  menuCheckmarks.scale.x = width / 4 * 3 - 28;
 }
 
 // draw()
@@ -97,6 +134,12 @@ function draw() {
 function title() {
   background(20);
 
+  drawMenuText();
+  drawMenuButtons();
+  drawMenuCheckmarks();
+}
+
+function drawMenuText() {
   push();
   fill(255);
   textSize(96);
@@ -105,9 +148,11 @@ function title() {
   text(`Keyboard Hero`,width / 2,100);
 
   textSize(32);
+  textAlign(CENTER,CENTER);
+  text(`Press ENTER to start`,width / 2,602);
   textAlign(LEFT,CENTER);
-  text(`Instrument`, width / 4 - 50, 300);
-  text(`Scale`, width / 4 * 3 - 50, 300);
+  text(`Instrument`, width / 4 - 50,300);
+  text(`Scale`, width / 4 * 3 - 50,300);
 
   textSize(24);
   text(`Piano`, width / 4,375);
@@ -120,22 +165,34 @@ function title() {
   text(`Pentatonic major`, width / 4 * 3,459);
   text(`Chromatic`, width / 4 * 3,501);
   pop();
+}
 
+function drawMenuButtons() {
   push();
   stroke(255);
   strokeWeight(2);
   fill(20);
-  ellipse(width / 4 - 28,379,20);
-  ellipse(width / 4 - 28,421,20);
-  ellipse(width / 4 - 28,463,20);
-  ellipse(width / 4 - 28,505,20);
+  ellipse(width / 4 - 28,menuButtons.instrument.y1,menuButtons.instrument.size);
+  ellipse(width / 4 - 28,menuButtons.instrument.y2,menuButtons.instrument.size);
+  ellipse(width / 4 - 28,menuButtons.instrument.y3,menuButtons.instrument.size);
+  ellipse(width / 4 - 28,menuButtons.instrument.y4,menuButtons.instrument.size);
 
-  ellipse(width / 4 * 3 - 28,379,20);
-  ellipse(width / 4 * 3 - 28,421,20);
-  ellipse(width / 4 * 3 - 28,463,20);
-  ellipse(width / 4 * 3 - 28,505,20);
+  ellipse(width / 4 * 3 - 28,menuButtons.scale.y1,menuButtons.scale.size);
+  ellipse(width / 4 * 3 - 28,menuButtons.scale.y2,menuButtons.scale.size);
+  ellipse(width / 4 * 3 - 28,menuButtons.scale.y3,menuButtons.scale.size);
+  ellipse(width / 4 * 3 - 28,menuButtons.scale.y4,menuButtons.scale.size);
   pop();
 }
+
+function drawMenuCheckmarks() {
+  push();
+  fill(0,255,255);
+  noStroke();
+  ellipse(menuCheckmarks.instrument.x,menuCheckmarks.instrument.y,menuCheckmarks.instrument.size);
+  ellipse(menuCheckmarks.scale.x,menuCheckmarks.scale.y,menuCheckmarks.scale.size);
+  pop();
+}
+
 
 //  simulation()
 //  Runs the piano simulation
@@ -151,9 +208,7 @@ function simulation() {
   pop();
 
   keyboard();
-
   detectNoteHeight();
-
   displayTopbar();
 }
 
@@ -199,6 +254,8 @@ function keyboard() {
 //  createScale()
 //  Splits note positions between right and wrong notes depending on the musical scale
 function createScale(scale) {
+  rightNotes = [];
+  wrongNotes = [];
   for (let i = 0; i < numWhiteKeys + numWhiteKeys / 7 * 5; i++) {
 
     if (scale.includes(i)) {
@@ -295,7 +352,7 @@ function adjustScore() {
 //  playNote()
 //  Plays the sound for the note that just hit the keyboard
 function playNote(noteIndex) {
-  if (instrument.active === `piano`) {
+  if (activeInstrument === `piano`) {
     instrument.piano[noteIndex].play(0,1);
   }
 }
@@ -348,5 +405,53 @@ function checkTime() {
 
   if (seconds <= 0) {
     state = `ending`;
+  }
+}
+
+function keyPressed() {
+  if (keyCode === ENTER) {
+    createScale(activeScale);
+    placeNote();
+    state = `simulation`;
+  }
+}
+
+function mousePressed() {
+  if (dist(mouseX,mouseY,width / 4 - 28,menuButtons.instrument.y1) < menuButtons.instrument.size / 2) {
+    menuCheckmarks.instrument.x = width / 4 - 28;
+    menuCheckmarks.instrument.y = menuButtons.instrument.y1;
+    activeInstrument = `piano`;
+  } else if (dist(mouseX,mouseY,width / 4 - 28,menuButtons.instrument.y2) < menuButtons.instrument.size / 2) {
+    menuCheckmarks.instrument.x = width / 4 - 28;
+    menuCheckmarks.instrument.y = menuButtons.instrument.y2;
+    activeInstrument = `piano`;
+  } else if (dist(mouseX,mouseY,width / 4 - 28,menuButtons.instrument.y3) < menuButtons.instrument.size / 2) {
+    menuCheckmarks.instrument.x = width / 4 - 28;
+    menuCheckmarks.instrument.y = menuButtons.instrument.y3;
+    activeInstrument = `piano`;
+  } else if (dist(mouseX,mouseY,width / 4 - 28,menuButtons.instrument.y4) < menuButtons.instrument.size / 2) {
+    menuCheckmarks.instrument.x = width / 4 - 28;
+    menuCheckmarks.instrument.y = menuButtons.instrument.y4;
+    activeInstrument = `piano`;
+  } else if (dist(mouseX,mouseY,width / 4 * 3 - 28,menuButtons.scale.y1) < menuButtons.scale.size / 2) {
+    menuCheckmarks.scale.x = width / 4 * 3 - 28;
+    menuCheckmarks.scale.y = menuButtons.scale.y1;
+    activeScale = scaleNotes.major;
+    console.log(activeScale);
+  } else if (dist(mouseX,mouseY,width / 4 * 3 - 28,menuButtons.scale.y2) < menuButtons.scale.size / 2) {
+    menuCheckmarks.scale.x = width / 4 * 3 - 28;
+    menuCheckmarks.scale.y = menuButtons.scale.y2;
+    activeScale = scaleNotes.minor;
+    console.log(activeScale);
+  } else if (dist(mouseX,mouseY,width / 4 * 3 - 28,menuButtons.scale.y3) < menuButtons.scale.size / 2) {
+    menuCheckmarks.scale.x = width / 4 * 3 - 28;
+    menuCheckmarks.scale.y = menuButtons.scale.y3;
+    activeScale = scaleNotes.pentatonic;
+    console.log(activeScale);
+  } else if (dist(mouseX,mouseY,width / 4 * 3 - 28,menuButtons.scale.y4) < menuButtons.scale.size / 2) {
+    menuCheckmarks.scale.x = width / 4 * 3 - 28;
+    menuCheckmarks.scale.y = menuButtons.scale.y4;
+    activeScale = scaleNotes.chromatic;
+    console.log(activeScale);
   }
 }
