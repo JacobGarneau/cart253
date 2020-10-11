@@ -606,6 +606,12 @@ function keyPressed() {
     time = 60;
     seconds = 30;
     score = 0;
+
+    user.x = width / 2;
+    user.y = (height - keyboardHeight + 80) / 2;
+    user.vx = 0;
+    user.vy = 0;
+
     state = `title`;
   }
 }
@@ -618,6 +624,7 @@ function mousePressed() {
       menuCheckmarks.instrument.x = width / 4 - 28;
       menuCheckmarks.instrument.y = menuButtons.instrument.y[i];
       activeInstrument = i;
+
       if (i === 0) {
         activeInstrument = `piano`;
       } else if (i === 1) {
