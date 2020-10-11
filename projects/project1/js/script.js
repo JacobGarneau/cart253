@@ -17,7 +17,7 @@ let user = {
   ax: 0,
   ay: 0,
   acceleration: 0.25,
-  maxSpeed: 5
+  maxSpeed: 10
 }
 
 //  Information about the falling note
@@ -32,7 +32,7 @@ let note = {
   },
   vx: 0,
   vy: 0,
-  speed: 6,
+  speed: 3,
   played: 0
 }
 
@@ -114,7 +114,7 @@ let keyboardHeight = 300; //  The physical height of the keyboard
 
 let rightNotes = [];  //  Array containing the notes that are part of the scale
 let wrongNotes = [];  //  Array containing the notes that not are part of the scale
-let rightPercent = 90;  //  Percentage of chances that the new note will be part of the scale
+let rightPercent = 50;  //  Percentage of chances that the new note will be part of the scale
 
 let activeScale = undefined;  //  The currently active muscial scale
 let scaleImage = undefined; //  As in the image of the musical scale, not the size of the image
@@ -214,7 +214,7 @@ function drawMenuContent() {
   fill(pressStart.fill.r,pressStart.fill.g,pressStart.fill.b,pressStart.fill.a);
   textSize(32);
   textAlign(CENTER,CENTER);
-  text(`Press ENTER to start`,width / 2,602);
+  text(`Turn up your volume and press ENTER to start`,width / 2,602);
   fill(255);
   textAlign(LEFT,CENTER);
   text(`Instrument`, width / 4 - 50,300);
@@ -328,7 +328,15 @@ function moveUser() {
     user.ax = user.acceleration;
     user.vx += user.ax;
     user.vx = constrain(user.vx,-user.maxSpeed,user.maxSpeed);
-  } else if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
+  } else {
+    if (user.vx < 0) {
+      user.vx += user.acceleration;
+    } else if (user.vx > 0) {
+      user.vx -= user.acceleration;
+    }
+  }
+
+  if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
     user.ay = -user.acceleration;
     user.vy += user.ay;
     user.vy = constrain(user.vy,-user.maxSpeed,user.maxSpeed);
@@ -336,6 +344,12 @@ function moveUser() {
     user.ay = user.acceleration;
     user.vy += user.ay;
     user.vy = constrain(user.vy,-user.maxSpeed,user.maxSpeed);
+  } else {
+    if (user.vy < 0) {
+      user.vy += user.acceleration;
+    } else if (user.vy > 0) {
+      user.vy -= user.acceleration;
+    }
   }
 
   detectUserCollision();
@@ -555,7 +569,23 @@ function checkTime() {
 }
 
 function detectUserCollision() {
+  //  Reset velocity if the user collides with one of the borders (allows for a bouncing effect)
+  if (user.x === 0 + user.width / 2 && user.vx < 0) {
+    user.vx = 0;
+  } else if (user.x === width - user.width / 2 && user.vx > 0) {
+    user.vx = 0;
+  }
 
+  if (user.y === 80 + user.height / 2 && user.vy < 0) {
+    user.vy = 0;
+  } else if (user.y === height - keyboardHeight - user.height / 2 && user.vy > 0) {
+    user.vy = 0;
+  }
+
+  //  Delete note and place it again if user collides with it
+  if(dist(user.x,0,note.x,0) <= user.width / 2 + note.size / 2 && dist(0,user.y,0,note.y) <= user.height / 2 + note.size / 2) {
+    placeNote();
+  }
 }
 
 //  keyPressed()
