@@ -11,7 +11,7 @@ let user = {
   x: 0,
   y: 0,
   width: 0,
-  height: 20,
+  height: 10,
   vx: 0,
   vy: 0,
   ax: 0,
@@ -110,11 +110,11 @@ let pressStart = {
 }
 
 let numWhiteKeys = 21;  //  The number of white keys displayed on the screen
-let keyboardHeight = 300; //  The physical height of the keyboard
+let keyboardHeight = undefined; //  The physical height of the keyboard
 
 let rightNotes = [];  //  Array containing the notes that are part of the scale
 let wrongNotes = [];  //  Array containing the notes that not are part of the scale
-let rightPercent = 50;  //  Percentage of chances that the new note will be part of the scale
+let rightPercent = 75;  //  Percentage of chances that the new note will be part of the scale
 
 let activeScale = undefined;  //  The currently active muscial scale
 let scaleImage = undefined; //  As in the image of the musical scale, not the size of the image
@@ -158,6 +158,7 @@ function setup() {
   createCanvas(windowWidth,windowHeight);
   note.vy = note.speed;
 
+  keyboardHeight = height / 3;
   activeInstrument = `piano`;
   activeScale = scaleNotes.major;
   scaleImage = scaleNotes.natMajorImg;
@@ -167,7 +168,7 @@ function setup() {
 
   user.x = width / 2;
   user.y = (height - keyboardHeight + 80) / 2;
-  user.width = width / 3 - 40;
+  user.width = width / 3;
 
   setInterval(function () {
     if (pressStart.fill.r === 255) {
@@ -214,8 +215,14 @@ function drawMenuContent() {
   fill(pressStart.fill.r,pressStart.fill.g,pressStart.fill.b,pressStart.fill.a);
   textSize(32);
   textAlign(CENTER,CENTER);
-  text(`Turn up your volume and press ENTER to start`,width / 2,602);
+  text(`Press ENTER to start`,width / 2,702);
+
   fill(255);
+  textSize(20);
+  textAlign(CENTER,CENTER);
+  text(`Avoid the blue notes and catch the red notes before they hit the keyboard!\nTurn up your volume to hear the notes being played.\nMove with WASD or the arrow keys.`,width / 2,602);
+
+  textSize(32);
   textAlign(LEFT,CENTER);
   text(`Instrument`, width / 4 - 50,300);
   text(`Scale`, width / 4 * 3 - 50,300);
