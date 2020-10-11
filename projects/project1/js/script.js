@@ -326,6 +326,8 @@ function moveUser() {
   rect(user.x,user.y,user.width,user.height);
   pop();
 
+  user.width -= 0.2;
+
   //  User Controls
   if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
     user.ax = -user.acceleration;
@@ -480,6 +482,7 @@ function adjustNotePosition(note) {
 //  Detects if notes have reached the keyboard
 function detectNoteHeight() {
   if (note.y >= height - keyboardHeight + note.size / 2) {
+
     highlight.x = note.x;
     highlight.played = note.played;
     highlight.fill.r = note.fill.r;
@@ -493,7 +496,12 @@ function detectNoteHeight() {
 
     adjustScore();
     playNote(note.played);
-    placeNote();
+
+    if (seconds <= 0) {
+      state = `ending`;
+    } else {
+      placeNote();
+    }
   }
 }
 
@@ -558,23 +566,24 @@ function displayTopbar() {
   text(`Score: ${score}`,40,36);
   text(`Time: ${seconds}`,400,36);
 
-  checkTime();
+  countdownTime();
 }
 
-//  checkTime()
-//  Decreases the remaining time and checks if time is up
-function checkTime() {
+//  countdownTime()
+//  Decreases the remaining time in seconds
+function countdownTime() {
   time--;
   if (time <= 0) {
-    seconds--;
     time = 60;
-  }
 
-  if (seconds <= 0) {
-    state = `ending`;
+    if (seconds > 0) {
+      seconds--;
+    }
   }
 }
 
+//  detectUserCollision()
+//  Detects if anything collides with the user and reacts accordingly
 function detectUserCollision() {
   //  Reset velocity if the user collides with one of the borders (allows for a bouncing effect)
   if (user.x === 0 + user.width / 2 && user.vx < 0) {
