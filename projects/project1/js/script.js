@@ -21,7 +21,10 @@ let note = {
 }
 
 let instrument = {
-  piano: []
+  piano: [],
+  banjo: [],
+  clarinet: [],
+  flute: []
 }
 
 let highlight = {
@@ -37,24 +40,18 @@ let highlight = {
 //  Various musical scales and the notes they contain
 let scaleNotes = {
   major: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
-  minor: [0,1,2,3,4,24,25,7,8,27,10,11,29,30,14,15,32,17,18,34,35],
+  minor: [0,1,22,3,4,24,25,7,8,27,10,11,29,30,14,15,32,17,18,34,35],
   chromatic: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],
   pentatonic: [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
 };
 
 let menuButtons = {
   instrument: {
-    y1: 379,
-    y2: 421,
-    y3: 463,
-    y4: 505,
+    y: [379,421,463,505],
     size: 20
   },
   scale: {
-    y1: 379,
-    y2: 421,
-    y3: 463,
-    y4: 505,
+    y: [379,421,463,505],
     size: 20
   },
   start: {
@@ -98,14 +95,23 @@ let dislayFont;
 //  Preloads the necessary files (mainly sound files)
 function preload() {
   for (let i = 0; i < numWhiteKeys + numWhiteKeys / 7 * 5; i++) {
-    instrument.piano[i] = loadSound(`assets/sounds/piano${i}.wav`);
+    instrument.piano[i] = loadSound(`assets/sounds/piano/piano${i}.mp3`);
+  }
+  for (let i = 0; i < numWhiteKeys + numWhiteKeys / 7 * 5; i++) {
+    instrument.banjo[i] = loadSound(`assets/sounds/banjo/banjo${i}.mp3`);
+  }
+  for (let i = 0; i < numWhiteKeys + numWhiteKeys / 7 * 5; i++) {
+    instrument.clarinet[i] = loadSound(`assets/sounds/clarinet/clarinet${i}.mp3`);
+  }
+  for (let i = 0; i < numWhiteKeys + numWhiteKeys / 7 * 5; i++) {
+    instrument.flute[i] = loadSound(`assets/sounds/flute/flute${i}.mp3`);
   }
 
   displayFont = loadFont("assets/fonts/bahnschrift.ttf");
 }
 
 // setup()
-// Description of setup() goes here.
+// Creates the canvas and sets up the necessary variables
 function setup() {
   createCanvas(windowWidth,windowHeight);
   note.vy = note.speed;
@@ -118,7 +124,7 @@ function setup() {
 }
 
 // draw()
-// Description of draw() goes here.
+// Handles the three states and refers to their respective functions
 function draw() {
   if (state === `title`) {
     title();
@@ -139,6 +145,8 @@ function title() {
   drawMenuCheckmarks();
 }
 
+//  drawMenuText()
+//  Draws the non-interactive menu text
 function drawMenuText() {
   push();
   fill(255);
@@ -156,9 +164,9 @@ function drawMenuText() {
 
   textSize(24);
   text(`Piano`, width / 4,375);
-  text(`Instrument2`, width / 4,417);
-  text(`Instrument3`, width / 4,459);
-  text(`Instrument4`, width / 4,501);
+  text(`Banjo`, width / 4,417);
+  text(`Clarinet`, width / 4,459);
+  text(`Flute`, width / 4,501);
 
   text(`Natural major`, width / 4 * 3,375);
   text(`Natural minor`, width / 4 * 3,417);
@@ -167,23 +175,26 @@ function drawMenuText() {
   pop();
 }
 
+//  drawMenuButtons()
+//  Draws the clickable buttons in the title menu
 function drawMenuButtons() {
   push();
   stroke(255);
   strokeWeight(2);
   fill(20);
-  ellipse(width / 4 - 28,menuButtons.instrument.y1,menuButtons.instrument.size);
-  ellipse(width / 4 - 28,menuButtons.instrument.y2,menuButtons.instrument.size);
-  ellipse(width / 4 - 28,menuButtons.instrument.y3,menuButtons.instrument.size);
-  ellipse(width / 4 - 28,menuButtons.instrument.y4,menuButtons.instrument.size);
 
-  ellipse(width / 4 * 3 - 28,menuButtons.scale.y1,menuButtons.scale.size);
-  ellipse(width / 4 * 3 - 28,menuButtons.scale.y2,menuButtons.scale.size);
-  ellipse(width / 4 * 3 - 28,menuButtons.scale.y3,menuButtons.scale.size);
-  ellipse(width / 4 * 3 - 28,menuButtons.scale.y4,menuButtons.scale.size);
+  for (let i = 0; i < 4; i++) {
+    ellipse(width / 4 - 28,menuButtons.instrument.y[i],menuButtons.instrument.size);
+  }
+
+  for (let i = 0; i < 4; i++) {
+    ellipse(width / 4 * 3 - 28,menuButtons.scale.y[i],menuButtons.scale.size);
+  }
   pop();
 }
 
+//  drawMenuCheckmarks()
+//  Draws the cyan circles in the menu boxes to indicate the currently selected options
 function drawMenuCheckmarks() {
   push();
   fill(0,255,255);
@@ -212,6 +223,8 @@ function simulation() {
   displayTopbar();
 }
 
+//  ending()
+//  Displays the ending screen
 function ending() {
   background(20);
 
@@ -354,6 +367,12 @@ function adjustScore() {
 function playNote(noteIndex) {
   if (activeInstrument === `piano`) {
     instrument.piano[noteIndex].play(0,1);
+  } else if (activeInstrument === `banjo`) {
+    instrument.banjo[noteIndex].play(0,1);
+  } else if (activeInstrument === `clarinet`) {
+    instrument.clarinet[noteIndex].play(0,1);
+  } else if (activeInstrument === `flute`) {
+    instrument.flute[noteIndex].play(0,1);
   }
 }
 
@@ -369,14 +388,13 @@ function highlightNote(noteIndex,notePosition) {
   } else {
     push();
     fill(highlight.fill.r,highlight.fill.g,highlight.fill.b);
-    rect(notePosition - (width / numWhiteKeys - width / numWhiteKeys / 3) / 2,
-        height - keyboardHeight,
-        width / numWhiteKeys - width / numWhiteKeys / 3,
-        keyboardHeight / 2);
+    rect(notePosition - (width / numWhiteKeys - width / numWhiteKeys / 3) / 2,height - keyboardHeight,width / numWhiteKeys - width / numWhiteKeys / 3,keyboardHeight / 2);
     pop();
   }
 }
 
+//  displayTopbar()
+//  Displays the top bar with the score and the remaining time
 function displayTopbar() {
   push();
   fill(20);
@@ -408,6 +426,8 @@ function checkTime() {
   }
 }
 
+//  keyPressed()
+//  p5: Starts the simulation if the user presses ENTER on the title screen
 function keyPressed() {
   if (keyCode === ENTER) {
     createScale(activeScale);
@@ -416,42 +436,39 @@ function keyPressed() {
   }
 }
 
+//  mousePressed()
+//  p5: Toggles the options in the menu when the user checks specific boxes
 function mousePressed() {
-  if (dist(mouseX,mouseY,width / 4 - 28,menuButtons.instrument.y1) < menuButtons.instrument.size / 2) {
-    menuCheckmarks.instrument.x = width / 4 - 28;
-    menuCheckmarks.instrument.y = menuButtons.instrument.y1;
-    activeInstrument = `piano`;
-  } else if (dist(mouseX,mouseY,width / 4 - 28,menuButtons.instrument.y2) < menuButtons.instrument.size / 2) {
-    menuCheckmarks.instrument.x = width / 4 - 28;
-    menuCheckmarks.instrument.y = menuButtons.instrument.y2;
-    activeInstrument = `piano`;
-  } else if (dist(mouseX,mouseY,width / 4 - 28,menuButtons.instrument.y3) < menuButtons.instrument.size / 2) {
-    menuCheckmarks.instrument.x = width / 4 - 28;
-    menuCheckmarks.instrument.y = menuButtons.instrument.y3;
-    activeInstrument = `piano`;
-  } else if (dist(mouseX,mouseY,width / 4 - 28,menuButtons.instrument.y4) < menuButtons.instrument.size / 2) {
-    menuCheckmarks.instrument.x = width / 4 - 28;
-    menuCheckmarks.instrument.y = menuButtons.instrument.y4;
-    activeInstrument = `piano`;
-  } else if (dist(mouseX,mouseY,width / 4 * 3 - 28,menuButtons.scale.y1) < menuButtons.scale.size / 2) {
-    menuCheckmarks.scale.x = width / 4 * 3 - 28;
-    menuCheckmarks.scale.y = menuButtons.scale.y1;
-    activeScale = scaleNotes.major;
-    console.log(activeScale);
-  } else if (dist(mouseX,mouseY,width / 4 * 3 - 28,menuButtons.scale.y2) < menuButtons.scale.size / 2) {
-    menuCheckmarks.scale.x = width / 4 * 3 - 28;
-    menuCheckmarks.scale.y = menuButtons.scale.y2;
-    activeScale = scaleNotes.minor;
-    console.log(activeScale);
-  } else if (dist(mouseX,mouseY,width / 4 * 3 - 28,menuButtons.scale.y3) < menuButtons.scale.size / 2) {
-    menuCheckmarks.scale.x = width / 4 * 3 - 28;
-    menuCheckmarks.scale.y = menuButtons.scale.y3;
-    activeScale = scaleNotes.pentatonic;
-    console.log(activeScale);
-  } else if (dist(mouseX,mouseY,width / 4 * 3 - 28,menuButtons.scale.y4) < menuButtons.scale.size / 2) {
-    menuCheckmarks.scale.x = width / 4 * 3 - 28;
-    menuCheckmarks.scale.y = menuButtons.scale.y4;
-    activeScale = scaleNotes.chromatic;
-    console.log(activeScale);
+  for (let i = 0; i < 4; i++) {
+    if (dist(mouseX,mouseY,width / 4 - 28,menuButtons.instrument.y[i]) < menuButtons.instrument.size / 2) {
+      menuCheckmarks.instrument.x = width / 4 - 28;
+      menuCheckmarks.instrument.y = menuButtons.instrument.y[i];
+      activeInstrument = i;
+      if (i === 0) {
+        activeInstrument = `piano`;
+      } else if (i === 1) {
+        activeInstrument = `banjo`;
+      } else if (i === 2) {
+        activeInstrument = `clarinet`;
+      } else if (i === 3) {
+        activeInstrument = `flute`;
+      }
+    }
+  }
+
+  for (let i = 0; i < 4; i++) {
+    if (dist(mouseX,mouseY,width / 4 * 3 - 28,menuButtons.scale.y[i]) < menuButtons.scale.size / 2) {
+      menuCheckmarks.scale.x = width / 4 * 3 - 28;
+      menuCheckmarks.scale.y = menuButtons.scale.y[i];
+      if (i === 0) {
+        activeScale = scaleNotes.major;
+      } else if (i === 1) {
+        activeScale = scaleNotes.minor;
+      } else if (i === 2) {
+        activeScale = scaleNotes.pentatonic;
+      } else if (i === 3) {
+        activeScale = scaleNotes.chromatic;
+      }
+    }
   }
 }
