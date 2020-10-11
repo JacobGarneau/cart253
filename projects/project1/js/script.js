@@ -42,7 +42,11 @@ let scaleNotes = {
   major: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
   minor: [0,1,22,3,4,24,25,7,8,27,10,11,29,30,14,15,32,17,18,34,35],
   pentatonicMajor: [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],
-  pentatonicMinor: [21,2,23,24,6,26,9,28,29,13,31,16,33,34,20]
+  pentatonicMinor: [21,2,23,24,6,26,9,28,29,13,31,16,33,34,20],
+  natMajorImg: undefined,
+  natMinorImg: undefined,
+  pentaMajorImg: undefined,
+  pentaMinorImg: undefined
 };
 
 let menuButtons = {
@@ -78,12 +82,13 @@ let menuCheckmarks = {
 let numWhiteKeys = 21;
 let keyboardHeight = 300;
 
-let rightNotes = [];
-let wrongNotes = [];
-let rightPercent = 90;
+let rightNotes = [];  //  Array containing the notes that are part of the scale
+let wrongNotes = [];  //  Array containing the notes that not are part of the scale
+let rightPercent = 90;  //  Percentage of chances that the new note will be part of the scale
 
-let activeScale = undefined;
-let activeInstrument = undefined;
+let activeScale = undefined;  //  The currently active muscial scale
+let scaleImage = undefined; //  As in the image of the scale, not the scale of the image
+let activeInstrument = undefined; //  The currently active instrument sound
 let state = `title`; //  title,simulation,ending
 let score = 0;
 let time = 60;
@@ -93,6 +98,7 @@ let displayFont;
 //  preload()
 //  Preloads the necessary files (mainly sound files)
 function preload() {
+  //  Load the sounds
   for (let i = 0; i < numWhiteKeys + numWhiteKeys / 7 * 5; i++) {
     instrument.piano[i] = loadSound(`assets/sounds/piano/piano${i}.mp3`);
   }
@@ -105,6 +111,14 @@ function preload() {
   for (let i = 0; i < numWhiteKeys + numWhiteKeys / 7 * 5; i++) {
     instrument.flute[i] = loadSound(`assets/sounds/flute/flute${i}.mp3`);
   }
+
+  //  Load the images
+  scaleNotes.natMajorImg = loadImage(`assets/images/natMajor.png`);
+  scaleNotes.natMinorImg = loadImage(`assets/images/natMinor.png`);
+  scaleNotes.pentaMajorImg = loadImage(`assets/images/pentaMajor.png`);
+  scaleNotes.pentaMinorImg = loadImage(`assets/images/pentaMinor.png`);
+
+  //  Load the font
   displayFont = loadFont("assets/fonts/bahnschrift.ttf");
 }
 
@@ -116,6 +130,7 @@ function setup() {
 
   activeInstrument = `piano`;
   activeScale = scaleNotes.major;
+  scaleImage = scaleNotes.natMajorImg;
 
   menuCheckmarks.instrument.x = width / 4 - 28;
   menuCheckmarks.scale.x = width / 4 * 3 - 28;
@@ -138,14 +153,15 @@ function draw() {
 function title() {
   background(20);
 
-  drawMenuText();
+  drawMenuContent();
   drawMenuButtons();
   drawMenuCheckmarks();
 }
 
-//  drawMenuText()
-//  Draws the non-interactive menu text
-function drawMenuText() {
+//  drawMenuContent()
+//  Draws the non-interactive menu content
+function drawMenuContent() {
+  //  Draw the menu text
   push();
   fill(255);
   textSize(96);
@@ -171,6 +187,11 @@ function drawMenuText() {
   text(`Pentatonic major`, width / 4 * 3,459);
   text(`Pentatonic minor`, width / 4 * 3,501);
   pop();
+
+  //  Draw the menu images
+  imageMode(CENTER);
+  image(scaleImage,width / 2, height / 2 + 80,width / 4,height / 4);
+  //image(scaleImage,width / 2,height / 2,200,200);
 }
 
 //  drawMenuButtons()
@@ -469,12 +490,16 @@ function mousePressed() {
       menuCheckmarks.scale.y = menuButtons.scale.y[i];
       if (i === 0) {
         activeScale = scaleNotes.major;
+        scaleImage = scaleNotes.natMajorImg;
       } else if (i === 1) {
         activeScale = scaleNotes.minor;
+        scaleImage = scaleNotes.natMinorImg;
       } else if (i === 2) {
         activeScale = scaleNotes.pentatonicMajor;
+        scaleImage = scaleNotes.pentaMajorImg;
       } else if (i === 3) {
         activeScale = scaleNotes.pentatonicMinor;
+        scaleImage = scaleNotes.pentaMinorImg;
       }
     }
   }
