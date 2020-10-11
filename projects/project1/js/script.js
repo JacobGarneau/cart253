@@ -5,6 +5,7 @@ Jacob Garneau
 Piano Simulator
 **************************************************/
 
+//  Information about the falling note
 let note = {
   x: 0,
   y: 0,
@@ -20,6 +21,7 @@ let note = {
   played: 0
 }
 
+//  Sound file storing
 let instrument = {
   piano: [],
   banjo: [],
@@ -27,6 +29,7 @@ let instrument = {
   flute: []
 }
 
+//  Information about the currently highlighted note
 let highlight = {
   x: undefined,
   played: undefined,
@@ -37,7 +40,7 @@ let highlight = {
   }
 };
 
-//  Various musical scales and the notes they contain
+//  Information about various musical scales and the notes they contain, as well as their visual representations
 let scaleNotes = {
   major: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
   minor: [0,1,22,3,4,24,25,7,8,27,10,11,29,30,14,15,32,17,18,34,35],
@@ -49,6 +52,7 @@ let scaleNotes = {
   pentaMinorImg: undefined
 };
 
+//  Information about the clickable boxes in the menu
 let menuButtons = {
   instrument: {
     y: [379,421,463,505],
@@ -66,6 +70,7 @@ let menuButtons = {
   }
 }
 
+//  Information about the cyan dots in the menu boxes
 let menuCheckmarks = {
   instrument: {
     x: 0,
@@ -79,21 +84,31 @@ let menuCheckmarks = {
   }
 }
 
-let numWhiteKeys = 21;
-let keyboardHeight = 300;
+//  Information about the "Press ENTER to start" menu text
+let pressStart = {
+  fill: {
+    r: 255,
+    g: 255,
+    b: 255,
+    a: 255
+  }
+}
+
+let numWhiteKeys = 21;  //  The number of white keys displayed on the screen
+let keyboardHeight = 300; //  The physical height of the keyboard
 
 let rightNotes = [];  //  Array containing the notes that are part of the scale
 let wrongNotes = [];  //  Array containing the notes that not are part of the scale
 let rightPercent = 90;  //  Percentage of chances that the new note will be part of the scale
 
 let activeScale = undefined;  //  The currently active muscial scale
-let scaleImage = undefined; //  As in the image of the scale, not the scale of the image
+let scaleImage = undefined; //  As in the image of the musical scale, not the size of the image
 let activeInstrument = undefined; //  The currently active instrument sound
 let state = `title`; //  title,simulation,ending
-let score = 0;
-let time = 60;
-let seconds = 30;
-let displayFont;
+let score = 0;  //  Current score of the user
+let time = 60;  //  Used to track seconds
+let seconds = 30; //  Seconds remaining to the simulation
+let displayFont;  //  Font used to display text
 
 //  preload()
 //  Preloads the necessary files (mainly sound files)
@@ -134,6 +149,14 @@ function setup() {
 
   menuCheckmarks.instrument.x = width / 4 - 28;
   menuCheckmarks.scale.x = width / 4 * 3 - 28;
+
+  setInterval(function () {
+    if (pressStart.fill.r === 255) {
+      pressStart.fill.r = pressStart.fill.g = pressStart.fill.b = pressStart.fill.a = 0
+    } else {
+      pressStart.fill.r = pressStart.fill.g = pressStart.fill.b = pressStart.fill.a = 255
+    }
+  },500);
 }
 
 // draw()
@@ -169,9 +192,11 @@ function drawMenuContent() {
   textFont(displayFont);
   text(`Piano Simulator`,width / 2,100);
 
+  fill(pressStart.fill.r,pressStart.fill.g,pressStart.fill.b,pressStart.fill.a);
   textSize(32);
   textAlign(CENTER,CENTER);
   text(`Press ENTER to start`,width / 2,602);
+  fill(255);
   textAlign(LEFT,CENTER);
   text(`Instrument`, width / 4 - 50,300);
   text(`Scale`, width / 4 * 3 - 50,300);
@@ -182,16 +207,15 @@ function drawMenuContent() {
   text(`Clarinet`, width / 4,459);
   text(`Flute`, width / 4,501);
 
-  text(`Natural major`, width / 4 * 3,375);
-  text(`Natural minor`, width / 4 * 3,417);
-  text(`Pentatonic major`, width / 4 * 3,459);
-  text(`Pentatonic minor`, width / 4 * 3,501);
+  text(`Natural major (C)`, width / 4 * 3,375);
+  text(`Natural minor (C)`, width / 4 * 3,417);
+  text(`Pentatonic major (C#)`, width / 4 * 3,459);
+  text(`Pentatonic minor (C#)`, width / 4 * 3,501);
   pop();
 
   //  Draw the menu images
   imageMode(CENTER);
-  image(scaleImage,width / 2, height / 2 + 80,width / 4,height / 4);
-  //image(scaleImage,width / 2,height / 2,200,200);
+  image(scaleImage,width / 2, height / 2 + 80,width / 4,height / 4 - 40);
 }
 
 //  drawMenuButtons()
@@ -238,7 +262,24 @@ function simulation() {
 //  Displays the ending screen
 function ending() {
   background(20);
+  displayEndingText();
+}
 
+function displayEndingText() {
+  push();
+  fill(255);
+  textSize(96);
+  textAlign(CENTER,CENTER);
+  textFont(displayFont);
+  text(`Time is up!`,width / 2,height / 2 - 120);
+  textSize(64);
+  text(`Final score: ${score}`,width / 2, height / 2 + 80);
+
+  fill(pressStart.fill.r,pressStart.fill.g,pressStart.fill.b,pressStart.fill.a);
+  textSize(32);
+  textAlign(CENTER,CENTER);
+  text(`Press ENTER to return to the main menu`,width / 2,602);
+  pop();
 }
 
 //  moveNotes()
@@ -461,6 +502,11 @@ function keyPressed() {
     createScale(activeScale);
     placeNote();
     state = `simulation`;
+  } else if (keyCode === ENTER && state === `ending`) {
+    time = 60;
+    seconds = 30;
+    score = 0;
+    state = `title`;
   }
 }
 
