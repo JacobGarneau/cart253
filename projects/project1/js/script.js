@@ -41,8 +41,8 @@ let highlight = {
 let scaleNotes = {
   major: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
   minor: [0,1,22,3,4,24,25,7,8,27,10,11,29,30,14,15,32,17,18,34,35],
-  chromatic: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],
-  pentatonic: [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
+  pentatonicMajor: [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],
+  pentatonicMinor: [21,2,23,24,6,26,9,28,29,13,31,16,33,34,20]
 };
 
 let menuButtons = {
@@ -75,7 +75,6 @@ let menuCheckmarks = {
   }
 }
 
-
 let numWhiteKeys = 21;
 let keyboardHeight = 300;
 
@@ -106,7 +105,6 @@ function preload() {
   for (let i = 0; i < numWhiteKeys + numWhiteKeys / 7 * 5; i++) {
     instrument.flute[i] = loadSound(`assets/sounds/flute/flute${i}.mp3`);
   }
-
   displayFont = loadFont("assets/fonts/bahnschrift.ttf");
 }
 
@@ -153,7 +151,7 @@ function drawMenuText() {
   textSize(96);
   textAlign(CENTER,CENTER);
   textFont(displayFont);
-  text(`Keyboard Hero`,width / 2,100);
+  text(`Piano Simulator`,width / 2,100);
 
   textSize(32);
   textAlign(CENTER,CENTER);
@@ -171,7 +169,7 @@ function drawMenuText() {
   text(`Natural major`, width / 4 * 3,375);
   text(`Natural minor`, width / 4 * 3,417);
   text(`Pentatonic major`, width / 4 * 3,459);
-  text(`Chromatic`, width / 4 * 3,501);
+  text(`Pentatonic minor`, width / 4 * 3,501);
   pop();
 }
 
@@ -204,20 +202,12 @@ function drawMenuCheckmarks() {
   pop();
 }
 
-
 //  simulation()
 //  Runs the piano simulation
 function simulation() {
   background(127, 255, 200);
 
-  note.y += note.vy;
-
-  push();
-  fill(note.fill.r,note.fill.g,note.fill.b);
-  noStroke();
-  ellipse(note.x,note.y,note.size);
-  pop();
-
+  moveNotes();
   keyboard();
   detectNoteHeight();
   displayTopbar();
@@ -228,6 +218,18 @@ function simulation() {
 function ending() {
   background(20);
 
+}
+
+//  moveNotes()
+//  Draws notes that fall towards the keyboard
+function moveNotes() {
+  note.y += note.vy;
+
+  push();
+  fill(note.fill.r,note.fill.g,note.fill.b);
+  noStroke();
+  ellipse(note.x,note.y,note.size);
+  pop();
 }
 
 //  keyboard()
@@ -434,7 +436,7 @@ function checkTime() {
 //  keyPressed()
 //  p5: Starts the simulation if the user presses ENTER on the title screen
 function keyPressed() {
-  if (keyCode === ENTER) {
+  if (keyCode === ENTER && state === `title`) {
     createScale(activeScale);
     placeNote();
     state = `simulation`;
@@ -470,9 +472,9 @@ function mousePressed() {
       } else if (i === 1) {
         activeScale = scaleNotes.minor;
       } else if (i === 2) {
-        activeScale = scaleNotes.pentatonic;
+        activeScale = scaleNotes.pentatonicMajor;
       } else if (i === 3) {
-        activeScale = scaleNotes.chromatic;
+        activeScale = scaleNotes.pentatonicMinor;
       }
     }
   }
