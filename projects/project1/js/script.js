@@ -89,7 +89,7 @@ let state = `title`; //  title,simulation,ending
 let score = 0;
 let time = 60;
 let seconds = 30;
-let dislayFont;
+let displayFont;
 
 //  preload()
 //  Preloads the necessary files (mainly sound files)
@@ -299,8 +299,13 @@ function placeNote() {
     note.played = random(wrongNotes);
   }
 
-  note.x = adjustNotePosition(note.played) * width / numWhiteKeys + note.size / 2;
-  note.size = width / numWhiteKeys;
+  if (note.played < 21) {
+    note.size = width / numWhiteKeys;
+    note.x = adjustNotePosition(note.played) * width / numWhiteKeys + note.size / 2;
+  } else {
+    note.size = width / numWhiteKeys - (width / numWhiteKeys / 3);
+    note.x = adjustNotePosition(note.played) * width / numWhiteKeys + (width / numWhiteKeys / 6) + note.size / 2;
+  }
 }
 
 //  adjustNotePosition()
