@@ -5,6 +5,21 @@ Jacob Garneau
 Piano Simulator
 **************************************************/
 
+//  Information about the user
+
+let user = {
+  x: 0,
+  y: 0,
+  width: 0,
+  height: 20,
+  vx: 0,
+  vy: 0,
+  ax: 0,
+  ay: 0,
+  acceleration: 0.25,
+  maxSpeed: 5
+}
+
 //  Information about the falling note
 let note = {
   x: 0,
@@ -150,6 +165,10 @@ function setup() {
   menuCheckmarks.instrument.x = width / 4 - 28;
   menuCheckmarks.scale.x = width / 4 * 3 - 28;
 
+  user.x = width / 2;
+  user.y = (height - keyboardHeight + 80) / 2;
+  user.width = width / 3 - 40;
+
   setInterval(function () {
     if (pressStart.fill.r === 255) {
       pressStart.fill.r = pressStart.fill.g = pressStart.fill.b = pressStart.fill.a = 0
@@ -252,6 +271,7 @@ function drawMenuCheckmarks() {
 function simulation() {
   background(127, 255, 200);
 
+  moveUser();
   moveNotes();
   keyboard();
   detectNoteHeight();
@@ -265,6 +285,8 @@ function ending() {
   displayEndingText();
 }
 
+//  displayEndingText()
+//  Displays the text on the ending screen
 function displayEndingText() {
   push();
   fill(255);
@@ -280,6 +302,43 @@ function displayEndingText() {
   textAlign(CENTER,CENTER);
   text(`Press ENTER to return to the main menu`,width / 2,602);
   pop();
+}
+
+//  moveUser()
+//  Displays and moves the user depending on keyboard inputs
+function moveUser() {
+  user.x += user.vx;
+  user.x = constrain(user.x,0 + user.width / 2,width - user.width / 2);
+  user.y += user. vy;
+  user.y = constrain(user.y,80 + user.height / 2,height - keyboardHeight - user.height / 2);
+
+  push();
+  fill(0);
+  noStroke();
+  rectMode(CENTER);
+  rect(user.x,user.y,user.width,user.height);
+  pop();
+
+  //  User Controls
+  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
+    user.ax = -user.acceleration;
+    user.vx += user.ax;
+    user.vx = constrain(user.vx,-user.maxSpeed,user.maxSpeed);
+  } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+    user.ax = user.acceleration;
+    user.vx += user.ax;
+    user.vx = constrain(user.vx,-user.maxSpeed,user.maxSpeed);
+  } else if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
+    user.ay = -user.acceleration;
+    user.vy += user.ay;
+    user.vy = constrain(user.vy,-user.maxSpeed,user.maxSpeed);
+  } else if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
+    user.ay = user.acceleration;
+    user.vy += user.ay;
+    user.vy = constrain(user.vy,-user.maxSpeed,user.maxSpeed);
+  }
+
+  detectUserCollision();
 }
 
 //  moveNotes()
@@ -493,6 +552,10 @@ function checkTime() {
   if (seconds <= 0) {
     state = `ending`;
   }
+}
+
+function detectUserCollision() {
+
 }
 
 //  keyPressed()
