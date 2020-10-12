@@ -1,7 +1,6 @@
 /**************************************************
 Project 1 - Simulation
 Jacob Garneau
-
 Piano Simulator
 **************************************************/
 
@@ -326,8 +325,6 @@ function moveUser() {
   rect(user.x,user.y,user.width,user.height);
   pop();
 
-  user.width -= 0.2;
-
   //  User Controls
   if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
     user.ax = -user.acceleration;
@@ -431,6 +428,7 @@ function createScale(scale) {
 //  Places notes on the screen and gives them the appropriate color
 function placeNote() {
   note.y = -note.size;
+  note.vy += 0.2;
 
   //  Change the note color to blue or red depending on if it is right or wrong
   if (random(1,100) <= rightPercent) {
@@ -620,6 +618,8 @@ function keyPressed() {
     user.y = (height - keyboardHeight + 80) / 2;
     user.vx = 0;
     user.vy = 0;
+
+    note.vy = note.speed;
 
     state = `title`;
   }
