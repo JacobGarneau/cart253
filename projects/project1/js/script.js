@@ -427,32 +427,28 @@ function createScale(scale) {
 //  placeNote()
 //  Places notes on the screen and gives them the appropriate color
 function placeNote() {
-  if (seconds <= 0) {
-    state = `ending`;
+  note.y = -note.size;
+  note.vy += 0.2;
+
+  //  Change the note color to blue or red depending on if it is right or wrong
+  if (random(1,100) <= rightPercent) {
+    note.fill.r = 0;
+    note.fill.g = 127;
+    note.fill.b = 255;
+    note.played = random(rightNotes);
   } else {
-    note.y = -note.size;
-    note.vy += 0.2;
+    note.fill.r = 255;
+    note.fill.g = 20;
+    note.fill.b = 0;
+    note.played = random(wrongNotes);
+  }
 
-    //  Change the note color to blue or red depending on if it is right or wrong
-    if (random(1,100) <= rightPercent) {
-      note.fill.r = 0;
-      note.fill.g = 127;
-      note.fill.b = 255;
-      note.played = random(rightNotes);
-    } else {
-      note.fill.r = 255;
-      note.fill.g = 20;
-      note.fill.b = 0;
-      note.played = random(wrongNotes);
-    }
-
-    if (note.played < 21) {
-      note.size = width / numWhiteKeys;
-      note.x = adjustNotePosition(note.played) * width / numWhiteKeys + note.size / 2;
-    } else {
-      note.size = width / numWhiteKeys - (width / numWhiteKeys / 3);
-      note.x = adjustNotePosition(note.played) * width / numWhiteKeys + (width / numWhiteKeys / 6) + note.size / 2;
-    }
+  if (note.played < 21) {
+    note.size = width / numWhiteKeys;
+    note.x = adjustNotePosition(note.played) * width / numWhiteKeys + note.size / 2;
+  } else {
+    note.size = width / numWhiteKeys - (width / numWhiteKeys / 3);
+    note.x = adjustNotePosition(note.played) * width / numWhiteKeys + (width / numWhiteKeys / 6) + note.size / 2;
   }
 }
 
@@ -498,7 +494,12 @@ function detectNoteHeight() {
 
     adjustScore();
     playNote(note.played);
-    placeNote();
+
+    if (seconds <= 0) {
+      state = `ending`;
+    } else {
+      placeNote();
+    }
   }
 }
 
