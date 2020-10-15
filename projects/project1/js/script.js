@@ -1,11 +1,12 @@
 /**************************************************
 Project 1 - Simulation
 Jacob Garneau
-Piano Simulator
+
+Keyboard Simulator - Let the keyboard play itself, but make sure to stop notes that are out of key!
+The piano sounds may play a bit late; this is because there is a short silence in the files themselves.
 **************************************************/
 
 //  Information about the user
-
 let user = {
   x: 0,
   y: 0,
@@ -16,7 +17,7 @@ let user = {
   ax: 0,
   ay: 0,
   acceleration: 0.25,
-  maxSpeed: 10
+  maxSpeed: 15
 }
 
 //  Information about the falling note
@@ -121,7 +122,7 @@ let activeInstrument = undefined; //  The currently active instrument sound
 let state = `title`; //  title,simulation,ending
 let score = 0;  //  Current score of the user
 let time = 60;  //  Used to track seconds
-let seconds = 30; //  Seconds remaining to the simulation
+let seconds = 60; //  Seconds remaining to the simulation
 let displayFont;  //  Font used to display text
 
 //  preload()
@@ -427,28 +428,32 @@ function createScale(scale) {
 //  placeNote()
 //  Places notes on the screen and gives them the appropriate color
 function placeNote() {
-  note.y = -note.size;
-  note.vy += 0.2;
-
-  //  Change the note color to blue or red depending on if it is right or wrong
-  if (random(1,100) <= rightPercent) {
-    note.fill.r = 0;
-    note.fill.g = 127;
-    note.fill.b = 255;
-    note.played = random(rightNotes);
+  if (seconds <= 0) {
+    state = `ending`;
   } else {
-    note.fill.r = 255;
-    note.fill.g = 20;
-    note.fill.b = 0;
-    note.played = random(wrongNotes);
-  }
+    note.y = -note.size;
+    note.vy += 0.15;
 
-  if (note.played < 21) {
-    note.size = width / numWhiteKeys;
-    note.x = adjustNotePosition(note.played) * width / numWhiteKeys + note.size / 2;
-  } else {
-    note.size = width / numWhiteKeys - (width / numWhiteKeys / 3);
-    note.x = adjustNotePosition(note.played) * width / numWhiteKeys + (width / numWhiteKeys / 6) + note.size / 2;
+    //  Change the note color to blue or red depending on if it is right or wrong
+    if (random(1,100) <= rightPercent) {
+      note.fill.r = 0;
+      note.fill.g = 127;
+      note.fill.b = 255;
+      note.played = random(rightNotes);
+    } else {
+      note.fill.r = 255;
+      note.fill.g = 20;
+      note.fill.b = 0;
+      note.played = random(wrongNotes);
+    }
+
+    if (note.played < 21) {
+      note.size = width / numWhiteKeys;
+      note.x = adjustNotePosition(note.played) * width / numWhiteKeys + note.size / 2;
+    } else {
+      note.size = width / numWhiteKeys - (width / numWhiteKeys / 3);
+      note.x = adjustNotePosition(note.played) * width / numWhiteKeys + (width / numWhiteKeys / 6) + note.size / 2;
+    }
   }
 }
 
@@ -494,12 +499,7 @@ function detectNoteHeight() {
 
     adjustScore();
     playNote(note.played);
-
-    if (seconds <= 0) {
-      state = `ending`;
-    } else {
-      placeNote();
-    }
+    placeNote();
   }
 }
 
@@ -509,7 +509,7 @@ function adjustScore() {
   if (activeScale.includes(note.played)) {
     score++;
   } else {
-    score -= 5;
+    score -= 2;
 
     if (score < 0) {
       score = 0;
@@ -611,7 +611,7 @@ function keyPressed() {
     state = `simulation`;
   } else if (keyCode === ENTER && state === `ending`) {
     time = 60;
-    seconds = 30;
+    seconds = 60;
     score = 0;
 
     user.x = width / 2;
