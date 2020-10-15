@@ -210,7 +210,7 @@ function drawMenuContent() {
   textSize(96);
   textAlign(CENTER,CENTER);
   textFont(displayFont);
-  text(`Piano Simulator`,width / 2,100);
+  text(`Keyboard Simulator`,width / 2,100);
 
   fill(pressStart.fill.r,pressStart.fill.g,pressStart.fill.b,pressStart.fill.a);
   textSize(32);
