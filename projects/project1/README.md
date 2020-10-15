@@ -1,3 +1,3 @@
-# Template p5 project
+# Project 1 - Simulation
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+Made by Jacob Garneau. A Keyboard simulator where notes fall onto a keyboard. Stop the ones that are out of key!
