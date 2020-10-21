@@ -10,11 +10,13 @@ Here is a description of this template p5 project.
 let user = {
   x: 0,
   y: 0,
-  size: 100,
+  size: 50,
 };
 
 let school = [];
-let schoolSize = 10;
+let schoolSize = 30;
+
+let state = `title`; //  title, simulation, goodEnding, badEnding
 
 // setup()
 //
@@ -23,7 +25,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   for (let i = 0; i < schoolSize; i++) {
-    let fish = createFish(random(0, width / 2), random(0, height));
+    let fish = createFish(random(0, windowWidth), random(0, windowHeight));
     school.push(fish);
   }
 }
@@ -44,6 +46,20 @@ function createFish(x, y) {
 //
 // Description of draw() goes here.
 function draw() {
+  if (state === `title`) {
+    title();
+  } else if (state === `simulation`) {
+    simulation();
+  } else if (state === `goodEnding`) {
+    goodEnding();
+  } else if (state === `badEnding`) {
+    badEnding();
+  }
+}
+
+function title() {}
+
+function simulation() {
   background(0);
 
   moveUser();
@@ -52,6 +68,10 @@ function draw() {
   for (let i = 0; i < school.length; i++) {
     moveFish(school[i]);
     displayFish(school[i]);
+  }
+
+  if (frameCount > 600) {
+    state = `goodEnding`;
   }
 }
 
@@ -62,7 +82,9 @@ function moveUser() {
 
 function displayUser() {
   push();
-  fill(255);
+  fill(255, 255, 0);
+  strokeWeight(6);
+  stroke(255, 0, 255);
   ellipse(user.x, user.y, user.size);
   pop();
 }
@@ -91,7 +113,12 @@ function displayFish(fish) {
   }
 }
 
+function goodEnding() {}
+
+function badEnding() {}
+
 function mousePressed() {
-  let fish = createFish(mouseX, mouseY);
-  school.push(fish);
+  if (state === `title`) {
+    state = `simulation`;
+  }
 }
