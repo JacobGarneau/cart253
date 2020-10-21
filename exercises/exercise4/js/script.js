@@ -62,7 +62,20 @@ function draw() {
   }
 }
 
-function title() {}
+function title() {
+  background(0);
+
+  push();
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  fill(255);
+  text(
+    `Oh no! The fishpocalypse happened and now\nthere are fish everywhere!\n\nTry to survive for at leat 10 seconds without\nbeing touched.\n\nClick to start the fight!`,
+    windowWidth / 2,
+    windowHeight / 2
+  );
+  pop();
+}
 
 function simulation() {
   background(0);
@@ -73,6 +86,7 @@ function simulation() {
   for (let i = 0; i < school.length; i++) {
     moveFish(school[i]);
     displayFish(school[i]);
+    detectCollision(school[i]);
   }
 
   if (frameCount > 600) {
@@ -115,6 +129,13 @@ function displayFish(fish) {
     noStroke();
     ellipse(fish.x, fish.y, fish.size);
     pop();
+  }
+}
+
+function detectCollision(fish) {
+  let d = dist(user.x, user.y, fish.x, fish.y);
+  if (d < user.size / 2 + fish.size / 2) {
+    state = `badEnding`;
   }
 }
 
