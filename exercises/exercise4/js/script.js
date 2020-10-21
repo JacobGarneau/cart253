@@ -118,9 +118,31 @@ function displayFish(fish) {
   }
 }
 
-function goodEnding() {}
+function goodEnding() {
+  background(0);
 
-function badEnding() {}
+  push();
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  fill(255);
+  text(
+    `Hurray, you survived the fishpocalypse!`,
+    windowWidth / 2,
+    windowHeight / 2
+  );
+  pop();
+}
+
+function badEnding() {
+  background(0);
+
+  push();
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  fill(255);
+  text(`Oh no, the fish got you!`, windowWidth / 2, windowHeight / 2);
+  pop();
+}
 
 function mousePressed() {
   if (state === `title`) {
