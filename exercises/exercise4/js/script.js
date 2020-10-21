@@ -34,10 +34,15 @@ function createFish(x, y) {
   let fish = {
     x: x,
     y: y,
-    size: 50,
+    size: random(25, 75),
     vx: 0,
     vy: 0,
-    speed: 2,
+    speed: random(1, 4),
+    fill: {
+      r: random(0, 255),
+      g: random(0, 255),
+      b: random(0, 255),
+    },
   };
   return fish;
 }
@@ -106,7 +111,7 @@ function moveFish(fish) {
 function displayFish(fish) {
   if (!fish.eaten) {
     push();
-    fill(200, 100, 100);
+    fill(fish.fill.r, fish.fill.g, fish.fill.b);
     noStroke();
     ellipse(fish.x, fish.y, fish.size);
     pop();
