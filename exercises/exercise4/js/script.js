@@ -2,25 +2,26 @@
 Exercise 4 - The Age of Aquariums
 Jacob Garneau
 
-Here is a description of this template p5 project.
+The fishpocalypse just happened and the world is in chaos! This new era is dubbed the "Age of Aquariums". Fish are everywhere: they have overtaken towns, countries, and even entire continents, eliminating any humans in their path. As the sole survivor of the human race, you must survive for at least 10 seconds, since the fish can't survive much longer out of the water.
 **************************************************/
 
 "use strict";
 
+//  Defines the user
 let user = {
   x: 0,
   y: 0,
   size: 50,
 };
 
+//  Defines the school of fish and the amount of fish in it
 let school = [];
 let schoolSize = 30;
 
 let state = `title`; //  title, simulation, goodEnding, badEnding
 
-// setup()
-//
-// Description of setup() goes here.
+//  setup()
+//  Sets up the canvas and creates the initial fish
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
@@ -30,6 +31,8 @@ function setup() {
   }
 }
 
+//  createFish()
+//  Creates fish
 function createFish(x, y) {
   let fish = {
     x: x,
@@ -47,9 +50,8 @@ function createFish(x, y) {
   return fish;
 }
 
-// draw()
-//
-// Description of draw() goes here.
+//  draw()
+//  Handles the various states
 function draw() {
   if (state === `title`) {
     title();
@@ -62,6 +64,8 @@ function draw() {
   }
 }
 
+//  title()
+//  Displays the title screen
 function title() {
   background(0);
 
@@ -77,6 +81,8 @@ function title() {
   pop();
 }
 
+//  simulation()
+//  Displays the simulation state
 function simulation() {
   background(0);
 
@@ -94,11 +100,15 @@ function simulation() {
   }
 }
 
+//  moveUser()
+//  Moves the user
 function moveUser() {
   user.x = mouseX;
   user.y = mouseY;
 }
 
+//  displayUser()
+//  Displays the user
 function displayUser() {
   push();
   fill(255, 255, 0);
@@ -108,6 +118,8 @@ function displayUser() {
   pop();
 }
 
+//  moveFish()
+//  Moves the fish
 function moveFish(fish) {
   let change = random(0, 1);
   if (change < 0.05) {
@@ -122,6 +134,8 @@ function moveFish(fish) {
   fish.y = constrain(fish.y, 0, height);
 }
 
+//  displayFish()
+//  Displays the fish
 function displayFish(fish) {
   if (!fish.eaten) {
     push();
@@ -132,6 +146,8 @@ function displayFish(fish) {
   }
 }
 
+//  detectCollision()
+//  Detects collisions between the user and the fish
 function detectCollision(fish) {
   let d = dist(user.x, user.y, fish.x, fish.y);
   if (d < user.size / 2 + fish.size / 2) {
@@ -139,6 +155,8 @@ function detectCollision(fish) {
   }
 }
 
+//  goodEnding()
+//  Displays the good ending
 function goodEnding() {
   background(0);
 
@@ -154,6 +172,8 @@ function goodEnding() {
   pop();
 }
 
+//  badEnding()
+//  Displays the bad ending
 function badEnding() {
   background(0);
 
@@ -165,6 +185,8 @@ function badEnding() {
   pop();
 }
 
+//  mousePressed()
+//  p5: Changes the state from title to simulation on a click of the mouse
 function mousePressed() {
   if (state === `title`) {
     state = `simulation`;
