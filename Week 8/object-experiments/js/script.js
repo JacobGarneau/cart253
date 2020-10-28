@@ -9,7 +9,9 @@ Here is a description of this template p5 project.
 
 let garden = {
   flowers: [],
+  bees: [],
   numFlowers: 30,
+  numBees: 20,
   grassColor: {
     r: 120,
     g: 180,
@@ -36,6 +38,11 @@ function setup() {
     let flower = new Flower(x, y, size, stemLength, petalColor);
     garden.flowers.push(flower);
   }
+
+  for (let i = 0; i < garden.numBees; i++) {
+    let bee = new Bee(random(0, width), random(0, height));
+    garden.bees.push(bee);
+  }
 }
 
 // draw()
@@ -46,13 +53,25 @@ function draw() {
 
   for (let i = 0; i < garden.flowers.length; i++) {
     let flower = garden.flowers[i];
-    flower.display(flower);
+    if (flower.alive) {
+      flower.shrink();
+      flower.display();
+    }
   }
-}
 
-function mousePressed() {
-  for (let i = 0; i < garden.flowers.length; i++) {
-    let flower = garden.flowers[i];
-    flower.mousePressed();
+  for (let i = 0; i < garden.bees.length; i++) {
+    let bee = garden.bees[i];
+    if (bee.alive) {
+      bee.shrink();
+      bee.move();
+      bee.display();
+
+      for (let j = 0; j < garden.flowers.length; j++) {
+        let flower = garden.flowers[j];
+        if (flower.alive) {
+          bee.tryToPollinate(flower);
+        }
+      }
+    }
   }
 }
