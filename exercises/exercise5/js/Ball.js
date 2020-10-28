@@ -34,7 +34,8 @@ class Ball {
     let dx = dist(this.x, 0, paddle.x, 0);
     if (
       this.y + this.size / 2 >= height - paddle.height &&
-      dx <= this.size / 2 + paddle.width / 2
+      dx <= this.size / 2 + paddle.width / 2 &&
+      this.vy > 0
     ) {
       this.vy = -this.vy;
       this.ay = 0;

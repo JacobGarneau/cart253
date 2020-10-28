@@ -2,13 +2,13 @@
 Exercise 5 - Juggle Garden (Juggle route)
 Jacob Garneau
 
-Here is a description of this template p5 project.
+An intense two-handed juggling simulator.
 **************************************************/
 "use strict";
 
 let paddleMouse;
 let paddleKeyboard;
-let paddleWidth = 120;
+let paddleWidth = 80;
 let paddleHeight = 12;
 let balls = [];
 let numBalls = 5;
@@ -101,6 +101,31 @@ function simulation() {
   }
 
   score();
+  displayScore();
+}
+
+function goodEnding() {
+  background(0);
+
+  push();
+  fill(255);
+  textSize(48);
+  textAlign(CENTER, CENTER);
+  textFont(displayFont);
+  text(`Victory!`, width / 2, height / 2);
+  pop();
+}
+
+function badEnding() {
+  background(0);
+
+  push();
+  fill(255);
+  textSize(48);
+  textAlign(CENTER, CENTER);
+  textFont(displayFont);
+  text(`Defeat!`, width / 2, height / 2);
+  pop();
 }
 
 function score() {
@@ -111,6 +136,24 @@ function score() {
   if (ballFalls <= 0) {
     state = `badEnding`;
   }
+}
+
+function displayScore() {
+  push();
+  fill(255, 0, 0);
+  textSize(24);
+  textAlign(LEFT, CENTER);
+  textFont(displayFont);
+  text(`Balls dropped: ${10 - ballFalls}/10`, 20, 40);
+  pop();
+
+  push();
+  fill(0, 255, 0);
+  textSize(24);
+  textAlign(LEFT, CENTER);
+  textFont(displayFont);
+  text(`Balls juggled: ${25 - ballBounces}/25`, 320, 40);
+  pop();
 }
 
 function keyPressed() {
