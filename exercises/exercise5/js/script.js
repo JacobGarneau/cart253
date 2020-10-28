@@ -6,9 +6,10 @@ Here is a description of this template p5 project.
 **************************************************/
 "use strict";
 
-let paddle;
+let paddleMouse;
+let paddleKeyboard;
 let balls = [];
-let numBalls = 3;
+let numBalls = 10;
 let gravityForce = 0.0025;
 
 // setup()
@@ -17,7 +18,8 @@ let gravityForce = 0.0025;
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  paddle = new Paddle(200, 10);
+  paddleMouse = new PaddleMouse(200, 10);
+  paddleKeyboard = new PaddleKeyboard(200, 10);
 
   for (let i = 0; i < numBalls; i++) {
     let ball = new Ball(random(0, width), random(0, height));

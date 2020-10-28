@@ -7,7 +7,6 @@ class Ball {
     this.vy = 0;
     this.ax = 0;
     this.ay = 0;
-    this.acceleration = 0;
     this.maxSpeed = 10;
     this.size = 50;
     this.active = true;
