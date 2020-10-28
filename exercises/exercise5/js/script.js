@@ -33,8 +33,10 @@ function setup() {
 function draw() {
   background(0);
 
-  paddle.move();
-  paddle.display();
+  paddleMouse.move();
+  paddleKeyboard.move();
+  paddleMouse.display();
+  paddleKeyboard.display();
 
   for (let i = 0; i < balls.length; i++) {
     let ball = balls[i];
@@ -42,7 +44,8 @@ function draw() {
     if (ball.active) {
       ball.gravity(gravityForce);
       ball.move();
-      ball.bounce(paddle);
+      ball.bounce(paddleMouse);
+      ball.bounce(paddleKeyboarddad);
       ball.display();
     }
   }
