@@ -8,8 +8,10 @@ Here is a description of this template p5 project.
 
 let paddleMouse;
 let paddleKeyboard;
+let paddleWidth = 120;
+let paddleHeight = 12;
 let balls = [];
-let numBalls = 10;
+let numBalls = 5;
 let gravityForce = 0.0025;
 
 // setup()
@@ -18,8 +20,8 @@ let gravityForce = 0.0025;
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  paddleMouse = new PaddleMouse(200, 10);
-  paddleKeyboard = new PaddleKeyboard(200, 10);
+  paddleMouse = new PaddleMouse(paddleWidth, paddleHeight);
+  paddleKeyboard = new PaddleKeyboard(paddleWidth, paddleHeight);
 
   for (let i = 0; i < numBalls; i++) {
     let ball = new Ball(random(0, width), random(0, height));
@@ -52,6 +54,10 @@ function draw() {
       ball.bounce(paddleMouse);
       ball.bounce(paddleKeyboard);
       ball.display();
+    } else {
+      ball.x = random(0, width);
+      ball.y = 0 - ball.size;
+      ball.active = true;
     }
   }
 }
