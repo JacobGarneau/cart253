@@ -3,7 +3,7 @@ Project 1 - Simulation
 Jacob Garneau
 
 Keyboard Simulator - Let the keyboard play itself, but make sure to stop notes that are out of key!
-The piano sounds may play a bit late; this is because there is a short silence in the files themselves.
+The piano sounds may play a bit late; this is because there is a short silence in the files themselves and not because of a performance issue.
 **************************************************/
 
 //  Information about the user

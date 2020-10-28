@@ -34,7 +34,12 @@ function draw() {
   background(0);
 
   paddleMouse.move();
-  paddleKeyboard.move();
+  paddleKeyboard.move(
+    keyIsDown(LEFT_ARROW),
+    keyIsDown(65),
+    keyIsDown(RIGHT_ARROW),
+    keyIsDown(68)
+  );
   paddleMouse.display();
   paddleKeyboard.display();
 
@@ -45,7 +50,7 @@ function draw() {
       ball.gravity(gravityForce);
       ball.move();
       ball.bounce(paddleMouse);
-      ball.bounce(paddleKeyboarddad);
+      ball.bounce(paddleKeyboard);
       ball.display();
     }
   }
