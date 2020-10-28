@@ -6,11 +6,15 @@ class PaddleMouse {
     this.y = height - this.height / 2;
   }
 
+  //  move()
+  //  Moves the mouse paddle
   move() {
     this.x = mouseX;
     this.x = constrain(this.x, 0 + this.width / 2, width + this.width / 2);
   }
 
+  //  display()
+  //  Displays the mouse paddle
   display() {
     push();
     noStroke();

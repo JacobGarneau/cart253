@@ -8,6 +8,8 @@ class PaddleKeyboard {
     this.vy = 0;
   }
 
+  //  move(leftArrow,leftA,rightArrow,rightD)
+  //  Moves the keyboard paddle
   move(leftArrow, leftA, rightArrow, rightD) {
     if (leftArrow || leftA) {
       this.x -= this.vx;
@@ -17,6 +19,8 @@ class PaddleKeyboard {
     this.x = constrain(this.x, 0 + this.width / 2, width - this.width / 2);
   }
 
+  //  display()
+  //  Displays the keyboard paddle
   display() {
     push();
     noStroke();

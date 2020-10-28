@@ -19,13 +19,14 @@ let ballFalls = 10;
 let displayFont;
 let state = `title`; // title, simulation, goodEnding, badEnding
 
+//  preload()
+//  p5: Loads the required assets
 function preload() {
   displayFont = loadFont("assets/fonts/bahnschrift.ttf");
 }
 
-// setup()
-//
-// Description of setup() goes here.
+//  setup()
+//  p5: Sets up the necessary parameters
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
@@ -38,9 +39,8 @@ function setup() {
   }
 }
 
-// draw()
-//
-// Description of draw() goes here.
+//  draw()
+//  p5: Handles the various states
 function draw() {
   if (state === `title`) {
     title();
@@ -53,6 +53,8 @@ function draw() {
   }
 }
 
+//  title()
+//  Diisplays the title screen
 function title() {
   background(0);
 
@@ -69,6 +71,8 @@ function title() {
   pop();
 }
 
+//  simulation()
+//  Handles the simulation
 function simulation() {
   background(0);
 
@@ -104,6 +108,8 @@ function simulation() {
   displayScore();
 }
 
+//  goodEnding()
+//  Displays the good ending
 function goodEnding() {
   background(0);
 
@@ -116,6 +122,8 @@ function goodEnding() {
   pop();
 }
 
+//  badEnding()
+//  Displays the bad ending
 function badEnding() {
   background(0);
 
@@ -128,6 +136,8 @@ function badEnding() {
   pop();
 }
 
+//  score()
+//  Calculates the score
 function score() {
   if (ballBounces <= 0) {
     state = `goodEnding`;
@@ -138,6 +148,8 @@ function score() {
   }
 }
 
+//  displayScore()
+//  Displays the current score at the top of the screen
 function displayScore() {
   push();
   fill(255, 0, 0);
@@ -156,6 +168,8 @@ function displayScore() {
   pop();
 }
 
+//  keyPressed()
+//  p5: Switches the state from title to simulation when pressing the spacebar
 function keyPressed() {
   if (state === `title` && keyCode === 32) {
     state = `simulation`;

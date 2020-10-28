@@ -12,10 +12,14 @@ class Ball {
     this.active = true;
   }
 
+  //  gravity(force)
+  //  Handles the gravity simulation
   gravity(force) {
     this.ay += force;
   }
 
+  //  move()
+  //  Moves the ball
   move() {
     this.vx += this.ax;
     this.vx = constrain(this.vx, -this.maxSpeed, this.maxSpeed);
@@ -30,6 +34,8 @@ class Ball {
     }
   }
 
+  //  bounce(paddle)
+  //  Makes the ball bounce when it hits a paddle
   bounce(paddle) {
     let dx = dist(this.x, 0, paddle.x, 0);
     if (
@@ -44,6 +50,8 @@ class Ball {
     }
   }
 
+  //  display()
+  //  Displays the ball
   display() {
     push();
     noStroke();
