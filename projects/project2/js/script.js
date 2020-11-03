@@ -7,27 +7,39 @@ Here is a description of this template p5 project.
 
 let grid = {
   height: 10,
-  width: 10,
+  width: 20,
   squareSize: 50,
 };
 
 let unit;
+let unitSpeed = 5;
 let tiles = [];
-let tileTypes = [`mountains`, `forest`, `plains`, `water`];
+let tileTypes = [
+  `plains`,
+  `plains`,
+  `plains`,
+  `plains`,
+  `plains`,
+  `forest`,
+  `forest`,
+  `mountains`,
+  `water`,
+];
 
 //  Unit and movement variables
-let xPos = 1;
-let yPos = 1;
-let unitMovement = 2;
+let xPos = 7;
+let yPos = 5;
+let movement = 4;
 
 // setup()
 //
 // Description of setup() goes here.
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  grid.squareSize = windowHeight / grid.height;
 
   //  Create the unit
-  unit = new Unit(xPos, yPos);
+  unit = new Unit(xPos, yPos, movement, 5, 4);
 
   //  Create the grid
   for (let i = 0; i < grid.width; i++) {
@@ -79,21 +91,32 @@ function mouseClicked() {
 
 function keyPressed() {
   if (unit.selected) {
-    if (keyCode === LEFT_ARROW) {
-      unit.x -= grid.squareSize;
-    } else if (keyCode === RIGHT_ARROW) {
-      unit.x += grid.squareSize;
-    } else if (keyCode === UP_ARROW) {
-      unit.y -= grid.squareSize;
-    } else if (keyCode === DOWN_ARROW) {
-      unit.y += grid.squareSize;
-    }
+    if (
+      keyCode === LEFT_ARROW ||
+      keyCode === RIGHT_ARROW ||
+      keyCode === UP_ARROW ||
+      keyCode === DOWN_ARROW
+    ) {
+      if (keyCode === LEFT_ARROW) {
+        unit.destinationX = unit.x - grid.squareSize;
+      } else if (keyCode === RIGHT_ARROW) {
+        unit.destinationX = unit.x + grid.squareSize;
+      } else if (keyCode === UP_ARROW) {
+        unit.destinationY = unit.y - grid.squareSize;
+      } else if (keyCode === DOWN_ARROW) {
+        unit.destinationY = unit.y + grid.squareSize;
+      }
 
-    unit.x = constrain(unit.x, 0, width);
-    unit.y = constrain(unit.y, 0, height);
-    unit.currentMovement--;
-    if (unit.currentMovement === 0) {
-      unit.selected = false;
+      unit.currentMovement--;
+      if (unit.currentMovement === 0) {
+        unit.selected = false;
+      }
+
+      let timeoutDelay = (grid.squareSize / unitSpeed / 60) * 1000;
+      setTimeout(function () {
+        unit.x = unit.destinationX;
+        unit.y = unit.destinationY;
+      }, timeoutDelay);
     }
   }
 }
