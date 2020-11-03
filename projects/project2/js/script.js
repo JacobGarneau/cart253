@@ -12,10 +12,12 @@ let grid = {
 };
 
 let unit;
+let tiles = [];
+let tileTypes = [`mountains`, `forest`, `plains`, `water`];
 
 //  Unit and movement variables
-let xPos = 4;
-let yPos = 5;
+let xPos = 1;
+let yPos = 1;
 let unitMovement = 2;
 
 // setup()
@@ -26,6 +28,15 @@ function setup() {
 
   //  Create the unit
   unit = new Unit(xPos, yPos);
+
+  //  Create the grid
+  for (let i = 0; i < grid.width; i++) {
+    for (let j = 0; j < grid.height; j++) {
+      let tileType = random(tileTypes);
+      let tile = new Tile(i, j, tileType);
+      tiles.push(tile);
+    }
+  }
 }
 
 // draw()
@@ -33,23 +44,15 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   background(0);
-  stroke(0);
-  fill(255);
+  stroke(0, 0, 0, 100);
 
   //  Draw the grid
-  for (let i = 0; i < grid.width; i++) {
-    for (let j = 0; j < grid.height; j++) {
-      rect(
-        selectSquare(i + 1),
-        selectSquare(j + 1),
-        grid.squareSize,
-        grid.squareSize
-      );
-    }
+  for (let i = 0; i < tiles.length; i++) {
+    tiles[i].display();
   }
 
-  unit.movement();
-  unit.draw();
+  unit.move();
+  unit.display();
 }
 
 function selectSquare(value) {
@@ -69,6 +72,7 @@ function mouseClicked() {
       unit.selected = false;
     } else {
       unit.selected = true;
+      unit.currentMovement = unit.movement;
     }
   }
 }
@@ -85,6 +89,11 @@ function keyPressed() {
       unit.y += grid.squareSize;
     }
 
-    unit.selected = false;
+    unit.x = constrain(unit.x, 0, width);
+    unit.y = constrain(unit.y, 0, height);
+    unit.currentMovement--;
+    if (unit.currentMovement === 0) {
+      unit.selected = false;
+    }
   }
 }

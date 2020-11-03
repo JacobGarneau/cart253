@@ -3,9 +3,11 @@ class Unit {
     this.x = selectSquare(xPos);
     this.y = selectSquare(yPos);
     this.selected = false;
+    this.movement = 2;
+    this.currentMovement = this.movement;
   }
 
-  draw() {
+  display() {
     //  Draw the unit
     fill(255, 127, 0);
     noStroke();
@@ -16,10 +18,10 @@ class Unit {
     );
   }
 
-  movement() {
+  move() {
     //  Draw the movement options
-    if (this.selected) {
-      fill(0, 255, 127, 100);
+    if (this.selected && this.currentMovement > 0) {
+      fill(255, 0, 0, 100);
       noStroke();
       for (let i = 0; i < 3; i++) {
         rect(
