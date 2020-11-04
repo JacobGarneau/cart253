@@ -28,8 +28,6 @@ let tileTypes = [
 ];
 
 //  Unit and movement variables
-let xPos = 7;
-let yPos = 5;
 let movement = 4;
 
 // setup()
@@ -41,7 +39,7 @@ function setup() {
 
   //  Create the units
   for (let i = 0; i < unitAmount; i++) {
-    let unit = new Unit(i * 2 + 3, i * 2 + 2, movement, 5, 4);
+    let unit = new Unit(i * 2 + 3, i * 2 + 2, movement, 5, 4, `cavalry`, 1);
     units.push(unit);
   }
 
@@ -67,15 +65,86 @@ function draw() {
     tiles[i].display();
   }
 
+  //  Draw the units
   for (let i = 0; i < units.length; i++) {
     units[i].move();
     units[i].display();
+
+    //  Assign their tile's type to the units
+    for (let j = 0; j < tiles.length; j++) {
+      //  Current tile
+      let d = dist(units[i].x, units[i].y, tiles[j].x, tiles[j].y);
+      if (d <= unitSpeed) {
+        units[i].tileType.current = tiles[j].type;
+        tiles[j].occupied = units[i].team;
+      }
+
+      //  Up tile
+      d = dist(
+        units[i].x,
+        units[i].y - grid.squareSize,
+        tiles[j].x,
+        tiles[j].y
+      );
+      if (d <= unitSpeed) {
+        units[i].tileType.up = tiles[j].type;
+      }
+
+      //  Down tile
+      d = dist(
+        units[i].x,
+        units[i].y + grid.squareSize,
+        tiles[j].x,
+        tiles[j].y
+      );
+      if (d <= unitSpeed) {
+        units[i].tileType.down = tiles[j].type;
+      }
+
+      //  Left tile
+      d = dist(
+        units[i].x - grid.squareSize,
+        units[i].y,
+        tiles[j].x,
+        tiles[j].y
+      );
+      if (d <= unitSpeed) {
+        units[i].tileType.left = tiles[j].type;
+      }
+
+      //  Right tile
+      d = dist(
+        units[i].x + grid.squareSize,
+        units[i].y,
+        tiles[j].x,
+        tiles[j].y
+      );
+      if (d <= unitSpeed) {
+        units[i].tileType.right = tiles[j].type;
+      }
+    }
   }
 }
 
 function selectSquare(value) {
   let selected = (value - 1) * grid.squareSize;
   return selected;
+}
+
+function unitMovement(unit) {
+  unit.stats.currentMovement--;
+  unit.movable = false;
+
+  if (unit.stats.currentMovement === 0) {
+    unit.selected = false;
+  }
+
+  let timeoutDelay = (grid.squareSize / unitSpeed / 60) * 1000;
+  setTimeout(function () {
+    unit.x = unit.destinationX;
+    unit.y = unit.destinationY;
+    unit.movable = true;
+  }, timeoutDelay);
 }
 
 function mouseClicked() {
@@ -90,8 +159,11 @@ function mouseClicked() {
       if (units[i].selected) {
         units[i].selected = false;
       } else {
+        for (let j = 0; j < units.length; j++) {
+          units[j].selected = false;
+        }
         units[i].selected = true;
-        units[i].currentMovement = units[i].movement;
+        units[i].stats.currentMovement = units[i].stats.movement;
       }
     }
   }
@@ -106,29 +178,49 @@ function keyPressed() {
         keyCode === UP_ARROW ||
         keyCode === DOWN_ARROW
       ) {
-        if (keyCode === LEFT_ARROW) {
-          units[i].destinationX = units[i].x - grid.squareSize;
-        } else if (keyCode === RIGHT_ARROW) {
-          units[i].destinationX = units[i].x + grid.squareSize;
-        } else if (keyCode === UP_ARROW) {
-          units[i].destinationY = units[i].y - grid.squareSize;
-        } else if (keyCode === DOWN_ARROW) {
-          units[i].destinationY = units[i].y + grid.squareSize;
+        if (keyCode === LEFT_ARROW && units[i].tileType.left !== `water`) {
+          if (
+            units[i].unitType === `cavalry` &&
+            units[i].tileType.left === `mountains`
+          ) {
+          } else {
+            units[i].destinationX = units[i].x - grid.squareSize;
+            unitMovement(units[i]);
+          }
+        } else if (
+          keyCode === RIGHT_ARROW &&
+          units[i].tileType.right !== `water`
+        ) {
+          if (
+            units[i].unitType === `cavalry` &&
+            units[i].tileType.right === `mountains`
+          ) {
+          } else {
+            units[i].destinationX = units[i].x + grid.squareSize;
+            unitMovement(units[i]);
+          }
+        } else if (keyCode === UP_ARROW && units[i].tileType.up !== `water`) {
+          if (
+            units[i].unitType === `cavalry` &&
+            units[i].tileType.up === `mountains`
+          ) {
+          } else {
+            units[i].destinationY = units[i].y - grid.squareSize;
+            unitMovement(units[i]);
+          }
+        } else if (
+          keyCode === DOWN_ARROW &&
+          units[i].tileType.down !== `water`
+        ) {
+          if (
+            units[i].unitType === `cavalry` &&
+            units[i].tileType.down === `mountains`
+          ) {
+          } else {
+            units[i].destinationY = units[i].y + grid.squareSize;
+            unitMovement(units[i]);
+          }
         }
-
-        units[i].currentMovement--;
-        units[i].movable = false;
-
-        if (units[i].currentMovement === 0) {
-          units[i].selected = false;
-        }
-
-        let timeoutDelay = (grid.squareSize / unitSpeed / 60) * 1000;
-        setTimeout(function () {
-          units[i].x = units[i].destinationX;
-          units[i].y = units[i].destinationY;
-          units[i].movable = true;
-        }, timeoutDelay);
       }
     }
   }

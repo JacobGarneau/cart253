@@ -1,17 +1,30 @@
 class Unit {
-  constructor(xPos, yPos, movement, maxAttack, maxDefense) {
+  constructor(xPos, yPos, movement, maxAttack, maxDefense, unitType, team) {
     this.x = selectSquare(xPos);
     this.y = selectSquare(yPos);
     this.destinationX = this.x;
     this.destinationY = this.y;
     this.selected = false;
-    this.movement = movement;
-    this.currentMovement = this.movement;
-    this.maxDefense = maxDefense;
-    this.maxAttack = maxAttack;
-    this.defense = this.maxDefense;
-    this.attack = this.maxAttack;
     this.movable = true;
+    this.unitType = unitType; //  infantry, archers, cavalry, heavy
+    this.team = team;
+
+    this.tileType = {
+      current: `plains`,
+      up: `plains`,
+      down: `plains`,
+      left: `plains`,
+      right: `plains`,
+    };
+
+    this.stats = {
+      movement: movement,
+      currentMovement: movement,
+      maxAttack: maxAttack,
+      attack: maxAttack,
+      maxDefense: maxDefense,
+      defense: maxDefense,
+    };
   }
 
   display() {
@@ -21,7 +34,7 @@ class Unit {
     ellipseMode(CORNER);
     ellipse(this.x, this.y, grid.squareSize);
 
-    //  Circles
+    //  Attack circle
     fill(255, 0, 127);
     ellipseMode(CENTER);
     ellipse(
@@ -30,6 +43,7 @@ class Unit {
       30
     );
 
+    //  Defense circle
     fill(0, 255, 127);
     ellipse(
       this.x + grid.squareSize / 2 - 22.5,
@@ -37,19 +51,36 @@ class Unit {
       30
     );
 
-    //  Text
+    //  Movement circle
+    fill(200, 200, 127);
+    ellipse(
+      this.x + grid.squareSize / 2 - 22.5,
+      this.y + grid.squareSize / 2 - 22.5,
+      30
+    );
+
+    //  Attack text
     fill(255);
     textAlign(CENTER, CENTER);
     textSize(16);
     text(
-      this.attack,
+      this.stats.attack,
       this.x + grid.squareSize / 2 + 22.5,
       this.y + grid.squareSize / 2 + 22.5
     );
+
+    //  Defense text
     text(
-      this.defense,
+      this.stats.defense,
       this.x + grid.squareSize / 2 - 22.5,
       this.y + grid.squareSize / 2 + 22.5
+    );
+
+    //  Movement circle
+    text(
+      this.stats.currentMovement,
+      this.x + grid.squareSize / 2 - 22.5,
+      this.y + grid.squareSize / 2 - 22.5
     );
   }
 
@@ -57,7 +88,7 @@ class Unit {
     //  Draw the movement options
     if (
       this.selected &&
-      this.currentMovement > 0 &&
+      this.stats.currentMovement > 0 &&
       this.x === this.destinationX &&
       this.y === this.destinationY
     ) {

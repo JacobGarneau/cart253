@@ -3,6 +3,7 @@ class Tile {
     this.x = selectSquare(x + 1);
     this.y = selectSquare(y + 1);
     this.type = type;
+    this.occupied = 0; //  0 (no unit), 1 (player1 unit), 2 (player2 unit)
   }
 
   display() {
