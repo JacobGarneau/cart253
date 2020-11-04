@@ -74,49 +74,49 @@ class Unit {
     fill(255, 0, 127);
     ellipseMode(CENTER);
     ellipse(
-      this.x + grid.squareSize / 2 + 22.5,
-      this.y + grid.squareSize / 2 + 22.5,
-      30
+      this.x + grid.squareSize / 2 + grid.squareSize / 3,
+      this.y + grid.squareSize / 2 + grid.squareSize / 3,
+      grid.squareSize / 3
     );
 
     //  Defense circle
     fill(0, 200, 127);
     ellipse(
-      this.x + grid.squareSize / 2 - 22.5,
-      this.y + grid.squareSize / 2 + 22.5,
-      30
+      this.x + grid.squareSize / 2 - grid.squareSize / 3,
+      this.y + grid.squareSize / 2 + grid.squareSize / 3,
+      grid.squareSize / 3
     );
 
     //  Movement circle
     fill(200, 200, 127);
     ellipse(
-      this.x + grid.squareSize / 2 - 22.5,
-      this.y + grid.squareSize / 2 - 22.5,
-      30
+      this.x + grid.squareSize / 2 - grid.squareSize / 3,
+      this.y + grid.squareSize / 2 - grid.squareSize / 3,
+      grid.squareSize / 3
     );
 
     //  Attack text
     fill(255);
     textAlign(CENTER, CENTER);
-    textSize(16);
+    textSize(grid.squareSize / 4.8);
     text(
       this.stats.attack,
-      this.x + grid.squareSize / 2 + 22.5,
-      this.y + grid.squareSize / 2 + 22.5
+      this.x + grid.squareSize / 2 + grid.squareSize / 3,
+      this.y + grid.squareSize / 2 + grid.squareSize / 3
     );
 
     //  Defense text
     text(
       this.stats.defense,
-      this.x + grid.squareSize / 2 - 22.5,
-      this.y + grid.squareSize / 2 + 22.5
+      this.x + grid.squareSize / 2 - grid.squareSize / 3,
+      this.y + grid.squareSize / 2 + grid.squareSize / 3
     );
 
-    //  Movement circle
+    //  Movement text
     text(
       this.stats.currentMovement,
-      this.x + grid.squareSize / 2 - 22.5,
-      this.y + grid.squareSize / 2 - 22.5
+      this.x + grid.squareSize / 2 - grid.squareSize / 3,
+      this.y + grid.squareSize / 2 - grid.squareSize / 3
     );
   }
 
