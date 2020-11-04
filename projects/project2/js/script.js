@@ -39,7 +39,7 @@ function setup() {
 
   //  Create the units
   for (let i = 0; i < unitAmount; i++) {
-    let unit = new Unit(i * 2 + 3, i * 2 + 2, movement, 5, 4, `cavalry`, 1);
+    let unit = new Unit(i * 2 + 3, i * 2 + 2, `cavalry`, 1);
     units.push(unit);
   }
 

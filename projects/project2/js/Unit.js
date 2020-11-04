@@ -1,5 +1,5 @@
 class Unit {
-  constructor(xPos, yPos, movement, maxAttack, maxDefense, unitType, team) {
+  constructor(xPos, yPos, unitType, team) {
     this.x = selectSquare(xPos);
     this.y = selectSquare(yPos);
     this.destinationX = this.x;
@@ -24,14 +24,43 @@ class Unit {
       right: 3,
     };
 
-    this.stats = {
-      movement: movement,
-      currentMovement: movement,
-      maxAttack: maxAttack,
-      attack: maxAttack,
-      maxDefense: maxDefense,
-      defense: maxDefense,
-    };
+    if (this.unitType === `infantry`) {
+      this.stats = {
+        movement: 3,
+        currentMovement: 3,
+        maxAttack: 4,
+        attack: 4,
+        maxDefense: 4,
+        defense: 4,
+      };
+    } else if (this.unitType === `archers`) {
+      this.stats = {
+        movement: 3,
+        currentMovement: 3,
+        maxAttack: 5,
+        attack: 5,
+        maxDefense: 3,
+        defense: 3,
+      };
+    } else if (this.unitType === `cavalry`) {
+      this.stats = {
+        movement: 4,
+        currentMovement: 4,
+        maxAttack: 5,
+        attack: 5,
+        maxDefense: 3,
+        defense: 3,
+      };
+    } else if (this.unitType === `heavy`) {
+      this.stats = {
+        movement: 2,
+        currentMovement: 2,
+        maxAttack: 3,
+        attack: 3,
+        maxDefense: 5,
+        defense: 5,
+      };
+    }
   }
 
   display() {
