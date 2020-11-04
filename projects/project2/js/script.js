@@ -2,13 +2,18 @@
 Project 2 - Anything
 Jacob Garneau
 
-Here is a description of this template p5 project.
+A strategy game about medieval warfare.
+
+This prototype focuses on showcasing the movement of the units on the grid.
+All units cannot cross water (blue) tiles, and cavalry units cannot cross mountain (grey) tiles.
+
+Icons were taken from FontAwesome (fontawesome.com) under Creative Commons license.
 **************************************************/
 
 let grid = {
   height: 10,
-  width: 20,
-  squareSize: 50,
+  width: 10,
+  squareSize: undefined,
 };
 
 let unitAmount = 3;
@@ -26,9 +31,8 @@ let tileTypes = [
   `mountains`,
   `water`,
 ];
-
-//  Unit and movement variables
-let movement = 4;
+let banditChance = 25;
+let state = `title`; //  title, game, player1, player2, ending
 
 // setup()
 //
@@ -57,6 +61,29 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
+  if (state === `title`) {
+    title();
+  } else if (state === `game`) {
+    game();
+  }
+}
+
+function title() {
+  background(0);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(64);
+  text(`This is the project's title`, width / 2, height / 2 - 100);
+  textSize(32);
+  text(
+    `Click on your units to select them and move them with WASD or the arrow keys.`,
+    width / 2,
+    height / 2 + 60
+  );
+  text(`Press ENTER to play`, width / 2, height / 2 + 120);
+}
+
+function game() {
   background(0);
   stroke(0, 0, 0, 100);
 
@@ -69,60 +96,7 @@ function draw() {
   for (let i = 0; i < units.length; i++) {
     units[i].move();
     units[i].display();
-
-    //  Assign their tile's type to the units
-    for (let j = 0; j < tiles.length; j++) {
-      //  Current tile
-      let d = dist(units[i].x, units[i].y, tiles[j].x, tiles[j].y);
-      if (d <= unitSpeed) {
-        units[i].tileType.current = tiles[j].type;
-        tiles[j].occupied = units[i].team;
-      }
-
-      //  Up tile
-      d = dist(
-        units[i].x,
-        units[i].y - grid.squareSize,
-        tiles[j].x,
-        tiles[j].y
-      );
-      if (d <= unitSpeed) {
-        units[i].tileType.up = tiles[j].type;
-      }
-
-      //  Down tile
-      d = dist(
-        units[i].x,
-        units[i].y + grid.squareSize,
-        tiles[j].x,
-        tiles[j].y
-      );
-      if (d <= unitSpeed) {
-        units[i].tileType.down = tiles[j].type;
-      }
-
-      //  Left tile
-      d = dist(
-        units[i].x - grid.squareSize,
-        units[i].y,
-        tiles[j].x,
-        tiles[j].y
-      );
-      if (d <= unitSpeed) {
-        units[i].tileType.left = tiles[j].type;
-      }
-
-      //  Right tile
-      d = dist(
-        units[i].x + grid.squareSize,
-        units[i].y,
-        tiles[j].x,
-        tiles[j].y
-      );
-      if (d <= unitSpeed) {
-        units[i].tileType.right = tiles[j].type;
-      }
-    }
+    units[i].assignTileType();
   }
 }
 
@@ -144,6 +118,10 @@ function unitMovement(unit) {
     unit.x = unit.destinationX;
     unit.y = unit.destinationY;
     unit.movable = true;
+    let rng = random(0, 100);
+    if (rng <= banditChance && unit.tileType.current === `forest`) {
+      alert(`Bandits!`);
+    }
   }, timeoutDelay);
 }
 
@@ -170,16 +148,24 @@ function mouseClicked() {
 }
 
 function keyPressed() {
+  if (state === `title` && keyCode === ENTER) {
+    state = `game`;
+  }
+
   for (let i = 0; i < units.length; i++) {
     if (units[i].selected && units[i].movable) {
       if (
         keyCode === LEFT_ARROW ||
         keyCode === RIGHT_ARROW ||
         keyCode === UP_ARROW ||
-        keyCode === DOWN_ARROW
+        keyCode === DOWN_ARROW ||
+        keyCode === 65 ||
+        keyCode === 68 ||
+        keyCode === 87 ||
+        keyCode === 83
       ) {
         if (
-          keyCode === LEFT_ARROW &&
+          (keyCode === LEFT_ARROW || keyCode === 65) &&
           units[i].tileType.left !== `water` &&
           units[i].x >= unitSpeed
         ) {
@@ -192,7 +178,7 @@ function keyPressed() {
             unitMovement(units[i]);
           }
         } else if (
-          keyCode === RIGHT_ARROW &&
+          (keyCode === RIGHT_ARROW || keyCode === 68) &&
           units[i].tileType.right !== `water` &&
           units[i].x <= (grid.width - 1) * grid.squareSize - unitSpeed
         ) {
@@ -205,7 +191,7 @@ function keyPressed() {
             unitMovement(units[i]);
           }
         } else if (
-          keyCode === UP_ARROW &&
+          (keyCode === UP_ARROW || keyCode === 87) &&
           units[i].tileType.up !== `water` &&
           units[i].y >= unitSpeed
         ) {
@@ -218,7 +204,7 @@ function keyPressed() {
             unitMovement(units[i]);
           }
         } else if (
-          keyCode === DOWN_ARROW &&
+          (keyCode === DOWN_ARROW || keyCode === 83) &&
           units[i].tileType.down !== `water` &&
           units[i].y <= (grid.height - 1) * grid.squareSize - unitSpeed
         ) {

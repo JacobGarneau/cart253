@@ -10,11 +10,11 @@ class Unit {
     this.team = team;
 
     this.tileType = {
-      current: `plains`,
-      up: `plains`,
-      down: `plains`,
-      left: `plains`,
-      right: `plains`,
+      current: undefined,
+      up: undefined,
+      down: undefined,
+      left: undefined,
+      right: undefined,
     };
 
     this.tiles = {
@@ -65,7 +65,7 @@ class Unit {
 
   display() {
     //  Draw the unit
-    fill(255, 255, 255);
+    fill(255);
     noStroke();
     ellipseMode(CORNER);
     ellipse(this.x, this.y, grid.squareSize);
@@ -80,7 +80,7 @@ class Unit {
     );
 
     //  Defense circle
-    fill(0, 255, 127);
+    fill(0, 200, 127);
     ellipse(
       this.x + grid.squareSize / 2 - 22.5,
       this.y + grid.squareSize / 2 + 22.5,
@@ -128,7 +128,7 @@ class Unit {
       this.x === this.destinationX &&
       this.y === this.destinationY
     ) {
-      fill(255, 0, 0, 100);
+      fill(255, 0, 0, 150);
       noStroke();
 
       if (
@@ -166,6 +166,7 @@ class Unit {
       } else {
         this.tiles.right = 3;
       }
+      console.log(this.tileType.right);
 
       for (let i = this.tiles.left; i < this.tiles.right; i++) {
         rect(
@@ -199,5 +200,41 @@ class Unit {
 
     this.x = constrain(this.x, 0, width);
     this.y = constrain(this.y, 0, height);
+  }
+
+  assignTileType() {
+    //  Assign their tile's type to the units
+    for (let i = 0; i < tiles.length; i++) {
+      //  Current tile
+      let d = dist(this.x, this.y, tiles[i].x, tiles[i].y);
+      if (d <= unitSpeed) {
+        this.tileType.current = tiles[i].type;
+        tiles[i].occupied = this.team;
+      }
+
+      //  Up tile
+      d = dist(this.x, this.y - grid.squareSize, tiles[i].x, tiles[i].y);
+      if (d <= unitSpeed) {
+        this.tileType.up = tiles[i].type;
+      }
+
+      //  Down tile
+      d = dist(this.x, this.y + grid.squareSize, tiles[i].x, tiles[i].y);
+      if (d <= unitSpeed) {
+        this.tileType.down = tiles[i].type;
+      }
+
+      //  Left tile
+      d = dist(this.x - grid.squareSize, this.y, tiles[i].x, tiles[i].y);
+      if (d <= unitSpeed) {
+        this.tileType.left = tiles[i].type;
+      }
+
+      //  Right tile
+      d = dist(this.x + grid.squareSize, this.y, tiles[i].x, tiles[i].y);
+      if (d <= unitSpeed) {
+        this.tileType.right = tiles[i].type;
+      }
+    }
   }
 }
