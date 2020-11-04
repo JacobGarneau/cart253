@@ -11,20 +11,19 @@ class Unit {
     this.maxAttack = maxAttack;
     this.defense = this.maxDefense;
     this.attack = this.maxAttack;
+    this.movable = true;
   }
 
   display() {
     //  Draw the unit
     fill(255, 255, 255);
     noStroke();
-    ellipse(
-      this.x + grid.squareSize / 2,
-      this.y + grid.squareSize / 2,
-      grid.squareSize
-    );
+    ellipseMode(CORNER);
+    ellipse(this.x, this.y, grid.squareSize);
 
     //  Circles
     fill(255, 0, 127);
+    ellipseMode(CENTER);
     ellipse(
       this.x + grid.squareSize / 2 + 22.5,
       this.y + grid.squareSize / 2 + 22.5,
@@ -95,7 +94,7 @@ class Unit {
       this.y -= unitSpeed;
     }
 
-    unit.x = constrain(unit.x, 0, width);
-    unit.y = constrain(unit.y, 0, height);
+    this.x = constrain(this.x, 0, width);
+    this.y = constrain(this.y, 0, height);
   }
 }

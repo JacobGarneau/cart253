@@ -11,8 +11,9 @@ let grid = {
   squareSize: 50,
 };
 
-let unit;
-let unitSpeed = 5;
+let unitAmount = 3;
+let units = [];
+let unitSpeed = 8;
 let tiles = [];
 let tileTypes = [
   `plains`,
@@ -38,8 +39,11 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   grid.squareSize = windowHeight / grid.height;
 
-  //  Create the unit
-  unit = new Unit(xPos, yPos, movement, 5, 4);
+  //  Create the units
+  for (let i = 0; i < unitAmount; i++) {
+    let unit = new Unit(i * 2 + 3, i * 2 + 2, movement, 5, 4);
+    units.push(unit);
+  }
 
   //  Create the grid
   for (let i = 0; i < grid.width; i++) {
@@ -63,8 +67,10 @@ function draw() {
     tiles[i].display();
   }
 
-  unit.move();
-  unit.display();
+  for (let i = 0; i < units.length; i++) {
+    units[i].move();
+    units[i].display();
+  }
 }
 
 function selectSquare(value) {
@@ -73,50 +79,57 @@ function selectSquare(value) {
 }
 
 function mouseClicked() {
-  let d = dist(
-    unit.x + grid.squareSize / 2,
-    unit.y + grid.squareSize / 2,
-    mouseX,
-    mouseY
-  );
-  if (d <= grid.squareSize / 2) {
-    if (unit.selected) {
-      unit.selected = false;
-    } else {
-      unit.selected = true;
-      unit.currentMovement = unit.movement;
+  for (let i = 0; i < units.length; i++) {
+    let d = dist(
+      units[i].x + grid.squareSize / 2,
+      units[i].y + grid.squareSize / 2,
+      mouseX,
+      mouseY
+    );
+    if (d <= grid.squareSize / 2) {
+      if (units[i].selected) {
+        units[i].selected = false;
+      } else {
+        units[i].selected = true;
+        units[i].currentMovement = units[i].movement;
+      }
     }
   }
 }
 
 function keyPressed() {
-  if (unit.selected) {
-    if (
-      keyCode === LEFT_ARROW ||
-      keyCode === RIGHT_ARROW ||
-      keyCode === UP_ARROW ||
-      keyCode === DOWN_ARROW
-    ) {
-      if (keyCode === LEFT_ARROW) {
-        unit.destinationX = unit.x - grid.squareSize;
-      } else if (keyCode === RIGHT_ARROW) {
-        unit.destinationX = unit.x + grid.squareSize;
-      } else if (keyCode === UP_ARROW) {
-        unit.destinationY = unit.y - grid.squareSize;
-      } else if (keyCode === DOWN_ARROW) {
-        unit.destinationY = unit.y + grid.squareSize;
-      }
+  for (let i = 0; i < units.length; i++) {
+    if (units[i].selected && units[i].movable) {
+      if (
+        keyCode === LEFT_ARROW ||
+        keyCode === RIGHT_ARROW ||
+        keyCode === UP_ARROW ||
+        keyCode === DOWN_ARROW
+      ) {
+        if (keyCode === LEFT_ARROW) {
+          units[i].destinationX = units[i].x - grid.squareSize;
+        } else if (keyCode === RIGHT_ARROW) {
+          units[i].destinationX = units[i].x + grid.squareSize;
+        } else if (keyCode === UP_ARROW) {
+          units[i].destinationY = units[i].y - grid.squareSize;
+        } else if (keyCode === DOWN_ARROW) {
+          units[i].destinationY = units[i].y + grid.squareSize;
+        }
 
-      unit.currentMovement--;
-      if (unit.currentMovement === 0) {
-        unit.selected = false;
-      }
+        units[i].currentMovement--;
+        units[i].movable = false;
 
-      let timeoutDelay = (grid.squareSize / unitSpeed / 60) * 1000;
-      setTimeout(function () {
-        unit.x = unit.destinationX;
-        unit.y = unit.destinationY;
-      }, timeoutDelay);
+        if (units[i].currentMovement === 0) {
+          units[i].selected = false;
+        }
+
+        let timeoutDelay = (grid.squareSize / unitSpeed / 60) * 1000;
+        setTimeout(function () {
+          units[i].x = units[i].destinationX;
+          units[i].y = units[i].destinationY;
+          units[i].movable = true;
+        }, timeoutDelay);
+      }
     }
   }
 }
