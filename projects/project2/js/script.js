@@ -12,9 +12,11 @@ Icons were taken from FontAwesome (fontawesome.com) under Creative Commons licen
 
 let grid = {
   height: 10,
-  width: 10,
+  width: 20,
   squareSize: undefined,
 };
+let menuHeight = 80;
+let marginX;
 
 let unitAmount = 3;
 let units = [];
@@ -39,7 +41,10 @@ let state = `title`; //  title, game, player1, player2, ending
 // Description of setup() goes here.
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  grid.squareSize = windowHeight / grid.height;
+
+  grid.squareSize = (windowHeight - menuHeight) / grid.height;
+  grid.width = Math.floor(windowWidth / grid.squareSize);
+  marginX = (windowWidth - grid.width * grid.squareSize) / 2;
 
   //  Create the units
   for (let i = 0; i < unitAmount; i++) {

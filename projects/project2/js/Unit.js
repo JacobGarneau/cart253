@@ -1,7 +1,7 @@
 class Unit {
   constructor(xPos, yPos, unitType, team) {
-    this.x = selectSquare(xPos);
-    this.y = selectSquare(yPos);
+    this.x = selectSquare(xPos) + marginX;
+    this.y = selectSquare(yPos) + menuHeight;
     this.destinationX = this.x;
     this.destinationY = this.y;
     this.selected = false;
@@ -166,7 +166,6 @@ class Unit {
       } else {
         this.tiles.right = 3;
       }
-      console.log(this.tileType.right);
 
       for (let i = this.tiles.left; i < this.tiles.right; i++) {
         rect(

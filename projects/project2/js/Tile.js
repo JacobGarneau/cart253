@@ -1,7 +1,7 @@
 class Tile {
   constructor(x, y, type) {
-    this.x = selectSquare(x + 1);
-    this.y = selectSquare(y + 1);
+    this.x = selectSquare(x + 1) + marginX;
+    this.y = selectSquare(y + 1) + menuHeight;
     this.type = type;
     this.occupied = 0; //  0 (no unit), 1 (player1 unit), 2 (player2 unit), 3 (neutral unit)
   }
