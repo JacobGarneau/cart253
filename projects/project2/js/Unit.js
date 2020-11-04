@@ -17,6 +17,13 @@ class Unit {
       right: `plains`,
     };
 
+    this.tiles = {
+      up: 0,
+      down: 3,
+      left: 0,
+      right: 3,
+    };
+
     this.stats = {
       movement: movement,
       currentMovement: movement,
@@ -94,7 +101,44 @@ class Unit {
     ) {
       fill(255, 0, 0, 100);
       noStroke();
-      for (let i = 0; i < 3; i++) {
+
+      if (
+        this.tileType.up === `water` ||
+        (this.unitType === `cavalry` && this.tileType.up === `mountains`)
+      ) {
+        this.tiles.up = 1;
+      } else {
+        this.tiles.up = 0;
+      }
+
+      if (
+        this.tileType.down === `water` ||
+        (this.unitType === `cavalry` && this.tileType.down === `mountains`)
+      ) {
+        this.tiles.down = 2;
+      } else {
+        this.tiles.down = 3;
+      }
+
+      if (
+        this.tileType.left === `water` ||
+        (this.unitType === `cavalry` && this.tileType.left === `mountains`)
+      ) {
+        this.tiles.left = 1;
+      } else {
+        this.tiles.left = 0;
+      }
+
+      if (
+        this.tileType.right === `water` ||
+        (this.unitType === `cavalry` && this.tileType.right === `mountains`)
+      ) {
+        this.tiles.right = 2;
+      } else {
+        this.tiles.right = 3;
+      }
+
+      for (let i = this.tiles.left; i < this.tiles.right; i++) {
         rect(
           this.x + selectSquare(i),
           this.y,
@@ -103,7 +147,7 @@ class Unit {
         );
       }
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = this.tiles.up; i < this.tiles.down; i++) {
         rect(
           this.x,
           this.y + selectSquare(i),
@@ -114,7 +158,6 @@ class Unit {
     }
 
     //  Move the unit
-
     if (this.x < this.destinationX) {
       this.x += unitSpeed;
     } else if (this.x > this.destinationX) {

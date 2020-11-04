@@ -178,7 +178,11 @@ function keyPressed() {
         keyCode === UP_ARROW ||
         keyCode === DOWN_ARROW
       ) {
-        if (keyCode === LEFT_ARROW && units[i].tileType.left !== `water`) {
+        if (
+          keyCode === LEFT_ARROW &&
+          units[i].tileType.left !== `water` &&
+          units[i].x >= unitSpeed
+        ) {
           if (
             units[i].unitType === `cavalry` &&
             units[i].tileType.left === `mountains`
@@ -189,7 +193,8 @@ function keyPressed() {
           }
         } else if (
           keyCode === RIGHT_ARROW &&
-          units[i].tileType.right !== `water`
+          units[i].tileType.right !== `water` &&
+          units[i].x <= (grid.width - 1) * grid.squareSize - unitSpeed
         ) {
           if (
             units[i].unitType === `cavalry` &&
@@ -199,7 +204,11 @@ function keyPressed() {
             units[i].destinationX = units[i].x + grid.squareSize;
             unitMovement(units[i]);
           }
-        } else if (keyCode === UP_ARROW && units[i].tileType.up !== `water`) {
+        } else if (
+          keyCode === UP_ARROW &&
+          units[i].tileType.up !== `water` &&
+          units[i].y >= unitSpeed
+        ) {
           if (
             units[i].unitType === `cavalry` &&
             units[i].tileType.up === `mountains`
@@ -210,7 +219,8 @@ function keyPressed() {
           }
         } else if (
           keyCode === DOWN_ARROW &&
-          units[i].tileType.down !== `water`
+          units[i].tileType.down !== `water` &&
+          units[i].y <= (grid.height - 1) * grid.squareSize - unitSpeed
         ) {
           if (
             units[i].unitType === `cavalry` &&
