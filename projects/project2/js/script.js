@@ -50,9 +50,11 @@ function setup() {
 
   //  Create the units
   for (let i = 0; i < unitAmount; i++) {
-    let cavalry = new Cavalry(i * 2 + 3, i * 2 + 2, 1);
-    let infantry = new DragonRider(i * 2 + 2, i * 2 + 1, 1);
+    let cavalry = new Cavalry(i * 3 + 3, i * 3 + 2, 1);
+    let dragonRider = new DragonRider(i * 3 + 2, i * 3 + 1, 1);
+    let infantry = new Infantry(i * 3 + 1, i * 3, 1);
     units.push(cavalry);
+    units.push(dragonRider);
     units.push(infantry);
   }
 
