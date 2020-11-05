@@ -39,28 +39,31 @@ class Unit {
     ellipseMode(CORNER);
     ellipse(this.x, this.y, grid.squareSize);
 
-    //  Attack circle
-    fill(255, 0, 127);
-    ellipseMode(CENTER);
-    ellipse(
+    //  Attack icon
+    imageMode(CENTER);
+    image(
+      icons.offense,
       this.x + grid.squareSize / 2 + grid.squareSize / 3,
       this.y + grid.squareSize / 2 + grid.squareSize / 3,
+      grid.squareSize / 3,
       grid.squareSize / 3
     );
 
-    //  Defense circle
-    fill(0, 200, 127);
-    ellipse(
+    //  Defense icon
+    image(
+      icons.defense,
       this.x + grid.squareSize / 2 - grid.squareSize / 3,
       this.y + grid.squareSize / 2 + grid.squareSize / 3,
+      grid.squareSize / 3,
       grid.squareSize / 3
     );
 
-    //  Movement circle
-    fill(200, 200, 127);
-    ellipse(
+    //  Movement icon
+    image(
+      icons.movement,
       this.x + grid.squareSize / 2 - grid.squareSize / 3,
       this.y + grid.squareSize / 2 - grid.squareSize / 3,
+      grid.squareSize / 3,
       grid.squareSize / 3
     );
 

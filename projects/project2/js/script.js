@@ -20,6 +20,12 @@ let marginX;
 
 let menu;
 
+let icons = {
+  offense: undefined,
+  defense: undefined,
+  movement: undefined,
+};
+
 let unitAmount = 3;
 let units = [];
 let unitSpeed = 8;
@@ -37,6 +43,13 @@ let tileTypes = [
 ];
 let banditChance = 25;
 let state = `title`; //  title, game, player1, player2, ending
+
+function preload() {
+  //  Load the images
+  icons.offense = loadImage(`assets/images/offense.svg`);
+  icons.defense = loadImage(`assets/images/defense.svg`);
+  icons.movement = loadImage(`assets/images/movement.svg`);
+}
 
 // setup()
 //
