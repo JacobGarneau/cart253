@@ -1,7 +1,11 @@
 class Cavalry extends Unit {
   constructor(xPos, yPos, team) {
     super(xPos, yPos, team);
-    this.unitType = `cavalry`;
+    this.info = {
+      type: `Cavalry`,
+      description: `Mounted units with high mobility. Cavalry has high offense and average defense and can still move after attacking.`,
+    };
+
     this.stats = {
       movement: 4,
       currentMovement: 4,

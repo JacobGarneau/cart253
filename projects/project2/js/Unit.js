@@ -67,6 +67,16 @@ class Unit {
       grid.squareSize / 3
     );
 
+    //  Name text
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(grid.squareSize / 4);
+    text(
+      this.info.type,
+      this.x + grid.squareSize / 2,
+      this.y + grid.squareSize / 2
+    );
+
     //  Attack text
     fill(255);
     textAlign(CENTER, CENTER);

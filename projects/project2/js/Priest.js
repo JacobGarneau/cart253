@@ -1,7 +1,11 @@
 class Priest extends Unit {
   constructor(xPos, yPos, team) {
     super(xPos, yPos, team);
-    this.unitType = `priest`;
+    this.info = {
+      type: `Priests`,
+      description: `Servants of God blessed with divine power. Priests have average offense and high defense and can heal ally units from up to 2 squares away.`,
+    };
+
     this.stats = {
       movement: 3,
       currentMovement: 3,

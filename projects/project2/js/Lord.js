@@ -1,7 +1,11 @@
 class Lord extends Unit {
   constructor(xPos, yPos, team) {
     super(xPos, yPos, team);
-    this.unitType = `lord`;
+    this.info = {
+      type: `Lord`,
+      description: `A noble leading his personal guard into battle. Lords have high offense and defense but cannot but purchased, so you should think twice before sending them out on the battlefield. They can inspire nearby allies to temporarily increase their offense by 1.`,
+    };
+
     this.stats = {
       movement: 3,
       currentMovement: 3,
