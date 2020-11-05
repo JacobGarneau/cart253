@@ -15,7 +15,7 @@ let grid = {
   width: undefined,
   squareSize: undefined,
 };
-let menuHeight = 80;
+let menuHeight = 120;
 let marginX;
 
 let menu;
@@ -50,8 +50,10 @@ function setup() {
 
   //  Create the units
   for (let i = 0; i < unitAmount; i++) {
-    let unit = new Unit(i * 2 + 3, i * 2 + 2, `cavalry`, 1);
-    units.push(unit);
+    let cavalry = new Cavalry(i * 2 + 3, i * 2 + 2, 1);
+    let infantry = new Infantry(i * 2 + 2, i * 2 + 1, 1);
+    units.push(cavalry);
+    units.push(infantry);
   }
 
   //  Create the grid
@@ -104,6 +106,7 @@ function game() {
 
   //  Draw the units
   for (let i = 0; i < units.length; i++) {
+    units[i].checkMovement();
     units[i].move();
     units[i].display();
     units[i].assignTileType();
@@ -119,7 +122,7 @@ function selectSquare(value) {
 
 function unitMovement(unit) {
   unit.stats.currentMovement--;
-  unit.movable = false;
+  unit.controllable = false;
 
   if (unit.stats.currentMovement === 0) {
     unit.selected = false;
@@ -129,7 +132,7 @@ function unitMovement(unit) {
   setTimeout(function () {
     unit.x = unit.destinationX;
     unit.y = unit.destinationY;
-    unit.movable = true;
+    unit.controllable = true;
     let rng = random(0, 100);
     if (rng <= banditChance && unit.tileType.current === `forest`) {
       alert(`Bandits!`);
@@ -165,7 +168,7 @@ function keyPressed() {
   }
 
   for (let i = 0; i < units.length; i++) {
-    if (units[i].selected && units[i].movable) {
+    if (units[i].selected && units[i].controllable) {
       if (
         keyCode === LEFT_ARROW ||
         keyCode === RIGHT_ARROW ||
@@ -178,56 +181,32 @@ function keyPressed() {
       ) {
         if (
           (keyCode === LEFT_ARROW || keyCode === 65) &&
-          units[i].tileType.left !== `water` &&
+          units[i].movable.left &&
           units[i].x >= marginX + unitSpeed
         ) {
-          if (
-            units[i].unitType === `cavalry` &&
-            units[i].tileType.left === `mountains`
-          ) {
-          } else {
-            units[i].destinationX = units[i].x - grid.squareSize;
-            unitMovement(units[i]);
-          }
+          units[i].destinationX = units[i].x - grid.squareSize;
+          unitMovement(units[i]);
         } else if (
           (keyCode === RIGHT_ARROW || keyCode === 68) &&
-          units[i].tileType.right !== `water` &&
+          units[i].movable.right &&
           units[i].x <= (grid.width - 1) * grid.squareSize - unitSpeed
         ) {
-          if (
-            units[i].unitType === `cavalry` &&
-            units[i].tileType.right === `mountains`
-          ) {
-          } else {
-            units[i].destinationX = units[i].x + grid.squareSize;
-            unitMovement(units[i]);
-          }
+          units[i].destinationX = units[i].x + grid.squareSize;
+          unitMovement(units[i]);
         } else if (
           (keyCode === UP_ARROW || keyCode === 87) &&
-          units[i].tileType.up !== `water` &&
+          units[i].movable.up &&
           units[i].y >= menuHeight + unitSpeed
         ) {
-          if (
-            units[i].unitType === `cavalry` &&
-            units[i].tileType.up === `mountains`
-          ) {
-          } else {
-            units[i].destinationY = units[i].y - grid.squareSize;
-            unitMovement(units[i]);
-          }
+          units[i].destinationY = units[i].y - grid.squareSize;
+          unitMovement(units[i]);
         } else if (
           (keyCode === DOWN_ARROW || keyCode === 83) &&
-          units[i].tileType.down !== `water` &&
+          units[i].movable.down &&
           units[i].y <= (grid.height - 1) * grid.squareSize - unitSpeed
         ) {
-          if (
-            units[i].unitType === `cavalry` &&
-            units[i].tileType.down === `mountains`
-          ) {
-          } else {
-            units[i].destinationY = units[i].y + grid.squareSize;
-            unitMovement(units[i]);
-          }
+          units[i].destinationY = units[i].y + grid.squareSize;
+          unitMovement(units[i]);
         }
       }
     }

@@ -1,13 +1,19 @@
 class Unit {
-  constructor(xPos, yPos, unitType, team) {
+  constructor(xPos, yPos, team) {
     this.x = selectSquare(xPos) + marginX;
     this.y = selectSquare(yPos) + menuHeight;
     this.destinationX = this.x;
     this.destinationY = this.y;
     this.selected = false;
-    this.movable = true;
-    this.unitType = unitType; //  infantry, archers, cavalry, heavy
+    this.controllable = true;
     this.team = team;
+
+    this.movable = {
+      up: true,
+      down: true,
+      left: true,
+      right: true,
+    };
 
     this.tileType = {
       current: undefined,
@@ -23,44 +29,6 @@ class Unit {
       left: 0,
       right: 3,
     };
-
-    if (this.unitType === `infantry`) {
-      this.stats = {
-        movement: 3,
-        currentMovement: 3,
-        maxAttack: 4,
-        attack: 4,
-        maxDefense: 4,
-        defense: 4,
-      };
-    } else if (this.unitType === `archers`) {
-      this.stats = {
-        movement: 3,
-        currentMovement: 3,
-        maxAttack: 5,
-        attack: 5,
-        maxDefense: 3,
-        defense: 3,
-      };
-    } else if (this.unitType === `cavalry`) {
-      this.stats = {
-        movement: 4,
-        currentMovement: 4,
-        maxAttack: 5,
-        attack: 5,
-        maxDefense: 3,
-        defense: 3,
-      };
-    } else if (this.unitType === `heavy`) {
-      this.stats = {
-        movement: 2,
-        currentMovement: 2,
-        maxAttack: 3,
-        attack: 3,
-        maxDefense: 5,
-        defense: 5,
-      };
-    }
   }
 
   display() {
@@ -120,6 +88,32 @@ class Unit {
     );
   }
 
+  checkMovement() {
+    if (this.tileType.up === `water`) {
+      this.movable.up = false;
+    } else {
+      this.movable.up = true;
+    }
+
+    if (this.tileType.down === `water`) {
+      this.movable.down = false;
+    } else {
+      this.movable.down = true;
+    }
+
+    if (this.tileType.left === `water`) {
+      this.movable.left = false;
+    } else {
+      this.movable.left = true;
+    }
+
+    if (this.tileType.right === `water`) {
+      this.movable.right = false;
+    } else {
+      this.movable.right = true;
+    }
+  }
+
   move() {
     //  Draw the movement options
     if (
@@ -131,40 +125,28 @@ class Unit {
       fill(255, 0, 0, 150);
       noStroke();
 
-      if (
-        this.tileType.up === `water` ||
-        (this.unitType === `cavalry` && this.tileType.up === `mountains`)
-      ) {
-        this.tiles.up = 1;
-      } else {
+      if (this.movable.up) {
         this.tiles.up = 0;
+      } else {
+        this.tiles.up = 1;
       }
 
-      if (
-        this.tileType.down === `water` ||
-        (this.unitType === `cavalry` && this.tileType.down === `mountains`)
-      ) {
-        this.tiles.down = 2;
-      } else {
+      if (this.movable.down) {
         this.tiles.down = 3;
+      } else {
+        this.tiles.down = 2;
       }
 
-      if (
-        this.tileType.left === `water` ||
-        (this.unitType === `cavalry` && this.tileType.left === `mountains`)
-      ) {
-        this.tiles.left = 1;
-      } else {
+      if (this.movable.left) {
         this.tiles.left = 0;
+      } else {
+        this.tiles.left = 1;
       }
 
-      if (
-        this.tileType.right === `water` ||
-        (this.unitType === `cavalry` && this.tileType.right === `mountains`)
-      ) {
-        this.tiles.right = 2;
-      } else {
+      if (this.movable.right) {
         this.tiles.right = 3;
+      } else {
+        this.tiles.right = 2;
       }
 
       for (let i = this.tiles.left; i < this.tiles.right; i++) {
