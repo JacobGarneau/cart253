@@ -7,6 +7,7 @@ class Unit {
     this.selected = false;
     this.controllable = true;
     this.team = team;
+    this.banditEncounters = true;
 
     this.movable = {
       up: true,
