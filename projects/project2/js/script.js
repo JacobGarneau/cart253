@@ -222,7 +222,7 @@ function keyPressed() {
         } else if (
           (keyCode === DOWN_ARROW || keyCode === 83) &&
           units[i].movable.down &&
-          units[i].y <= (grid.height - 1) * grid.squareSize - unitSpeed
+          units[i].y <= (grid.height + 1) * grid.squareSize - unitSpeed
         ) {
           units[i].destinationY = units[i].y + grid.squareSize;
           unitMovement(units[i]);
