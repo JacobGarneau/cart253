@@ -12,11 +12,13 @@ Icons were taken from FontAwesome (fontawesome.com) under Creative Commons licen
 
 let grid = {
   height: 10,
-  width: 20,
+  width: undefined,
   squareSize: undefined,
 };
 let menuHeight = 80;
 let marginX;
+
+let menu;
 
 let unitAmount = 3;
 let units = [];
@@ -60,6 +62,9 @@ function setup() {
       tiles.push(tile);
     }
   }
+
+  //  Create the menu
+  menu = new Menu();
 }
 
 // draw()
@@ -103,6 +108,8 @@ function game() {
     units[i].display();
     units[i].assignTileType();
   }
+
+  menu.display();
 }
 
 function selectSquare(value) {
@@ -172,7 +179,7 @@ function keyPressed() {
         if (
           (keyCode === LEFT_ARROW || keyCode === 65) &&
           units[i].tileType.left !== `water` &&
-          units[i].x >= unitSpeed
+          units[i].x >= marginX + unitSpeed
         ) {
           if (
             units[i].unitType === `cavalry` &&
@@ -198,7 +205,7 @@ function keyPressed() {
         } else if (
           (keyCode === UP_ARROW || keyCode === 87) &&
           units[i].tileType.up !== `water` &&
-          units[i].y >= unitSpeed
+          units[i].y >= menuHeight + unitSpeed
         ) {
           if (
             units[i].unitType === `cavalry` &&
