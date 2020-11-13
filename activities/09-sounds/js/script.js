@@ -1,11 +1,12 @@
 /**************************************************
-Template p5 project
-Pippin Barr
+Exercise 6 - Make Some Noise
+Jacob Garneau
 
-Here is a description of this template p5 project.
+A
 **************************************************/
 
 "use strict";
+
 let balls = [];
 let notes = [`F3`, `G3`, `Ab4`, `Bb4`, `C4`, `Db4`, `Eb4`, `F4`];
 
@@ -29,8 +30,8 @@ function draw() {
   }
 }
 
-function createBall(x, y) {
-  let ball = new Ball(x, y);
+function createBall(x, y, notes) {
+  let ball = new Ball(x, y, notes);
   balls.push(ball);
 }
 
