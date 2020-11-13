@@ -15,6 +15,15 @@ let music = {
   forest: undefined,
 };
 
+let synth;
+
+let note = {
+  neutral: `C4`,
+  desert: `E5`,
+  cold: `C#6`,
+  forest: `C#5`,
+};
+
 function preload() {
   music.desert = loadSound(`assets/sounds/desert_music.mp3`);
   music.cold = loadSound(`assets/sounds/cold_music.mp3`);
@@ -28,18 +37,23 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   user = new User();
 
+  synth = new p5.PolySynth();
+
   music.desert.setVolume(0, 0);
   music.cold.setVolume(0, 0);
   music.forest.setVolume(0, 0);
 
-  playMusic();
-  setInterval(playMusic(), 98000);
-}
-
-function playMusic() {
   music.desert.play();
   music.cold.play();
   music.forest.play();
+
+  loopMusic();
+}
+
+function loopMusic() {
+  music.desert.loop(98);
+  music.cold.loop(98);
+  music.forest.loop(98);
 }
 
 // draw()
@@ -102,4 +116,17 @@ function checkEnvironment() {
 
 function mousePressed() {
   userStartAudio();
+  playNote();
+}
+
+function playNote() {
+  if (mouseX < width / 2 && mouseY < height / 2) {
+    synth.play(note.desert, 0.4, 0, 1);
+  } else if (mouseX < width / 2 && mouseY > height / 2) {
+    synth.play(note.cold, 0.4, 0, 1);
+  } else if (mouseX > width / 2 && mouseY > height / 2) {
+    synth.play(note.forest, 0.4, 0, 1);
+  } else {
+    synth.play(note.neutral, 0.4, 0, 1);
+  }
 }
