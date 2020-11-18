@@ -51,7 +51,7 @@ let femaleFirstNames = [`Elizabeth`, `Hildegarde`, `Mary`];
 let middleNames = [`von`, `of`];
 let lastNames = [`Brightwood`, `Darkfall`, `Arcadia`];
 
-let unitAmount = 3;
+let unitAmount = 1;
 let units = [];
 let unitSpeed = 8;
 
@@ -95,9 +95,9 @@ function setup() {
 
   //  Create the units
   for (let i = 0; i < unitAmount; i++) {
-    let cavalry = new Cavalry(i * 3 + 3, i * 3 + 2, 1);
-    let dragonRider = new DragonRider(i * 3 + 2, i * 3 + 1, 1);
-    let infantry = new Infantry(i * 3 + 1, i * 3, 1);
+    let cavalry = new Cavalry(i * 3 + 4, i * 3 + 3, 1);
+    let dragonRider = new DragonRider(i * 3 + 3, i * 3 + 2, 1);
+    let infantry = new Infantry(i * 3 + 2, i * 3 + 1, 1);
     units.push(cavalry);
     units.push(dragonRider);
     units.push(infantry);
@@ -173,30 +173,6 @@ function selectSquare(value) {
   return selected;
 }
 
-function unitMovement(unit) {
-  unit.stats.currentMovement--;
-  unit.controllable = false;
-
-  if (unit.stats.currentMovement === 0) {
-    unit.selected = false;
-  }
-
-  let timeoutDelay = (grid.squareSize / unitSpeed / 60) * 1000;
-  setTimeout(function () {
-    unit.x = unit.destinationX;
-    unit.y = unit.destinationY;
-    unit.controllable = true;
-    let rng = random(0, 100);
-    if (
-      rng <= banditChance &&
-      unit.tileType.current === `forest` &&
-      unit.banditEncounters
-    ) {
-      alert(`Bandits!`);
-    }
-  }, timeoutDelay);
-}
-
 function mouseClicked() {
   for (let i = 0; i < units.length; i++) {
     let d = dist(
@@ -226,46 +202,7 @@ function keyPressed() {
 
   for (let i = 0; i < units.length; i++) {
     if (units[i].selected && units[i].controllable) {
-      if (
-        keyCode === LEFT_ARROW ||
-        keyCode === RIGHT_ARROW ||
-        keyCode === UP_ARROW ||
-        keyCode === DOWN_ARROW ||
-        keyCode === 65 ||
-        keyCode === 68 ||
-        keyCode === 87 ||
-        keyCode === 83
-      ) {
-        if (
-          (keyCode === LEFT_ARROW || keyCode === 65) &&
-          units[i].movable.left &&
-          units[i].x >= marginX + unitSpeed
-        ) {
-          units[i].destinationX = units[i].x - grid.squareSize;
-          unitMovement(units[i]);
-        } else if (
-          (keyCode === RIGHT_ARROW || keyCode === 68) &&
-          units[i].movable.right &&
-          units[i].x <= (grid.width - 1) * grid.squareSize - unitSpeed
-        ) {
-          units[i].destinationX = units[i].x + grid.squareSize;
-          unitMovement(units[i]);
-        } else if (
-          (keyCode === UP_ARROW || keyCode === 87) &&
-          units[i].movable.up &&
-          units[i].y >= menuHeight + unitSpeed
-        ) {
-          units[i].destinationY = units[i].y - grid.squareSize;
-          unitMovement(units[i]);
-        } else if (
-          (keyCode === DOWN_ARROW || keyCode === 83) &&
-          units[i].movable.down &&
-          units[i].y <= (grid.height + 1) * grid.squareSize - unitSpeed
-        ) {
-          units[i].destinationY = units[i].y + grid.squareSize;
-          unitMovement(units[i]);
-        }
-      }
+      units[i].handleInput(keyCode);
     }
   }
 }

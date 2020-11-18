@@ -13,6 +13,7 @@ class Menu {
   display() {
     textAlign(CENTER, CENTER);
 
+    //  Display main components
     fill(50);
     rect(0, menuHeight, this.side.width, this.side.height);
     rect(width, menuHeight, -this.side.width, this.side.height);

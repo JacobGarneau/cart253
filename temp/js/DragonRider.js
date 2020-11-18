@@ -18,9 +18,28 @@ class DragonRider extends Unit {
   }
 
   checkMovement() {
-    this.movable.up = true;
-    this.movable.down = true;
-    this.movable.left = true;
-    this.movable.right = true;
+    if (this.tiles.up.occupied !== 0) {
+      this.movable.up = false;
+    } else {
+      this.movable.up = true;
+    }
+
+    if (this.tiles.down.occupied !== 0) {
+      this.movable.down = false;
+    } else {
+      this.movable.down = true;
+    }
+
+    if (this.tiles.left.occupied !== 0) {
+      this.movable.left = false;
+    } else {
+      this.movable.left = true;
+    }
+
+    if (this.tiles.right.occupied !== 0) {
+      this.movable.right = false;
+    } else {
+      this.movable.right = true;
+    }
   }
 }

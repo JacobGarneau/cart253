@@ -17,27 +17,40 @@ class Cavalry extends Unit {
   }
 
   checkMovement() {
-    if (this.tileType.up === `water` || this.tileType.up === `mountains`) {
+    if (
+      this.tiles.up.type === `water` ||
+      this.tiles.up.type === `mountains` ||
+      this.tiles.up.occupied !== 0
+    ) {
       this.movable.up = false;
     } else {
       this.movable.up = true;
     }
 
-    if (this.tileType.down === `water` || this.tileType.down === `mountains`) {
+    if (
+      this.tiles.down.type === `water` ||
+      this.tiles.down.type === `mountains` ||
+      this.tiles.down.occupied !== 0
+    ) {
       this.movable.down = false;
     } else {
       this.movable.down = true;
     }
 
-    if (this.tileType.left === `water` || this.tileType.left === `mountains`) {
+    if (
+      this.tiles.left.type === `water` ||
+      this.tiles.left.type === `mountains` ||
+      this.tiles.left.occupied !== 0
+    ) {
       this.movable.left = false;
     } else {
       this.movable.left = true;
     }
 
     if (
-      this.tileType.right === `water` ||
-      this.tileType.right === `mountains`
+      this.tiles.right.type === `water` ||
+      this.tiles.right.type === `mountains` ||
+      this.tiles.right.occupied !== 0
     ) {
       this.movable.right = false;
     } else {

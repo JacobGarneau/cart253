@@ -16,15 +16,30 @@ class Unit {
       right: true,
     };
 
-    this.tileType = {
-      current: undefined,
-      up: undefined,
-      down: undefined,
-      left: undefined,
-      right: undefined,
+    this.tiles = {
+      current: {
+        occupied: undefined,
+        type: undefined,
+      },
+      up: {
+        occupied: undefined,
+        type: undefined,
+      },
+      down: {
+        occupied: undefined,
+        type: undefined,
+      },
+      left: {
+        occupied: undefined,
+        type: undefined,
+      },
+      right: {
+        occupied: undefined,
+        type: undefined,
+      },
     };
 
-    this.tiles = {
+    this.tileMovement = {
       current: undefined,
       up: 0,
       down: 3,
@@ -104,30 +119,99 @@ class Unit {
   }
 
   checkMovement() {
-    if (this.tileType.up === `water`) {
+    if (this.tiles.up.type === `water` || this.tiles.up.occupied !== 0) {
       this.movable.up = false;
     } else {
       this.movable.up = true;
     }
 
-    if (this.tileType.down === `water`) {
+    if (this.tiles.down.type === `water` || this.tiles.down.occupied !== 0) {
       this.movable.down = false;
     } else {
       this.movable.down = true;
     }
 
-    if (this.tileType.left === `water`) {
+    if (this.tiles.left.type === `water` || this.tiles.left.occupied !== 0) {
       this.movable.left = false;
     } else {
       this.movable.left = true;
     }
 
-    if (this.tileType.right === `water`) {
+    if (this.tiles.right.type === `water` || this.tiles.right.occupied !== 0) {
       this.movable.right = false;
     } else {
       this.movable.right = true;
     }
   }
+
+  handleInput(keyCode) {
+    if (
+      keyCode === LEFT_ARROW ||
+      keyCode === RIGHT_ARROW ||
+      keyCode === UP_ARROW ||
+      keyCode === DOWN_ARROW ||
+      keyCode === 65 ||
+      keyCode === 68 ||
+      keyCode === 87 ||
+      keyCode === 83
+    ) {
+      if (
+        (keyCode === LEFT_ARROW || keyCode === 65) &&
+        this.movable.left &&
+        this.x >= marginX + unitSpeed
+      ) {
+        this.destinationX = this.x - grid.squareSize;
+        this.animateMovement();
+      } else if (
+        (keyCode === RIGHT_ARROW || keyCode === 68) &&
+        this.movable.right &&
+        this.x <= (grid.width - 1) * grid.squareSize - unitSpeed
+      ) {
+        this.destinationX = this.x + grid.squareSize;
+        this.animateMovement();
+      } else if (
+        (keyCode === UP_ARROW || keyCode === 87) &&
+        this.movable.up &&
+        this.y >= menuHeight + unitSpeed
+      ) {
+        this.destinationY = this.y - grid.squareSize;
+        this.animateMovement();
+      } else if (
+        (keyCode === DOWN_ARROW || keyCode === 83) &&
+        this.movable.down &&
+        this.y <= (grid.height + 1) * grid.squareSize - unitSpeed
+      ) {
+        this.destinationY = this.y + grid.squareSize;
+        this.animateMovement();
+      }
+    }
+  }
+
+  animateMovement() {
+    this.stats.currentMovement--;
+    this.controllable = false;
+
+    if (this.stats.currentMovement === 0) {
+      this.selected = false;
+    }
+
+    let timeoutDelay = (grid.squareSize / unitSpeed / 60) * 1000;
+    setTimeout(() => {
+      this.x = this.destinationX;
+      this.y = this.destinationY;
+      this.controllable = true;
+      let banditRoll = random(0, 100);
+      if (
+        banditRoll <= banditChance &&
+        this.tiles.current.type === `forest` &&
+        this.banditEncounters
+      ) {
+        alert(`Bandits!`);
+      }
+    }, timeoutDelay);
+  }
+
+  endMovement() {}
 
   move() {
     //  Draw the movement options
@@ -141,30 +225,30 @@ class Unit {
       noStroke();
 
       if (this.movable.up) {
-        this.tiles.up = 0;
+        this.tileMovement.up = 0;
       } else {
-        this.tiles.up = 1;
+        this.tileMovement.up = 1;
       }
 
       if (this.movable.down) {
-        this.tiles.down = 3;
+        this.tileMovement.down = 3;
       } else {
-        this.tiles.down = 2;
+        this.tileMovement.down = 2;
       }
 
       if (this.movable.left) {
-        this.tiles.left = 0;
+        this.tileMovement.left = 0;
       } else {
-        this.tiles.left = 1;
+        this.tileMovement.left = 1;
       }
 
       if (this.movable.right) {
-        this.tiles.right = 3;
+        this.tileMovement.right = 3;
       } else {
-        this.tiles.right = 2;
+        this.tileMovement.right = 2;
       }
 
-      for (let i = this.tiles.left; i < this.tiles.right; i++) {
+      for (let i = this.tileMovement.left; i < this.tileMovement.right; i++) {
         rect(
           this.x + selectSquare(i),
           this.y,
@@ -173,7 +257,7 @@ class Unit {
         );
       }
 
-      for (let i = this.tiles.up; i < this.tiles.down; i++) {
+      for (let i = this.tileMovement.up; i < this.tileMovement.down; i++) {
         rect(
           this.x,
           this.y + selectSquare(i),
@@ -184,18 +268,22 @@ class Unit {
     }
 
     //  Move the unit
-    if (this.x < this.destinationX) {
+    if (this.x < this.destinationX && !this.controllable) {
       this.x += unitSpeed;
-    } else if (this.x > this.destinationX) {
+    } else if (this.x > this.destinationX && !this.controllable) {
       this.x -= unitSpeed;
-    } else if (this.y < this.destinationY) {
+    } else if (this.y < this.destinationY && !this.controllable) {
       this.y += unitSpeed;
-    } else if (this.y > this.destinationY) {
+    } else if (this.y > this.destinationY && !this.controllable) {
       this.y -= unitSpeed;
     }
 
     this.x = constrain(this.x, 0, width);
     this.y = constrain(this.y, 0, height);
+
+    if (!this.controllable) {
+      this.tiles.current.occupied = 0;
+    }
   }
 
   assignTileType() {
@@ -204,32 +292,32 @@ class Unit {
       //  Current tile
       let d = dist(this.x, this.y, tiles[i].x, tiles[i].y);
       if (d <= unitSpeed) {
-        this.tileType.current = tiles[i].type;
-        tiles[i].occupied = this.team;
+        this.tiles.current = tiles[i];
+        this.tiles.current.occupied = this.team;
       }
 
       //  Up tile
       d = dist(this.x, this.y - grid.squareSize, tiles[i].x, tiles[i].y);
       if (d <= unitSpeed) {
-        this.tileType.up = tiles[i].type;
+        this.tiles.up = tiles[i];
       }
 
       //  Down tile
       d = dist(this.x, this.y + grid.squareSize, tiles[i].x, tiles[i].y);
       if (d <= unitSpeed) {
-        this.tileType.down = tiles[i].type;
+        this.tiles.down = tiles[i];
       }
 
       //  Left tile
       d = dist(this.x - grid.squareSize, this.y, tiles[i].x, tiles[i].y);
       if (d <= unitSpeed) {
-        this.tileType.left = tiles[i].type;
+        this.tiles.left = tiles[i];
       }
 
       //  Right tile
       d = dist(this.x + grid.squareSize, this.y, tiles[i].x, tiles[i].y);
       if (d <= unitSpeed) {
-        this.tileType.right = tiles[i].type;
+        this.tiles.right = tiles[i];
       }
     }
   }
