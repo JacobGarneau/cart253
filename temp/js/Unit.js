@@ -8,12 +8,20 @@ class Unit {
     this.controllable = true;
     this.team = team;
     this.banditEncounters = true;
+    this.tapped = false;
 
     this.movable = {
       up: true,
       down: true,
       left: true,
       right: true,
+    };
+
+    this.attackable = {
+      up: false,
+      down: false,
+      left: false,
+      right: false,
     };
 
     this.tiles = {
@@ -50,7 +58,16 @@ class Unit {
 
   display() {
     //  Draw the unit
-    fill(255);
+    if (this.team === 1 && this.tapped === false) {
+      fill(colors.blue.r, colors.blue.g, colors.blue.b);
+    } else if (this.team === 1 && this.tapped === true) {
+      fill(colors.blue.r - 50, colors.blue.g - 50, colors.blue.b - 100);
+    } else if (this.team === 2 && this.tapped === false) {
+      fill(colors.red.r, colors.red.g, colors.red.b);
+    } else if (this.team === 2 && this.tapped === true) {
+      fill(colors.red.r - 100, colors.red.g - 50, colors.red.b - 50);
+    }
+
     noStroke();
     ellipseMode(CORNER);
     ellipse(this.x, this.y, grid.squareSize);
@@ -116,6 +133,48 @@ class Unit {
       this.x + grid.squareSize / 2 - grid.squareSize / 3,
       this.y + grid.squareSize / 2 - grid.squareSize / 3
     );
+  }
+
+  checkAttack() {
+    if (
+      this.selected &&
+      this.tiles.up.occupied !== this.team &&
+      this.tiles.up.occupied !== 0
+    ) {
+      this.attackable.up = true;
+    } else {
+      this.attackable.up = false;
+    }
+
+    if (
+      this.selected &&
+      this.tiles.down.occupied !== this.team &&
+      this.tiles.down.occupied !== 0
+    ) {
+      this.attackable.down = true;
+    } else {
+      this.attackable.down = false;
+    }
+
+    if (
+      this.selected &&
+      this.tiles.left.occupied !== this.team &&
+      this.tiles.left.occupied !== 0
+    ) {
+      this.attackable.left = true;
+    } else {
+      this.attackable.left = false;
+    }
+
+    if (
+      this.selected &&
+      this.tiles.right.occupied !== this.team &&
+      this.tiles.right.occupied !== 0
+    ) {
+      this.attackable.right = true;
+    } else {
+      this.attackable.right = false;
+    }
   }
 
   checkMovement() {
@@ -211,7 +270,113 @@ class Unit {
     }, timeoutDelay);
   }
 
-  endMovement() {}
+  displayAttack() {
+    if (this.attackable.up) {
+      push();
+      imageMode(CENTER);
+      image(
+        icons.attackable,
+        this.x + grid.squareSize / 2,
+        this.y + grid.squareSize / 2 - grid.squareSize,
+        grid.squareSize / 1.5,
+        grid.squareSize / 1.5
+      );
+      pop();
+    }
+
+    if (this.attackable.down) {
+      push();
+      imageMode(CENTER);
+      image(
+        icons.attackable,
+        this.x + grid.squareSize / 2,
+        this.y + grid.squareSize / 2 + grid.squareSize,
+        grid.squareSize / 1.5,
+        grid.squareSize / 1.5
+      );
+      pop();
+    }
+
+    if (this.attackable.left) {
+      push();
+      imageMode(CENTER);
+      image(
+        icons.attackable,
+        this.x + grid.squareSize / 2 - grid.squareSize,
+        this.y + grid.squareSize / 2,
+        grid.squareSize / 1.5,
+        grid.squareSize / 1.5
+      );
+      pop();
+    }
+
+    if (this.attackable.right) {
+      push();
+      imageMode(CENTER);
+      image(
+        icons.attackable,
+        this.x + grid.squareSize / 2 + grid.squareSize,
+        this.y + grid.squareSize / 2,
+        grid.squareSize / 1.5,
+        grid.squareSize / 1.5
+      );
+      pop();
+    }
+  }
+
+  attack() {
+    let dX = dist(mouseX, 0, this.x + grid.squareSize / 2, 0);
+    let dY = dist(0, mouseY, 0, this.y + grid.squareSize / 2);
+
+    if (
+      dY < grid.squareSize * 1.5 &&
+      dY > grid.squareSize * 0.5 &&
+      dX < grid.squareSize * 0.5 &&
+      mouseY < this.y &&
+      mouseX > this.x &&
+      this.attackable.up
+    ) {
+      for (let i = 0; i < units.length; i++) {
+        let d = dist(units[i].x, units[i].y, this.x, this.y);
+        if (
+          d <= grid.squareSize * 1.5 + 1 &&
+          units[i].y < this.y &&
+          units[i].x === this.x &&
+          units[i].team !== this.team
+        ) {
+          this.damage(units[i]);
+        }
+      }
+    }
+
+    if (
+      dY < grid.squareSize * 1.5 &&
+      dY > grid.squareSize * 0.5 &&
+      dX < grid.squareSize * 0.5 &&
+      mouseY > this.y &&
+      mouseX > this.x &&
+      this.attackable.down
+    ) {
+      console.log("clicked");
+      for (let i = 0; i < units.length; i++) {
+        let d = dist(units[i].x, units[i].y, this.x, this.y);
+        if (
+          d <= grid.squareSize * 1.5 + 1 &&
+          units[i].y > this.y &&
+          units[i].x === this.x &&
+          units[i].team !== this.team
+        ) {
+          console.log("damaged");
+          this.damage(units[i]);
+        }
+      }
+    }
+  }
+
+  damage(target) {
+    target.stats.defense -= this.stats.attack;
+    this.endTurn();
+  }
 
   move() {
     //  Draw the movement options
@@ -320,5 +485,12 @@ class Unit {
         this.tiles.right = tiles[i];
       }
     }
+  }
+
+  endTurn() {
+    this.currentMovement = 0;
+    this.tapped = true;
+    this.selected = false;
+    activeUnits[this.team - 1]--;
   }
 }
