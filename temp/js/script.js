@@ -15,10 +15,24 @@ let grid = {
   width: undefined,
   squareSize: undefined,
 };
+
 let menuHeight = 120;
 let marginX;
 
 let menu;
+
+let colors = {
+  blue: {
+    r: 85,
+    g: 194,
+    b: 255,
+  },
+  red: {
+    r: 255,
+    g: 85,
+    b: 85,
+  },
+};
 
 let icons = {
   offense: undefined,
@@ -26,9 +40,21 @@ let icons = {
   movement: undefined,
 };
 
+let players = [];
+
+let maleTitles = [`King`, `Prince`, `Duke`, `Lord`];
+let femaleTitles = [`Queen`, `Princess`, `Duchess`, `Lady`];
+
+let maleFirstNames = [`Edward`, `Richard`, `William`];
+let femaleFirstNames = [`Elizabeth`, `Hildegarde`, `Mary`];
+
+let middleNames = [`von`, `of`];
+let lastNames = [`Brightwood`, `Darkfall`, `Arcadia`];
+
 let unitAmount = 3;
 let units = [];
 let unitSpeed = 8;
+
 let tiles = [];
 let tileTypes = [
   `plains`,
@@ -42,7 +68,7 @@ let tileTypes = [
   `water`,
 ];
 let banditChance = 25;
-let state = `title`; //  title, game, player1, player2, ending
+let state = `game`; //  title, game, player1, player2, ending
 
 function preload() {
   //  Load the images
@@ -60,6 +86,12 @@ function setup() {
   grid.squareSize = (windowHeight - menuHeight) / grid.height;
   grid.width = Math.floor(windowWidth / grid.squareSize);
   marginX = (windowWidth - grid.width * grid.squareSize) / 2;
+
+  //  Create the players
+  for (let i = 0; i < 2; i++) {
+    let player = new Player();
+    players.push(player);
+  }
 
   //  Create the units
   for (let i = 0; i < unitAmount; i++) {
@@ -82,6 +114,12 @@ function setup() {
 
   //  Create the menu
   menu = new Menu();
+}
+
+//  Convert inputted numbers into a value that fits the size of the screen
+function dyn(num) {
+  let result = width / (1920 / num);
+  return result;
 }
 
 // draw()

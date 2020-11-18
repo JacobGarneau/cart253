@@ -25,6 +25,7 @@ class Unit {
     };
 
     this.tiles = {
+      current: undefined,
       up: 0,
       down: 3,
       left: 0,

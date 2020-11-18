@@ -9,13 +9,13 @@ class Tile {
   display() {
     fill(255);
     if (this.type === `mountains`) {
-      fill(127, 127, 127);
+      fill(231, 231, 231);
     } else if (this.type === `forest`) {
-      fill(0, 127, 0);
+      fill(86, 124, 83);
     } else if (this.type === `plains`) {
-      fill(50, 220, 50);
+      fill(130, 217, 123);
     } else if (this.type === `water`) {
-      fill(0, 100, 255);
+      fill(58, 193, 222);
     }
     rect(this.x, this.y, grid.squareSize, grid.squareSize);
   }
