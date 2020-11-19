@@ -35,6 +35,11 @@ class Menu {
     text(`This is the game's title`, width / 2, menuHeight / 2);
 
     push();
+    if (currentTurn === 1) {
+      fill(colors.blue.r, colors.blue.g, colors.blue.b);
+    } else if (currentTurn === 2) {
+      fill(colors.red.r, colors.red.g, colors.red.b);
+    }
     rectMode(CENTER);
     rect(
       this.endTurn.x,
@@ -42,7 +47,8 @@ class Menu {
       this.endTurn.width,
       this.endTurn.height
     );
-    fill(0);
+
+    fill(255);
     textAlign(CENTER, CENTER);
     text(`END TURN`, this.endTurn.x, this.endTurn.y + 2);
     pop();

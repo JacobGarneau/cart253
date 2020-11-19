@@ -278,8 +278,7 @@ class Unit {
           !this.attackable.left &&
           !this.attackable.right
         ) {
-          this.selected = false;
-          this.tapped = true;
+          this.endTurn();
         }
       }
     }, timeoutDelay);
@@ -549,6 +548,7 @@ class Unit {
   checkDefeated() {
     if (this.stats.defense <= 0) {
       this.tiles.current.occupied = 0;
+      this.endTurn();
       units.splice(units.indexOf(this), 1);
     }
   }
@@ -557,6 +557,5 @@ class Unit {
     this.currentMovement = 0;
     this.tapped = true;
     this.selected = false;
-    activeUnits[this.team - 1]--;
   }
 }

@@ -84,7 +84,6 @@ let lastNames = [
 let unitAmount = 1;
 let units = [];
 let unitSpeed = 8;
-let activeUnits = [unitAmount * 3, unitAmount * 3];
 
 let tiles = [];
 let tileTypes = [
@@ -214,12 +213,6 @@ function game() {
     units[i].displayAttack();
   }
 
-  if (activeUnits[currentTurn - 1] === 0 && currentTurn === 1) {
-    changeTurns(2);
-  } else if (activeUnits[currentTurn - 1] === 0 && currentTurn === 2) {
-    changeTurns(1);
-  }
-
   menu.display();
 }
 
@@ -231,15 +224,13 @@ function selectSquare(value) {
 function changeTurns(player) {
   for (let i = 0; i < units.length; i++) {
     if (units[i].team === currentTurn) {
-      units[i].tapped = true;
-      units[i].selected = false;
+      units[i].endTurn();
     } else if (units[i].team !== currentTurn) {
       units[i].tapped = false;
       units[i].stats.currentMovement = units[i].stats.movement;
     }
   }
 
-  activeUnits[player - 1] = unitAmount * 3;
   currentTurn = player;
 }
 
@@ -274,8 +265,7 @@ function mouseClicked() {
     if (d <= grid.squareSize / 2) {
       if (units[i].selected) {
         if (units[i].stats.currentMovement === 0) {
-          units[i].selected = false;
-          units[i].tapped = true;
+          units[i].endTurn();
         }
         units[i].selected = false;
       } else if (currentTurn === units[i].team && units[i].tapped === false) {
@@ -294,7 +284,11 @@ function keyPressed() {
   }
 
   for (let i = 0; i < units.length; i++) {
-    if (units[i].selected && units[i].controllable) {
+    if (
+      units[i].selected &&
+      units[i].controllable &&
+      units[i].stats.currentMovement > 0
+    ) {
       units[i].handleInput(keyCode);
     }
   }
