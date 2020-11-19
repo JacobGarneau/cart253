@@ -11,7 +11,6 @@ class Player {
       this.title = random(femaleTitles);
       this.firstName = random(femaleFirstNames);
     }
-    this.middleName = random(middleNames);
     this.lastName = random(lastNames);
   }
 }

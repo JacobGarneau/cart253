@@ -33,7 +33,7 @@ class Menu {
     textSize(dyn(32));
     textAlign(LEFT, CENTER);
     text(
-      `${players[1].title} ${players[1].firstName}\n${players[1].middleName} ${players[1].lastName}`,
+      `${players[1].title} ${players[1].firstName}\n${players[1].lastName}`,
       dyn(40),
       menuHeight / 2
     );
@@ -95,7 +95,7 @@ class Menu {
     textSize(dyn(32));
     textAlign(RIGHT, CENTER);
     text(
-      `${players[0].title} ${players[0].firstName}\n${players[0].middleName} ${players[0].lastName}`,
+      `${players[0].title} ${players[0].firstName}\n${players[0].lastName}`,
       width - dyn(40),
       menuHeight / 2
     );

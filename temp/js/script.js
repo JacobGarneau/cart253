@@ -46,11 +46,40 @@ let players = [];
 let maleTitles = [`King`, `Prince`, `Duke`, `Lord`];
 let femaleTitles = [`Queen`, `Princess`, `Duchess`, `Lady`];
 
-let maleFirstNames = [`Edward`, `Richard`, `William`];
-let femaleFirstNames = [`Elizabeth`, `Hildegarde`, `Mary`];
+let maleFirstNames = [
+  `Edward`,
+  `Richard`,
+  `William`,
+  `Warren`,
+  `Gawain`,
+  `Godfrey`,
+  `Gunter`,
+  `Siegfried`,
+  `Hubert`,
+];
+let femaleFirstNames = [
+  `Elizabeth`,
+  `Hildegarde`,
+  `Mary`,
+  `Malina`,
+  `Isabel`,
+  `Caitlyn`,
+  `Rose`,
+  `Krista`,
+  `Sasha`,
+];
 
-let middleNames = [`von`, `of`];
-let lastNames = [`Brightwood`, `Darkfall`, `Arcadia`];
+let lastNames = [
+  `of Brightwood`,
+  `of Darkfall`,
+  `von Arcadia`,
+  `von Elderun`,
+  `of Ironpact`,
+  `von Serelis`,
+  `of Midgard`,
+  `of Nilfheim`,
+  `von Zariel`,
+];
 
 let unitAmount = 1;
 let units = [];

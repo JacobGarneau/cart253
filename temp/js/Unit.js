@@ -348,7 +348,8 @@ class Unit {
         if (
           d <= grid.squareSize * 1.5 + 1 &&
           units[i].y < this.y &&
-          units[i].x === this.x &&
+          units[i].x <= this.x + 1 &&
+          units[i].x >= this.x - 1 &&
           units[i].team !== this.team
         ) {
           this.damage(units[i]);
@@ -370,7 +371,56 @@ class Unit {
         if (
           d <= grid.squareSize * 1.5 + 1 &&
           units[i].y > this.y &&
-          units[i].x === this.x &&
+          units[i].x <= this.x + 1 &&
+          units[i].x >= this.x - 1 &&
+          units[i].team !== this.team
+        ) {
+          console.log("damaged");
+          this.damage(units[i]);
+        }
+      }
+    }
+
+    if (
+      dX < grid.squareSize * 1.5 &&
+      dX > grid.squareSize * 0.5 &&
+      dY < grid.squareSize * 0.5 &&
+      mouseX < this.x &&
+      mouseY > this.y &&
+      this.attackable.left
+    ) {
+      console.log("clicked");
+      for (let i = 0; i < units.length; i++) {
+        let d = dist(units[i].x, units[i].y, this.x, this.y);
+        if (
+          d <= grid.squareSize * 1.5 + 1 &&
+          units[i].x < this.x &&
+          units[i].y <= this.y + 1 &&
+          units[i].y >= this.y - 1 &&
+          units[i].team !== this.team
+        ) {
+          console.log("damaged");
+          this.damage(units[i]);
+        }
+      }
+    }
+
+    if (
+      dX < grid.squareSize * 1.5 &&
+      dX > grid.squareSize * 0.5 &&
+      dY < grid.squareSize * 0.5 &&
+      mouseX > this.x &&
+      mouseY > this.y &&
+      this.attackable.right
+    ) {
+      console.log("clicked");
+      for (let i = 0; i < units.length; i++) {
+        let d = dist(units[i].x, units[i].y, this.x, this.y);
+        if (
+          d <= grid.squareSize * 1.5 + 1 &&
+          units[i].x > this.x &&
+          units[i].y <= this.y + 1 &&
+          units[i].y >= this.y - 1 &&
           units[i].team !== this.team
         ) {
           console.log("damaged");
@@ -497,6 +547,8 @@ class Unit {
   checkDefeated() {
     if (this.stats.defense <= 0) {
       console.log(`Defeated ${this.info.type}`);
+      this.tiles.current.occupied = 0;
+
       units.splice(units.indexOf(this), 1);
     }
   }
