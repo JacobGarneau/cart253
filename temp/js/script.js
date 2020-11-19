@@ -177,6 +177,7 @@ function game() {
     units[i].move();
     units[i].display();
     units[i].assignTileType();
+    units[i].checkDefeated();
   }
 
   for (let i = 0; i < units.length; i++) {
@@ -193,10 +194,6 @@ function selectSquare(value) {
 }
 
 function handleTurns() {
-  console.log(
-    `Player 1 units: ${activeUnits[0]}, Player 2 units: ${activeUnits[1]}`
-  );
-
   for (let i = 0; i < units.length; i++) {
     if (units[i].team !== currentTurn) {
       units[i].tapped = true;

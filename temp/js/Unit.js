@@ -58,19 +58,26 @@ class Unit {
 
   display() {
     //  Draw the unit
+    noStroke();
+    push();
     if (this.team === 1 && this.tapped === false) {
       fill(colors.blue.r, colors.blue.g, colors.blue.b);
+      stroke(255);
     } else if (this.team === 1 && this.tapped === true) {
       fill(colors.blue.r - 50, colors.blue.g - 50, colors.blue.b - 100);
+      stroke(100);
     } else if (this.team === 2 && this.tapped === false) {
       fill(colors.red.r, colors.red.g, colors.red.b);
+      stroke(255);
     } else if (this.team === 2 && this.tapped === true) {
       fill(colors.red.r - 100, colors.red.g - 50, colors.red.b - 50);
+      stroke(100);
     }
 
-    noStroke();
+    strokeWeight(4);
     ellipseMode(CORNER);
     ellipse(this.x, this.y, grid.squareSize);
+    pop();
 
     //  Attack icon
     imageMode(CENTER);
@@ -484,6 +491,13 @@ class Unit {
       if (d <= unitSpeed) {
         this.tiles.right = tiles[i];
       }
+    }
+  }
+
+  checkDefeated() {
+    if (this.stats.defense <= 0) {
+      console.log(`Defeated ${this.info.type}`);
+      units.splice(units.indexOf(this), 1);
     }
   }
 
