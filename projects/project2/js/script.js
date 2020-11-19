@@ -139,6 +139,11 @@ function preload() {
   icons.priest = loadImage(`assets/images/priest.svg`);
   icons.dragonRider = loadImage(`assets/images/dragon.svg`);
   icons.lord = loadImage(`assets/images/lord.svg`);
+
+  //  Load terrain icons
+  icons.water = loadImage(`assets/images/water.svg`);
+  icons.forest = loadImage(`assets/images/forest.svg`);
+  icons.mountains = loadImage(`assets/images/mountains.svg`);
 }
 
 // setup()
