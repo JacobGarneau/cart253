@@ -4,9 +4,17 @@ class Menu {
       height: menuHeight,
       width: windowWidth,
     };
+
     this.side = {
       width: marginX,
       height: windowHeight - menuHeight,
+    };
+
+    this.endTurn = {
+      x: width / 2,
+      y: menuHeight - dyn(10),
+      width: dyn(200),
+      height: dyn(60),
     };
   }
 
@@ -25,6 +33,19 @@ class Menu {
     textStyle(BOLD);
     textSize(dyn(36));
     text(`This is the game's title`, width / 2, menuHeight / 2);
+
+    push();
+    rectMode(CENTER);
+    rect(
+      this.endTurn.x,
+      this.endTurn.y,
+      this.endTurn.width,
+      this.endTurn.height
+    );
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text(`END TURN`, this.endTurn.x, this.endTurn.y + 2);
+    pop();
 
     //  Display player 1 info
     push();

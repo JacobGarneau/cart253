@@ -99,7 +99,7 @@ let tileTypes = [
   `water`,
 ];
 let banditChance = 25;
-let currentTurn = 1; // 1 (player1), 2 (player2)
+let currentTurn = 2; // 1 (player1), 2 (player2)
 let state = `game`; //  title, game, player1, player2, ending
 
 function preload() {
@@ -156,6 +156,7 @@ function setup() {
 
   //  Create the menu
   menu = new Menu();
+  changeTurns(1);
 }
 
 //  Convert inputted numbers into a value that fits the size of the screen
@@ -213,7 +214,12 @@ function game() {
     units[i].displayAttack();
   }
 
-  handleTurns();
+  if (activeUnits[currentTurn - 1] === 0 && currentTurn === 1) {
+    changeTurns(2);
+  } else if (activeUnits[currentTurn - 1] === 0 && currentTurn === 2) {
+    changeTurns(1);
+  }
+
   menu.display();
 }
 
@@ -222,33 +228,40 @@ function selectSquare(value) {
   return selected;
 }
 
-function handleTurns() {
+function changeTurns(player) {
   for (let i = 0; i < units.length; i++) {
-    if (units[i].team !== currentTurn) {
+    if (units[i].team === currentTurn) {
       units[i].tapped = true;
+      units[i].selected = false;
+    } else if (units[i].team !== currentTurn) {
+      units[i].tapped = false;
+      units[i].stats.currentMovement = units[i].stats.movement;
     }
   }
 
-  if (activeUnits[currentTurn - 1] === 0 && currentTurn === 1) {
-    activeUnits[1] = unitAmount * 3;
-    for (let i = 0; i < units.length; i++) {
-      if (units[i].team === 2) {
-        units[i].tapped = false;
-      }
-    }
-    currentTurn = 2;
-  } else if (activeUnits[currentTurn - 1] === 0 && currentTurn === 2) {
-    activeUnits[0] = unitAmount * 3;
-    for (let i = 0; i < units.length; i++) {
-      if (units[i].team === 1) {
-        units[i].tapped = false;
-      }
-    }
-    currentTurn = 1;
-  }
+  activeUnits[player - 1] = unitAmount * 3;
+  currentTurn = player;
 }
 
 function mouseClicked() {
+  //  Detect menu button clicks
+
+  //  End turn
+  let dEndTurnX = dist(mouseX, 0, menu.endTurn.x, 0);
+  let dEndTurnY = dist(0, mouseY, 0, menu.endTurn.y);
+
+  if (
+    dEndTurnX < menu.endTurn.width / 2 &&
+    dEndTurnY < menu.endTurn.height / 2
+  ) {
+    if (currentTurn === 1) {
+      changeTurns(2);
+    } else if (currentTurn === 2) {
+      changeTurns(1);
+    }
+  }
+
+  //  Detect unit interaction clicks
   for (let i = 0; i < units.length; i++) {
     units[i].attack();
 
@@ -260,13 +273,16 @@ function mouseClicked() {
     );
     if (d <= grid.squareSize / 2) {
       if (units[i].selected) {
+        if (units[i].stats.currentMovement === 0) {
+          units[i].selected = false;
+          units[i].tapped = true;
+        }
         units[i].selected = false;
       } else if (currentTurn === units[i].team && units[i].tapped === false) {
         for (let j = 0; j < units.length; j++) {
           units[j].selected = false;
         }
         units[i].selected = true;
-        units[i].stats.currentMovement = units[i].stats.movement;
       }
     }
   }

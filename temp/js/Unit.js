@@ -257,10 +257,6 @@ class Unit {
     this.stats.currentMovement--;
     this.controllable = false;
 
-    if (this.stats.currentMovement === 0) {
-      this.selected = false;
-    }
-
     let timeoutDelay = (grid.squareSize / unitSpeed / 60) * 1000;
     setTimeout(() => {
       this.x = this.destinationX;
@@ -274,11 +270,23 @@ class Unit {
       ) {
         alert(`Bandits!`);
       }
+
+      if (this.stats.currentMovement === 0) {
+        if (
+          !this.attackable.up &&
+          !this.attackable.down &&
+          !this.attackable.left &&
+          !this.attackable.right
+        ) {
+          this.selected = false;
+          this.tapped = true;
+        }
+      }
     }, timeoutDelay);
   }
 
   displayAttack() {
-    if (this.attackable.up) {
+    if (this.attackable.up && this.controllable) {
       push();
       imageMode(CENTER);
       image(
@@ -291,7 +299,7 @@ class Unit {
       pop();
     }
 
-    if (this.attackable.down) {
+    if (this.attackable.down && this.controllable) {
       push();
       imageMode(CENTER);
       image(
@@ -304,7 +312,7 @@ class Unit {
       pop();
     }
 
-    if (this.attackable.left) {
+    if (this.attackable.left && this.controllable) {
       push();
       imageMode(CENTER);
       image(
@@ -317,7 +325,7 @@ class Unit {
       pop();
     }
 
-    if (this.attackable.right) {
+    if (this.attackable.right && this.controllable) {
       push();
       imageMode(CENTER);
       image(
@@ -365,7 +373,6 @@ class Unit {
       mouseX > this.x &&
       this.attackable.down
     ) {
-      console.log("clicked");
       for (let i = 0; i < units.length; i++) {
         let d = dist(units[i].x, units[i].y, this.x, this.y);
         if (
@@ -375,7 +382,6 @@ class Unit {
           units[i].x >= this.x - 1 &&
           units[i].team !== this.team
         ) {
-          console.log("damaged");
           this.damage(units[i]);
         }
       }
@@ -389,7 +395,6 @@ class Unit {
       mouseY > this.y &&
       this.attackable.left
     ) {
-      console.log("clicked");
       for (let i = 0; i < units.length; i++) {
         let d = dist(units[i].x, units[i].y, this.x, this.y);
         if (
@@ -399,7 +404,6 @@ class Unit {
           units[i].y >= this.y - 1 &&
           units[i].team !== this.team
         ) {
-          console.log("damaged");
           this.damage(units[i]);
         }
       }
@@ -413,7 +417,6 @@ class Unit {
       mouseY > this.y &&
       this.attackable.right
     ) {
-      console.log("clicked");
       for (let i = 0; i < units.length; i++) {
         let d = dist(units[i].x, units[i].y, this.x, this.y);
         if (
@@ -423,7 +426,6 @@ class Unit {
           units[i].y >= this.y - 1 &&
           units[i].team !== this.team
         ) {
-          console.log("damaged");
           this.damage(units[i]);
         }
       }
@@ -546,9 +548,7 @@ class Unit {
 
   checkDefeated() {
     if (this.stats.defense <= 0) {
-      console.log(`Defeated ${this.info.type}`);
       this.tiles.current.occupied = 0;
-
       units.splice(units.indexOf(this), 1);
     }
   }
