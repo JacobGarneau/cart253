@@ -4,6 +4,7 @@ class Archer extends Unit {
     this.info = {
       type: `Archers`,
       description: `Ranged units. Archers have average offense and low defense but can attack from 2 squares away.`,
+      icon: icons.archer,
     };
 
     this.stats = {

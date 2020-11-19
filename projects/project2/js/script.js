@@ -32,6 +32,24 @@ let colors = {
     g: 85,
     b: 85,
   },
+  move: {
+    r: 245,
+    g: 220,
+    b: 130,
+    a: 100,
+  },
+  attack: {
+    r: 255,
+    g: 85,
+    b: 85,
+    a: 150,
+  },
+  heal: {
+    r: 20,
+    g: 255,
+    b: 155,
+    a: 150,
+  },
 };
 
 let icons = {
@@ -105,12 +123,22 @@ let currentTurn = 2; // 1 (player1), 2 (player2)
 let state = `game`; //  title, game, player1, player2, ending
 
 function preload() {
-  //  Load the images
+  //  Load generic icons
   icons.offense = loadImage(`assets/images/offense.svg`);
   icons.defense = loadImage(`assets/images/defense.svg`);
   icons.movement = loadImage(`assets/images/movement.svg`);
   icons.attackable = loadImage(`assets/images/attackable.svg`);
   icons.healable = loadImage(`assets/images/healable.svg`);
+
+  //  Load unit icons
+  icons.infantry = loadImage(`assets/images/infantry.svg`);
+  icons.cavalry = loadImage(`assets/images/cavalry.svg`);
+  icons.archer = loadImage(`assets/images/archer.svg`);
+  icons.heavy = loadImage(`assets/images/heavy.svg`);
+  icons.mage = loadImage(`assets/images/mage.svg`);
+  icons.priest = loadImage(`assets/images/priest.svg`);
+  icons.dragonRider = loadImage(`assets/images/dragon.svg`);
+  icons.lord = loadImage(`assets/images/lord.svg`);
 }
 
 // setup()

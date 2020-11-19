@@ -4,6 +4,7 @@ class DragonRider extends Unit {
     this.info = {
       type: `Dragon Riders`,
       description: `Valorous knights mounted on fierce creatures. Dragon Riders have high offense and average defense, can move after attacking and are not hindered by water, mountains or forests. However, they take additional damage from archers.`,
+      icon: icons.dragonRider,
     };
 
     this.banditEncounters = false;

@@ -77,6 +77,15 @@ class Unit {
     strokeWeight(4);
     ellipseMode(CORNER);
     ellipse(this.x, this.y, grid.squareSize);
+
+    imageMode(CENTER);
+    image(
+      this.info.icon,
+      this.x + grid.squareSize / 2,
+      this.y + grid.squareSize / 2,
+      grid.squareSize / 1.75,
+      grid.squareSize / 1.75
+    );
     pop();
 
     //  Attack icon
@@ -105,16 +114,6 @@ class Unit {
       this.y + grid.squareSize / 2 - grid.squareSize / 3,
       grid.squareSize / 3,
       grid.squareSize / 3
-    );
-
-    //  Name text
-    fill(0);
-    textAlign(CENTER, CENTER);
-    textSize(grid.squareSize / 4);
-    text(
-      this.info.type,
-      this.x + grid.squareSize / 2,
-      this.y + grid.squareSize / 2
     );
 
     //  Attack text
@@ -294,6 +293,14 @@ class Unit {
   displayAttack() {
     if (this.attackable.up && this.controllable) {
       push();
+      rectMode(CENTER);
+      fill(colors.attack.r, colors.attack.g, colors.attack.b, colors.attack.a);
+      rect(
+        this.x + grid.squareSize / 2,
+        this.y + grid.squareSize / 2 - grid.squareSize,
+        grid.squareSize,
+        grid.squareSize
+      );
       imageMode(CENTER);
       image(
         icons.attackable,
@@ -307,6 +314,14 @@ class Unit {
 
     if (this.attackable.down && this.controllable) {
       push();
+      rectMode(CENTER);
+      fill(colors.attack.r, colors.attack.g, colors.attack.b, colors.attack.a);
+      rect(
+        this.x + grid.squareSize / 2,
+        this.y + grid.squareSize / 2 + grid.squareSize,
+        grid.squareSize,
+        grid.squareSize
+      );
       imageMode(CENTER);
       image(
         icons.attackable,
@@ -320,6 +335,14 @@ class Unit {
 
     if (this.attackable.left && this.controllable) {
       push();
+      rectMode(CENTER);
+      fill(colors.attack.r, colors.attack.g, colors.attack.b, colors.attack.a);
+      rect(
+        this.x + grid.squareSize / 2 - grid.squareSize,
+        this.y + grid.squareSize / 2,
+        grid.squareSize,
+        grid.squareSize
+      );
       imageMode(CENTER);
       image(
         icons.attackable,
@@ -333,6 +356,14 @@ class Unit {
 
     if (this.attackable.right && this.controllable) {
       push();
+      rectMode(CENTER);
+      fill(colors.attack.r, colors.attack.g, colors.attack.b, colors.attack.a);
+      rect(
+        this.x + grid.squareSize / 2 + grid.squareSize,
+        this.y + grid.squareSize / 2,
+        grid.squareSize,
+        grid.squareSize
+      );
       imageMode(CENTER);
       image(
         icons.attackable,
@@ -455,7 +486,7 @@ class Unit {
       this.x === this.destinationX &&
       this.y === this.destinationY
     ) {
-      fill(255, 0, 0, 150);
+      fill(colors.move.r, colors.move.g, colors.move.b, colors.move.a);
       noStroke();
 
       if (this.movable.up) {

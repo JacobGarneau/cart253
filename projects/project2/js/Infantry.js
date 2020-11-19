@@ -4,6 +4,7 @@ class Infantry extends Unit {
     this.info = {
       type: `Infantry`,
       description: `Standard foot soldiers. With well-rounded stats and high versatility, infantry is the bread and butter of any army.`,
+      icon: icons.infantry,
     };
 
     this.stats = {

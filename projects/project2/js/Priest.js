@@ -4,6 +4,7 @@ class Priest extends Unit {
     this.info = {
       type: `Priests`,
       description: `Servants of God blessed with divine power. Priests have average offense and high defense and can heal ally units from up to 2 squares away.`,
+      icon: icons.priest,
     };
 
     this.stats = {
@@ -54,6 +55,14 @@ class Priest extends Unit {
   displayHealing() {
     if (this.healable.up && this.controllable) {
       push();
+      rectMode(CENTER);
+      fill(colors.heal.r, colors.heal.g, colors.heal.b, colors.heal.a);
+      rect(
+        this.x + grid.squareSize / 2,
+        this.y + grid.squareSize / 2 - grid.squareSize,
+        grid.squareSize,
+        grid.squareSize
+      );
       imageMode(CENTER);
       image(
         icons.healable,
@@ -67,6 +76,14 @@ class Priest extends Unit {
 
     if (this.healable.down && this.controllable) {
       push();
+      rectMode(CENTER);
+      fill(colors.heal.r, colors.heal.g, colors.heal.b, colors.heal.a);
+      rect(
+        this.x + grid.squareSize / 2,
+        this.y + grid.squareSize / 2 + grid.squareSize,
+        grid.squareSize,
+        grid.squareSize
+      );
       imageMode(CENTER);
       image(
         icons.healable,
@@ -80,6 +97,14 @@ class Priest extends Unit {
 
     if (this.healable.left && this.controllable) {
       push();
+      rectMode(CENTER);
+      fill(colors.heal.r, colors.heal.g, colors.heal.b, colors.heal.a);
+      rect(
+        this.x + grid.squareSize / 2 - grid.squareSize,
+        this.y + grid.squareSize / 2,
+        grid.squareSize,
+        grid.squareSize
+      );
       imageMode(CENTER);
       image(
         icons.healable,
@@ -93,6 +118,14 @@ class Priest extends Unit {
 
     if (this.healable.right && this.controllable) {
       push();
+      rectMode(CENTER);
+      fill(colors.heal.r, colors.heal.g, colors.heal.b, colors.heal.a);
+      rect(
+        this.x + grid.squareSize / 2 + grid.squareSize,
+        this.y + grid.squareSize / 2,
+        grid.squareSize,
+        grid.squareSize
+      );
       imageMode(CENTER);
       image(
         icons.healable,
