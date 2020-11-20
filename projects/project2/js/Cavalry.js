@@ -5,6 +5,8 @@ class Cavalry extends Unit {
       type: `Cavalry`,
       description: `Mounted units with high mobility. Cavalry has high offense and average defense and can still move after attacking.`,
       icon: icons.cavalry,
+      iconAlt: icons.cavalryAlt,
+      cost: 100,
     };
 
     this.stats = {

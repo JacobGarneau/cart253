@@ -2,9 +2,11 @@ class Heavy extends Unit {
   constructor(xPos, yPos, team) {
     super(xPos, yPos, team);
     this.info = {
-      type: `Heavy Infantry`,
+      type: `Heavies`,
       description: `Infantry clad in heavy armor. Heavy units have low offense but very high defense and reduce the damage of all received attacks by 1.`,
       icon: icons.heavy,
+      iconAlt: icons.heavyAlt,
+      cost: 100,
     };
 
     this.stats = {

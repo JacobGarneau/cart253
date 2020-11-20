@@ -5,6 +5,8 @@ class Mage extends Unit {
       type: `Mages`,
       description: `Powerful practitioners of the arcane arts. Mages have high offense and low defense and can attack from 2 squares away. Their attacks ignore Heavy units’ damage reduction.`,
       icon: icons.mage,
+      iconAlt: icons.mageAlt,
+      cost: 100,
     };
 
     this.stats = {

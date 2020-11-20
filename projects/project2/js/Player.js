@@ -2,6 +2,18 @@ class Player {
   constructor() {
     this.currency = 500;
     this.lords = 3;
+    this.buyable = [];
+
+    for (let i = 0; i < unitTypes.length; i++) {
+      if (
+        unitTypes[i].info.type === `Infantry` ||
+        unitTypes[i].info.type === `Cavalry` ||
+        unitTypes[i].info.type === `Archers` ||
+        unitTypes[i].info.type === `Heavies`
+      ) {
+        this.buyable.push(unitTypes[i]);
+      }
+    }
 
     this.gender = `male`;
     if (this.gender === `male`) {

@@ -18,7 +18,8 @@ let grid = {
 
 let menuHeight = 120;
 let marginX;
-
+let fontReg;
+let fontBold;
 let menu;
 
 let colors = {
@@ -103,8 +104,10 @@ let lastNames = [
 let unitAmount = 1;
 let units = [];
 let unitSpeed = 8;
+let unitTypes = [];
 
-let selectionActive;
+let selectionActive = false;
+let overlayActive = false;
 
 let tiles = [];
 let tileTypes = [
@@ -123,6 +126,10 @@ let currentTurn = 2; // 1 (player1), 2 (player2)
 let state = `game`; //  title, game, player1, player2, ending
 
 function preload() {
+  //  Load the font
+  fontReg = loadFont("assets/fonts/Roboto-Regular.ttf");
+  fontBold = loadFont("assets/fonts/Roboto-Bold.ttf");
+
   //  Load generic icons
   icons.offense = loadImage(`assets/images/offense.svg`);
   icons.defense = loadImage(`assets/images/defense.svg`);
@@ -137,8 +144,17 @@ function preload() {
   icons.heavy = loadImage(`assets/images/heavy.svg`);
   icons.mage = loadImage(`assets/images/mage.svg`);
   icons.priest = loadImage(`assets/images/priest.svg`);
-  icons.dragonRider = loadImage(`assets/images/dragon.svg`);
+  icons.dragon = loadImage(`assets/images/dragon.svg`);
   icons.lord = loadImage(`assets/images/lord.svg`);
+
+  //  Load alternate unit icons
+  icons.infantryAlt = loadImage(`assets/images/infantry-alt.svg`);
+  icons.cavalryAlt = loadImage(`assets/images/cavalry-alt.svg`);
+  icons.archerAlt = loadImage(`assets/images/archer-alt.svg`);
+  icons.heavyAlt = loadImage(`assets/images/heavy-alt.svg`);
+  icons.mageAlt = loadImage(`assets/images/mage-alt.svg`);
+  icons.priestAlt = loadImage(`assets/images/priest-alt.svg`);
+  icons.dragonAlt = loadImage(`assets/images/dragon-alt.svg`);
 
   //  Load terrain icons
   icons.water = loadImage(`assets/images/water.svg`);
@@ -151,7 +167,28 @@ function preload() {
 // Description of setup() goes here.
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  menuHeight = dyn(120);
 
+  //  Determine all possible unit types
+  let infantry = new Infantry(0, 0, 0);
+  let cavalry = new Cavalry(0, 0, 0);
+  let archer = new Archer(0, 0, 0);
+  let heavy = new Heavy(0, 0, 0);
+  let mage = new Mage(0, 0, 0);
+  let priest = new Priest(0, 0, 0);
+  let dragonRider = new DragonRider(0, 0, 0);
+  let lord = new Lord(0, 0, 0);
+
+  unitTypes.push(infantry);
+  unitTypes.push(cavalry);
+  unitTypes.push(archer);
+  unitTypes.push(heavy);
+  unitTypes.push(mage);
+  unitTypes.push(priest);
+  unitTypes.push(dragonRider);
+  unitTypes.push(lord);
+
+  //  Create the grid and its dimensions
   grid.squareSize = (windowHeight - menuHeight) / grid.height;
   grid.width = Math.floor(windowWidth / grid.squareSize);
   marginX = (windowWidth - grid.width * grid.squareSize) / 2;
@@ -162,7 +199,7 @@ function setup() {
     players.push(player);
   }
 
-  //  Create the units
+  //  Create the starting units for each player
   for (let i = 0; i < unitAmount; i++) {
     let priest = new Priest(i * 3 + 5, i * 3 + 4, 1);
     let cavalry = new Cavalry(i * 3 + 4, i * 3 + 3, 1);
@@ -264,7 +301,16 @@ function game() {
     }
   }
 
+  if (overlayActive) {
+    push();
+    fill(0, 0, 0, 127);
+    rect(0, 0, width, height);
+    pop();
+  }
   menu.display();
+  if (menu.shopOpen !== 0) {
+    menu.displayShop();
+  }
 }
 
 function selectSquare(value) {
@@ -288,6 +334,35 @@ function changeTurns(player) {
 function mouseClicked() {
   //  Detect menu button clicks
 
+  //  Buy
+  let dBuyX1 = dist(mouseX, 0, dyn(580), 0);
+  let dBuyX2 = dist(mouseX, 0, width - dyn(580), 0);
+  let dBuyY = dist(0, mouseY, 0, menuHeight / 2 + dyn(15));
+
+  if (
+    dBuyX1 < dyn(30) &&
+    dBuyY < dyn(16) &&
+    menu.shopOpen === 0 &&
+    currentTurn === 1
+  ) {
+    menu.shopOpen = 1;
+    overlayActive = true;
+  } else if (
+    dBuyX2 < dyn(30) &&
+    dBuyY < dyn(16) &&
+    menu.shopOpen === 0 &&
+    currentTurn === 2
+  ) {
+    menu.shopOpen = 2;
+    overlayActive = true;
+  } else if (
+    (dBuyX1 < dyn(30) && dBuyY < dyn(16) && menu.shopOpen !== 0) ||
+    (dBuyX2 < dyn(30) && dBuyY < dyn(16) && menu.shopOpen !== 0)
+  ) {
+    menu.shopOpen = 0;
+    overlayActive = false;
+  }
+
   //  End turn
   let dEndTurnX = dist(mouseX, 0, menu.endTurn.x, 0);
   let dEndTurnY = dist(0, mouseY, 0, menu.endTurn.y);
@@ -304,6 +379,8 @@ function mouseClicked() {
     } else if (currentTurn === 2) {
       changeTurns(1);
     }
+    menu.shopOpen = 0;
+    overlayActive = false;
   }
 
   //  Detect unit interaction clicks
