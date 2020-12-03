@@ -356,8 +356,8 @@ function mouseClicked() {
     menu.shopOpen = 2;
     overlayActive = true;
   } else if (
-    (dBuyX1 < dyn(30) && dBuyY < dyn(16) && menu.shopOpen !== 0) ||
-    (dBuyX2 < dyn(30) && dBuyY < dyn(16) && menu.shopOpen !== 0)
+    (dBuyX1 < dyn(30) && dBuyY < dyn(16) && menu.shopOpen === 1) ||
+    (dBuyX2 < dyn(30) && dBuyY < dyn(16) && menu.shopOpen === 2)
   ) {
     menu.shopOpen = 0;
     overlayActive = false;
