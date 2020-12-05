@@ -22,6 +22,8 @@ let fontReg;
 let fontBold;
 let menu;
 
+let river;
+
 let colors = {
   blue: {
     r: 85,
@@ -119,7 +121,6 @@ let tileTypes = [
   `forest`,
   `forest`,
   `mountains`,
-  `water`,
 ];
 let banditChance = 25;
 let currentTurn = 2; // 1 (player1), 2 (player2)
@@ -232,6 +233,9 @@ function setup() {
       tiles.push(tile);
     }
   }
+
+  //  Create the river
+  river = new River();
 
   //  Create the menu
   menu = new Menu();
