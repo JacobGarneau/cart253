@@ -1,8 +1,8 @@
 class Road {
   constructor() {
-    this.randomY = Math.floor(random(0, grid.width / 3));
-    this.yStart = selectSquare(this.randomY + grid.width / 3 + 1);
-    this.xStart = 10;
+    this.randomY = Math.floor(random(0, grid.height / 3));
+    this.yStart = selectSquare(this.randomY + grid.height / 3 + 2);
+    this.xStart = 10 + 2 * grid.squareSize;
     this.xCurrent = this.xStart;
     this.yCurrent = this.yStart;
 
@@ -14,15 +14,14 @@ class Road {
     let lastDirection;
     let straightness = 2;
 
-    for (let i = 0; i < grid.height * 6; i++) {
-      if (roadX < grid.height) {
+    for (let i = 0; i < grid.width * 6; i++) {
+      if (roadX < grid.width - 6) {
         let direction;
 
         if (
-          this.xCurrent - grid.squareSize >
-            (grid.width / 3) * grid.squareSize &&
-          this.xCurrent + grid.squareSize <
-            (grid.width / 3) * 2 * grid.squareSize
+          this.yCurrent - grid.squareSize > selectSquare(grid.height / 3 + 2) &&
+          this.yCurrent + grid.squareSize <
+            selectSquare((grid.height / 3) * 2 + 2)
         ) {
           if (lastDirection === `up`) {
             direction = random([`straight`, `straight`, `up`, `up`]);
@@ -32,8 +31,8 @@ class Road {
             direction = random([`straight`, `straight`, `down`, `up`]);
           }
         } else if (
-          this.xCurrent - grid.squareSize <=
-          selectSquare(grid.width / 3 + 1)
+          this.yCurrent - grid.squareSize <=
+          selectSquare(grid.height / 3 + 2)
         ) {
           if (lastDirection === `up`) {
             direction = `straight`;
@@ -41,8 +40,8 @@ class Road {
             direction = random([`straight`, `straight`, `down`, `down`]);
           }
         } else if (
-          this.xCurrent + grid.squareSize >=
-          selectSquare((grid.width / 3) * 2 + 1)
+          this.yCurrent + grid.squareSize >=
+          selectSquare((grid.height / 3) * 2 + 2)
         ) {
           if (lastDirection === `down`) {
             direction = `straight`;
@@ -72,15 +71,20 @@ class Road {
           straightness = 2;
           this.drawRoad();
         }
+        console.log(lastDirection);
       }
     }
   }
 
   drawRoad() {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < tiles.length; i++) {
       let d = dist(this.xCurrent, this.yCurrent, tiles[i].x, tiles[i].y);
       if (d + 1 < grid.squareSize / 2) {
-        tiles[i].type = `road`;
+        if (tiles[i].type === `water`) {
+          tiles[i].type = `bridge`;
+        } else {
+          tiles[i].type = `road`;
+        }
       }
     }
   }

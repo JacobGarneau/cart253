@@ -77,7 +77,7 @@ class River {
   }
 
   drawRiver() {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < tiles.length; i++) {
       let d = dist(this.xCurrent, this.yCurrent, tiles[i].x, tiles[i].y);
       if (d + 1 < grid.squareSize / 2) {
         tiles[i].type = `water`;

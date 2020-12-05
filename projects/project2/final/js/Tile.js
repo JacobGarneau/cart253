@@ -22,10 +22,16 @@ class Tile {
       this.icon = icons.water;
     } else if (this.type === `road`) {
       fill(222, 207, 189);
+    } else if (this.type === `bridge`) {
+      fill(147, 135, 120);
     }
     rect(this.x, this.y, grid.squareSize, grid.squareSize);
 
-    if (this.type !== `plains`) {
+    if (
+      this.type !== `plains` &&
+      this.type !== `road` &&
+      this.type !== `bridge`
+    ) {
       push();
       imageMode(CENTER);
       image(
