@@ -21,8 +21,8 @@ let marginX;
 let fontReg;
 let fontBold;
 let menu;
-
 let river;
+let road;
 
 let colors = {
   blue: {
@@ -34,6 +34,11 @@ let colors = {
     r: 255,
     g: 85,
     b: 85,
+  },
+  purple: {
+    r: 253,
+    g: 130,
+    b: 233,
   },
   move: {
     r: 245,
@@ -108,6 +113,8 @@ let units = [];
 let unitSpeed = 8;
 let unitTypes = [];
 
+let structures = [];
+
 let selectionActive = false;
 let overlayActive = false;
 
@@ -161,6 +168,12 @@ function preload() {
   icons.water = loadImage(`assets/images/water.svg`);
   icons.forest = loadImage(`assets/images/forest.svg`);
   icons.mountains = loadImage(`assets/images/mountains.svg`);
+
+  //  Load structure icons
+  icons.castle = loadImage(`assets/images/castle.svg`);
+  icons.church = loadImage(`assets/images/church.svg`);
+  icons.tower = loadImage(`assets/images/tower.svg`);
+  icons.lair = loadImage(`assets/images/lair.svg`);
 }
 
 // setup()
@@ -200,7 +213,7 @@ function setup() {
     players.push(player);
   }
 
-  //  Create the starting units for each player
+  // Create the starting units for each player
   for (let i = 0; i < unitAmount; i++) {
     let priest = new Priest(i * 3 + 5, i * 3 + 4, 1);
     let cavalry = new Cavalry(i * 3 + 4, i * 3 + 3, 1);
@@ -243,6 +256,53 @@ function setup() {
 
   //  Create the road
   road = new Road();
+
+  //  Create the structures
+  castleBlue = new Structure(`castle`, 1);
+  castleRed = new Structure(`castle`, 2);
+  church = new Structure(`church`, 3);
+  tower = new Structure(`tower`, 3);
+  lair = new Structure(`lair`, 3);
+
+  structures.push(castleBlue);
+  structures.push(castleRed);
+  structures.push(church);
+  structures.push(tower);
+  structures.push(lair);
+
+  //  Create the lords
+  for (let i = 0; i < 6; i++) {
+    console.log(`for`);
+    let blueX;
+    let blueY;
+    let redX;
+    let redY;
+    for (let j = 0; j < tiles.length; j++) {
+      if (tiles[j].type === `castle` && tiles[j].structureTeam === 1) {
+        blueX = tiles[j].squareX;
+        blueY = tiles[j].squareY;
+      } else if (tiles[j].type === `castle` && tiles[j].structureTeam === 2) {
+        console.log(tiles[j].type);
+        redX = tiles[j].squareX;
+        redY = tiles[j].squareY;
+      }
+      console.log(`redX: ` + redX);
+    }
+    if (i === 0) {
+      let lord = new Lord(blueX + 1, blueY, 1);
+    } else if (i === 1) {
+      let lord = new Lord(blueX, blueY + 1, 1);
+    } else if (i === 2) {
+      let lord = new Lord(blueX, blueY - 1, 1);
+    } else if (i === 3) {
+      let lord = new Lord(redX + 1, redY, 1);
+    } else if (i === 4) {
+      let lord = new Lord(redX, redY + 1, 1);
+    } else if (i === 5) {
+      let lord = new Lord(redX, redY - 1, 1);
+    }
+    units.push(lord);
+  }
 }
 
 //  Convert inputted numbers into a value that fits the size of the screen
@@ -284,6 +344,11 @@ function game() {
   //  Draw the grid
   for (let i = 0; i < tiles.length; i++) {
     tiles[i].display();
+  }
+
+  //  Draw the structures
+  for (let i = 0; i < structures.length; i++) {
+    structures[i].display();
   }
 
   //  Draw the units

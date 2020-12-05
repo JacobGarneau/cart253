@@ -12,8 +12,8 @@ class Priest extends Unit {
     this.stats = {
       movement: 3,
       currentMovement: 3,
-      maxAttack: 2,
-      attack: 2,
+      maxAttack: 3,
+      attack: 3,
       maxDefense: 4,
       defense: 4,
       healing: 3,

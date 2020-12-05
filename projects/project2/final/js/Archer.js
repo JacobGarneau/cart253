@@ -12,8 +12,8 @@ class Archer extends Unit {
     this.stats = {
       movement: 3,
       currentMovement: 3,
-      maxAttack: 5,
-      attack: 5,
+      maxAttack: 4,
+      attack: 4,
       maxDefense: 3,
       defense: 3,
       magical: false,

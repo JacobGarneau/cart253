@@ -1,8 +1,11 @@
 class Tile {
   constructor(x, y, type) {
+    this.squareX;
+    this.squareY;
     this.x = selectSquare(x + 1) + marginX;
     this.y = selectSquare(y + 1) + menuHeight;
     this.type = type;
+    this.structureTeam;
     this.occupied = 0; //  0 (no unit), 1 (player1 unit), 2 (player2 unit), 3 (neutral unit)
     this.icon;
   }
@@ -24,6 +27,18 @@ class Tile {
       fill(222, 207, 189);
     } else if (this.type === `bridge`) {
       fill(147, 135, 120);
+    } else if (this.type === `castle`) {
+      this.icon = icons.castle;
+      this.defineStructure();
+    } else if (this.type === `church`) {
+      this.icon = icons.church;
+      this.defineStructure();
+    } else if (this.type === `tower`) {
+      this.icon = icons.tower;
+      this.defineStructure();
+    } else if (this.type === `lair`) {
+      this.icon = icons.lair;
+      this.defineStructure();
     }
     rect(this.x, this.y, grid.squareSize, grid.squareSize);
 
@@ -43,5 +58,18 @@ class Tile {
       );
       pop();
     }
+  }
+
+  defineStructure() {
+    if (this.structureTeam === 1) {
+      fill(colors.blue.r, colors.blue.g, colors.blue.b);
+    } else if (this.structureTeam === 2) {
+      fill(colors.red.r, colors.red.g, colors.red.b);
+    } else if (this.structureTeam === 3) {
+      fill(colors.purple.r, colors.purple.g, colors.purple.b);
+    }
+
+    this.squareX = this.x / grid.squareSize + 1 - marginX;
+    this.squareY = this.y / grid.squareSize + 1 - menuHeight;
   }
 }

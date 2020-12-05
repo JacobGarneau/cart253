@@ -71,7 +71,6 @@ class Road {
           straightness = 2;
           this.drawRoad();
         }
-        console.log(lastDirection);
       }
     }
   }
