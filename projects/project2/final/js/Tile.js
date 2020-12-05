@@ -20,6 +20,8 @@ class Tile {
     } else if (this.type === `water`) {
       fill(58, 193, 222);
       this.icon = icons.water;
+    } else if (this.type === `road`) {
+      fill(222, 207, 189);
     }
     rect(this.x, this.y, grid.squareSize, grid.squareSize);
 

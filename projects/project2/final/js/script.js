@@ -234,12 +234,15 @@ function setup() {
     }
   }
 
-  //  Create the river
-  river = new River();
-
   //  Create the menu
   menu = new Menu();
   changeTurns(1);
+
+  //  Create the river
+  river = new River();
+
+  //  Create the road
+  road = new Road();
 }
 
 //  Convert inputted numbers into a value that fits the size of the screen
