@@ -214,29 +214,29 @@ function setup() {
   }
 
   // Create the starting units for each player
-  for (let i = 0; i < unitAmount; i++) {
-    let priest = new Priest(i * 3 + 5, i * 3 + 4, 1);
-    let cavalry = new Cavalry(i * 3 + 4, i * 3 + 3, 1);
-    let mage = new Mage(i * 3 + 3, i * 3 + 2, 1);
-    let infantry = new Infantry(i * 3 + 2, i * 3 + 1, 1);
-
-    units.push(priest);
-    units.push(cavalry);
-    units.push(mage);
-    units.push(infantry);
-  }
-
-  for (let i = 0; i < unitAmount; i++) {
-    let archer = new Archer(i * 3 + 5, i * 3 + 7, 2);
-    let heavy = new Heavy(i * 3 + 4, i * 3 + 6, 2);
-    let dragonRider = new DragonRider(i * 3 + 3, i * 3 + 5, 2);
-    let infantry = new Infantry(i * 3 + 2, i * 3 + 4, 2);
-
-    units.push(archer);
-    units.push(heavy);
-    units.push(dragonRider);
-    units.push(infantry);
-  }
+  // for (let i = 0; i < unitAmount; i++) {
+  //   let priest = new Priest(i * 3 + 5, i * 3 + 4, 1);
+  //   let cavalry = new Cavalry(i * 3 + 4, i * 3 + 3, 1);
+  //   let mage = new Mage(i * 3 + 3, i * 3 + 2, 1);
+  //   let infantry = new Infantry(i * 3 + 2, i * 3 + 1, 1);
+  //
+  //   units.push(priest);
+  //   units.push(cavalry);
+  //   units.push(mage);
+  //   units.push(infantry);
+  // }
+  //
+  // for (let i = 0; i < unitAmount; i++) {
+  //   let archer = new Archer(i * 3 + 5, i * 3 + 7, 2);
+  //   let heavy = new Heavy(i * 3 + 4, i * 3 + 6, 2);
+  //   let dragonRider = new DragonRider(i * 3 + 3, i * 3 + 5, 2);
+  //   let infantry = new Infantry(i * 3 + 2, i * 3 + 4, 2);
+  //
+  //   units.push(archer);
+  //   units.push(heavy);
+  //   units.push(dragonRider);
+  //   units.push(infantry);
+  // }
 
   //  Create the grid
   for (let i = 0; i < grid.width; i++) {
@@ -271,38 +271,38 @@ function setup() {
   structures.push(lair);
 
   //  Create the lords
-  for (let i = 0; i < 6; i++) {
-    console.log(`for`);
-    let blueX;
-    let blueY;
-    let redX;
-    let redY;
-    for (let j = 0; j < tiles.length; j++) {
-      if (tiles[j].type === `castle` && tiles[j].structureTeam === 1) {
-        blueX = tiles[j].squareX;
-        blueY = tiles[j].squareY;
-      } else if (tiles[j].type === `castle` && tiles[j].structureTeam === 2) {
-        console.log(tiles[j].type);
-        redX = tiles[j].squareX;
-        redY = tiles[j].squareY;
-      }
-      console.log(`redX: ` + redX);
-    }
-    if (i === 0) {
-      let lord = new Lord(blueX + 1, blueY, 1);
-    } else if (i === 1) {
-      let lord = new Lord(blueX, blueY + 1, 1);
-    } else if (i === 2) {
-      let lord = new Lord(blueX, blueY - 1, 1);
-    } else if (i === 3) {
-      let lord = new Lord(redX + 1, redY, 1);
-    } else if (i === 4) {
-      let lord = new Lord(redX, redY + 1, 1);
-    } else if (i === 5) {
-      let lord = new Lord(redX, redY - 1, 1);
-    }
-    units.push(lord);
-  }
+  // for (let i = 0; i < 6; i++) {
+  //   console.log(`for`);
+  //   let blueX;
+  //   let blueY;
+  //   let redX;
+  //   let redY;
+  //   for (let j = 0; j < tiles.length; j++) {
+  //     if (tiles[j].type === `castle` && tiles[j].structureTeam === 1) {
+  //       blueX = tiles[j].squareX;
+  //       blueY = tiles[j].squareY;
+  //     } else if (tiles[j].type === `castle` && tiles[j].structureTeam === 2) {
+  //       console.log(tiles[j].type);
+  //       redX = tiles[j].squareX;
+  //       redY = tiles[j].squareY;
+  //     }
+  //     console.log(`redX: ` + redX);
+  //   }
+  //   if (i === 0) {
+  //     let lord = new Lord(blueX + 1, blueY, 1);
+  //   } else if (i === 1) {
+  //     let lord = new Lord(blueX, blueY + 1, 1);
+  //   } else if (i === 2) {
+  //     let lord = new Lord(blueX, blueY - 1, 1);
+  //   } else if (i === 3) {
+  //     let lord = new Lord(redX + 1, redY, 1);
+  //   } else if (i === 4) {
+  //     let lord = new Lord(redX, redY + 1, 1);
+  //   } else if (i === 5) {
+  //     let lord = new Lord(redX, redY - 1, 1);
+  //   }
+  //   units.push(lord);
+  // }
 }
 
 //  Convert inputted numbers into a value that fits the size of the screen

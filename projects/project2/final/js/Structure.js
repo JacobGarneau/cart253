@@ -4,10 +4,10 @@ class Structure {
     this.team = team;
     if (this.type === `castle`) {
       if (this.team === 1) {
-        this.x = 10 + grid.squareSize;
+        this.x = selectSquare(2 + 1);
         this.y = road.yStart;
       } else if (this.team === 2) {
-        this.x = grid.width * grid.squareSize - (10 + 2 * grid.squareSize);
+        this.x = selectSquare(grid.width);
         this.y = road.yCurrent;
       }
     }
@@ -56,8 +56,14 @@ class Structure {
   display() {
     for (let i = 0; i < tiles.length; i++) {
       if (this.type === `castle`) {
-        let d = dist(this.x, this.y, tiles[i].x, tiles[i].y);
-        if (d + 1 < grid.squareSize * 1.75) {
+        let d = dist(
+          this.x - grid.squareSize,
+          this.y - grid.squareSize / 2.5,
+          tiles[i].x,
+          tiles[i].y
+        );
+
+        if (d < grid.squareSize * 1.75) {
           tiles[i].type = `plains`;
         }
       }
@@ -74,7 +80,12 @@ class Structure {
           tiles[i].structureTeam = this.team;
           i = tiles.length;
         }
-      } else {
+      }
+    }
+
+    for (let i = 0; i < tiles.length; i++) {
+      if (this.type === `castle`) {
+        let d = dist(this.x, this.y, tiles[i].x, tiles[i].y);
         if (d - 1 < grid.squareSize) {
           tiles[i].type = this.type;
           tiles[i].structureTeam = this.team;

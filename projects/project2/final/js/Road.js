@@ -15,7 +15,7 @@ class Road {
     let straightness = 2;
 
     for (let i = 0; i < grid.width * 6; i++) {
-      if (roadX < grid.width - 6) {
+      if (roadX < grid.width - 5) {
         let direction;
 
         if (
