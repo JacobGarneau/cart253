@@ -320,6 +320,7 @@ class Menu {
     this.shopOpen = 0;
     overlayActive = false;
     spawningUnit = purchasedUnit;
+    console.log(spawningUnit);
 
     if (currentTurn === 1 && players[1].currency >= spawningUnit.info.cost) {
       for (let i = 0; i < tiles.length; i++) {

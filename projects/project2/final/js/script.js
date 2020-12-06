@@ -347,14 +347,13 @@ function game() {
   background(0);
   stroke(0, 0, 0, 100);
 
-  for (let i = 0; i < tiles.length; i++) {
-    // console.log(tiles[i].structureTeam);
-  }
-
   //  Draw the grid
   for (let i = 0; i < tiles.length; i++) {
     tiles[i].display();
+  }
 
+  //  Draw the available spawnpoints
+  for (let i = 0; i < tiles.length; i++) {
     if (tiles[i].spawnpoint) {
       tiles[i].displaySpawnpoints();
     }

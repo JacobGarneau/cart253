@@ -84,7 +84,7 @@ class Tile {
   displaySpawnpoints() {
     if (this.tiles.up.occupied === 0 && this.tiles.up.type !== `water`) {
       if (
-        spawningUnit.type === `Cavalry` &&
+        spawningUnit.info.type === `Cavalry` &&
         this.tiles.up.type === `mountains`
       ) {
       } else {
@@ -115,7 +115,7 @@ class Tile {
 
     if (this.tiles.down.occupied === 0 && this.tiles.down.type !== `water`) {
       if (
-        spawningUnit.type === `Cavalry` &&
+        spawningUnit.info.type === `Cavalry` &&
         this.tiles.down.type === `mountains`
       ) {
       } else {
@@ -146,7 +146,7 @@ class Tile {
 
     if (this.tiles.left.occupied === 0 && this.tiles.left.type !== `water`) {
       if (
-        spawningUnit.type === `Cavalry` &&
+        spawningUnit.info.type === `Cavalry` &&
         this.tiles.left.type === `mountains`
       ) {
       } else {
@@ -177,7 +177,7 @@ class Tile {
 
     if (this.tiles.right.occupied === 0 && this.tiles.right.type !== `water`) {
       if (
-        spawningUnit.type === `Cavalry` &&
+        spawningUnit.info.type === `Cavalry` &&
         this.tiles.right.type === `mountains`
       ) {
       } else {
@@ -255,7 +255,7 @@ class Tile {
       up.occupied === 0 &&
       up.type !== `water`
     ) {
-      if (spawningUnit.type === `Cavalry` && up.type === `mountains`) {
+      if (spawningUnit.info.type === `Cavalry` && up.type === `mountains`) {
       } else {
         for (let i = 0; i < tiles.length; i++) {
           let d = dist(tiles[i].x, tiles[i].y, this.x, this.y);
@@ -265,7 +265,6 @@ class Tile {
             tiles[i].x <= this.x + 1 &&
             tiles[i].x >= this.x - 1
           ) {
-            console.log(`up`);
             this.createUnit(tiles[i].x, tiles[i].y);
           }
         }
@@ -281,7 +280,7 @@ class Tile {
       down.occupied === 0 &&
       down.type !== `water`
     ) {
-      if (spawningUnit.type === `Cavalry` && down.type === `mountains`) {
+      if (spawningUnit.info.type === `Cavalry` && down.type === `mountains`) {
       } else {
         for (let i = 0; i < tiles.length; i++) {
           let d = dist(tiles[i].x, tiles[i].y, this.x, this.y);
@@ -291,7 +290,6 @@ class Tile {
             tiles[i].x <= this.x + 1 &&
             tiles[i].x >= this.x - 1
           ) {
-            console.log(`down`);
             this.createUnit(tiles[i].x, tiles[i].y);
           }
         }
@@ -307,7 +305,7 @@ class Tile {
       left.occupied === 0 &&
       left.type !== `water`
     ) {
-      if (spawningUnit.type === `Cavalry` && left.type === `mountains`) {
+      if (spawningUnit.info.type === `Cavalry` && left.type === `mountains`) {
       } else {
         for (let i = 0; i < tiles.length; i++) {
           let d = dist(tiles[i].x, tiles[i].y, this.x, this.y);
@@ -317,7 +315,6 @@ class Tile {
             tiles[i].y <= this.y + 1 &&
             tiles[i].y >= this.y - 1
           ) {
-            console.log(`left`);
             this.createUnit(tiles[i].x, tiles[i].y);
           }
         }
@@ -333,7 +330,7 @@ class Tile {
       right.occupied === 0 &&
       right.type !== `water`
     ) {
-      if (spawningUnit.type === `Cavalry` && right.type === `mountains`) {
+      if (spawningUnit.info.type === `Cavalry` && right.type === `mountains`) {
       } else {
         for (let i = 0; i < tiles.length; i++) {
           let d = dist(tiles[i].x, tiles[i].y, this.x, this.y);
@@ -343,7 +340,6 @@ class Tile {
             tiles[i].y <= this.y + 1 &&
             tiles[i].y >= this.y - 1
           ) {
-            console.log(`right`);
             this.createUnit(tiles[i].x, tiles[i].y);
           }
         }
