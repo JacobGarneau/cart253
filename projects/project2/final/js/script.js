@@ -134,7 +134,7 @@ let tileTypes = [
 ];
 let banditChance = 25;
 let currentTurn = 2; // 1 (player1), 2 (player2)
-let state = `title`; //  title, game, player1, player2, ending
+let state = `game`; //  title, game, player1, player2, ending
 
 function preload() {
   //  Load the font

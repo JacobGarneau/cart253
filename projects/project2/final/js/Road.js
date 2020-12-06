@@ -78,7 +78,7 @@ class Road {
   drawRoad() {
     for (let i = 0; i < tiles.length; i++) {
       let d = dist(this.xCurrent, this.yCurrent, tiles[i].x, tiles[i].y);
-      if (d + 1 < grid.squareSize / 2) {
+      if (d - 1 < grid.squareSize / 2) {
         if (tiles[i].type === `water`) {
           tiles[i].type = `bridge`;
         } else {

@@ -15,7 +15,8 @@ class River {
     let straightness = 2;
 
     for (let i = 0; i < grid.height * 6; i++) {
-      if (riverY < grid.height) {
+      if (riverY < grid.height + 1) {
+        console.log(lastDirection);
         let direction;
 
         if (
@@ -25,9 +26,9 @@ class River {
             (grid.width / 5) * 3 * grid.squareSize
         ) {
           if (lastDirection === `left`) {
-            direction = random([`straight`, `straight`, `left`, `left`]);
+            direction = random([`straight`, `left`]);
           } else if (lastDirection === `right`) {
-            direction = random([`straight`, `straight`, `right`, `right`]);
+            direction = random([`straight`, `right`]);
           } else {
             direction = random([`straight`, `straight`, `right`, `left`]);
           }
@@ -38,7 +39,7 @@ class River {
           if (lastDirection === `left`) {
             direction = `straight`;
           } else {
-            direction = random([`straight`, `straight`, `right`, `right`]);
+            direction = random([`straight`, `right`]);
           }
         } else if (
           this.xCurrent + grid.squareSize >=
@@ -47,7 +48,7 @@ class River {
           if (lastDirection === `right`) {
             direction = `straight`;
           } else {
-            direction = random([`straight`, `straight`, `left`, `left`]);
+            direction = random([`straight`, `left`]);
           }
         }
 
@@ -79,8 +80,9 @@ class River {
   drawRiver() {
     for (let i = 0; i < tiles.length; i++) {
       let d = dist(this.xCurrent, this.yCurrent, tiles[i].x, tiles[i].y);
-      if (d + 1 < grid.squareSize / 2) {
+      if (d - 1 < grid.squareSize) {
         tiles[i].type = `water`;
+        i = tiles.length;
       }
     }
   }
