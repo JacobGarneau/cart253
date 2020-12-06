@@ -16,7 +16,6 @@ class River {
 
     for (let i = 0; i < grid.height * 6; i++) {
       if (riverY < grid.height + 1) {
-        console.log(lastDirection);
         let direction;
 
         if (

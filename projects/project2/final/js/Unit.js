@@ -1,7 +1,7 @@
 class Unit {
   constructor(xPos, yPos, team) {
-    this.x = selectSquare(xPos) + marginX;
-    this.y = selectSquare(yPos) + menuHeight;
+    this.x = xPos + marginX;
+    this.y = yPos + menuHeight;
     this.destinationX = this.x;
     this.destinationY = this.y;
     this.selected = false;

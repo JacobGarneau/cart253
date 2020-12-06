@@ -120,6 +120,9 @@ let redY;
 
 let selectionActive = false;
 let overlayActive = false;
+let shopX;
+let spawningUnit;
+let choosingSpawn = false;
 
 let tiles = [];
 let tileTypes = [
@@ -134,7 +137,7 @@ let tileTypes = [
 ];
 let banditChance = 25;
 let currentTurn = 2; // 1 (player1), 2 (player2)
-let state = `game`; //  title, game, player1, player2, ending
+let state = `title`; //  title, game, player1, player2, ending
 
 function preload() {
   //  Load the font
@@ -229,18 +232,6 @@ function setup() {
   //   units.push(mage);
   //   units.push(infantry);
   // }
-  //
-  // for (let i = 0; i < unitAmount; i++) {
-  //   let archer = new Archer(i * 3 + 5, i * 3 + 7, 2);
-  //   let heavy = new Heavy(i * 3 + 4, i * 3 + 6, 2);
-  //   let dragonRider = new DragonRider(i * 3 + 3, i * 3 + 5, 2);
-  //   let infantry = new Infantry(i * 3 + 2, i * 3 + 4, 2);
-  //
-  //   units.push(archer);
-  //   units.push(heavy);
-  //   units.push(dragonRider);
-  //   units.push(infantry);
-  // }
 
   //  Create the grid
   for (let i = 0; i < grid.width; i++) {
@@ -322,17 +313,29 @@ function start() {
     }
 
     if (i === 0) {
-      lordUnit = new Lord(3, blueLordY, 1);
+      lordUnit = new Lord(selectSquare(3), selectSquare(blueLordY), 1);
     } else if (i === 1) {
-      lordUnit = new Lord(2, blueLordY + 1, 1);
+      lordUnit = new Lord(selectSquare(2), selectSquare(blueLordY + 1), 1);
     } else if (i === 2) {
-      lordUnit = new Lord(2, blueLordY - 1, 1);
+      lordUnit = new Lord(selectSquare(2), selectSquare(blueLordY - 1), 1);
     } else if (i === 3) {
-      lordUnit = new Lord(grid.width - 2, redLordY, 2);
+      lordUnit = new Lord(
+        selectSquare(grid.width - 2),
+        selectSquare(redLordY),
+        2
+      );
     } else if (i === 4) {
-      lordUnit = new Lord(grid.width - 1, redLordY + 1, 2);
+      lordUnit = new Lord(
+        selectSquare(grid.width - 1),
+        selectSquare(redLordY + 1),
+        2
+      );
     } else if (i === 5) {
-      lordUnit = new Lord(grid.width - 1, redLordY - 1, 2);
+      lordUnit = new Lord(
+        selectSquare(grid.width - 1),
+        selectSquare(redLordY - 1),
+        2
+      );
     }
     units.push(lordUnit);
   }
@@ -351,6 +354,10 @@ function game() {
   //  Draw the grid
   for (let i = 0; i < tiles.length; i++) {
     tiles[i].display();
+
+    if (tiles[i].spawnpoint) {
+      tiles[i].displaySpawnpoints();
+    }
   }
 
   //  Draw the structures
@@ -418,10 +425,48 @@ function changeTurns(player) {
   currentTurn = player;
 }
 
-function mouseClicked() {
-  //  Detect menu button clicks
+function mouseMoved() {
+  //  Detect "buy" menu item hover
+  if (menu.shopOpen !== 0) {
+    for (let i = 0; i < players[currentTurn - 1].buyable.length; i++) {
+      let dX = dist(mouseX, 0, shopX, 0);
+      let dY = dist(0, mouseY, 0, menuHeight / 2 + dyn(50) + dyn(96) * (i + 1));
 
-  //  Buy
+      if (
+        dX < dyn(384) + 1 &&
+        mouseX > shopX &&
+        dY < dyn(50) + 1 &&
+        mouseY > menuHeight / 2 + dyn(96) * (i + 1)
+      ) {
+        for (let j = 0; j < players[currentTurn - 1].buyable.length; j++) {
+          players[currentTurn - 1].buyable[j].hovered = false;
+        }
+        players[currentTurn - 1].buyable[i].hovered = true;
+      }
+    }
+  }
+}
+
+function mouseClicked() {
+  //  Detect "buy" menu clicks
+  if (menu.shopOpen !== 0) {
+    for (let i = 0; i < players[currentTurn - 1].buyable.length; i++) {
+      let dX = dist(mouseX, 0, shopX, 0);
+      let dY = dist(0, mouseY, 0, menuHeight / 2 + dyn(50) + dyn(96) * (i + 1));
+
+      if (
+        dX < dyn(384) + 1 &&
+        mouseX > shopX &&
+        dY < dyn(50) + 1 &&
+        mouseY > menuHeight / 2 + dyn(96) * (i + 1) &&
+        players[currentTurn - 1].buyable[i]
+      ) {
+        menu.buyUnit(players[currentTurn - 1].buyable[i]);
+      }
+    }
+  }
+
+  //  Open "buy" menu
   let dBuyX1 = dist(mouseX, 0, dyn(580), 0);
   let dBuyX2 = dist(mouseX, 0, width - dyn(580), 0);
   let dBuyY = dist(0, mouseY, 0, menuHeight / 2 + dyn(15));
@@ -468,6 +513,13 @@ function mouseClicked() {
     }
     menu.shopOpen = 0;
     overlayActive = false;
+  }
+
+  //  Detect unit spawn clicks
+  for (let i = 0; i < tiles.length; i++) {
+    if (choosingSpawn) {
+      tiles[i].spawn();
+    }
   }
 
   //  Detect unit interaction clicks

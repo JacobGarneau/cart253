@@ -193,7 +193,6 @@ class Menu {
   }
 
   displayShop() {
-    let shopX;
     if (this.shopOpen === 1) {
       shopX = dyn(580) - dyn(192);
     } else if (this.shopOpen === 2) {
@@ -222,6 +221,19 @@ class Menu {
 
     //  Display the buyable units
     for (let i = 0; i < players[this.shopOpen - 1].buyable.length; i++) {
+      if (players[this.shopOpen - 1].buyable[i].hovered) {
+        push();
+        if (currentTurn === 1) {
+          fill(colors.blue.r, colors.blue.g, colors.blue.b);
+        } else if (currentTurn === 2) {
+          fill(colors.red.r, colors.red.g, colors.red.b);
+        }
+        noStroke();
+        rectMode(CORNER);
+        rect(shopX, menuHeight / 2 + dyn(96) * (i + 1), dyn(384), dyn(96));
+        pop();
+      }
+
       imageMode(CENTER);
       image(
         players[this.shopOpen - 1].buyable[i].info.iconAlt,
@@ -235,11 +247,19 @@ class Menu {
       fill(0);
       textAlign(LEFT, CENTER);
       textFont(fontBold);
-      text(
-        players[this.shopOpen - 1].buyable[i].info.type,
-        shopX + dyn(90),
-        menuHeight / 2 + dyn(50) + dyn(96) * (i + 1)
-      );
+      if (players[this.shopOpen - 1].buyable[i].info.type === `Dragon Riders`) {
+        text(
+          `Dragon\nRiders`,
+          shopX + dyn(90),
+          menuHeight / 2 + dyn(50) + dyn(96) * (i + 1)
+        );
+      } else {
+        text(
+          players[this.shopOpen - 1].buyable[i].info.type,
+          shopX + dyn(90),
+          menuHeight / 2 + dyn(50) + dyn(96) * (i + 1)
+        );
+      }
 
       //  Unit cost
       textAlign(CENTER, CENTER);
@@ -293,5 +313,25 @@ class Menu {
       );
     }
     pop();
+  }
+
+  buyUnit(purchasedUnit) {
+    console.log("Buy 1 " + purchasedUnit.info.type + " unit");
+    this.shopOpen = 0;
+    overlayActive = false;
+    spawningUnit = purchasedUnit;
+
+    if (players[currentTurn - 1].currency < spawningUnit.info.cost) {
+      alert(`Insufficient funds to purchase this unit`);
+      spawningUnit = undefined;
+    } else {
+      for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i].structureTeam === currentTurn) {
+          tiles[i].checkSurroundings();
+        }
+      }
+
+      choosingSpawn = true;
+    }
   }
 }
