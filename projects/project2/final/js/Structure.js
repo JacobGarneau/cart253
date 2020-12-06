@@ -14,8 +14,6 @@ class Structure {
       }
     }
 
-    console.log(blueY);
-
     if (this.type === `church`) {
       let randomX = random(0, grid.height / 5);
       let randomY = random(0, grid.height / 3);
@@ -85,7 +83,9 @@ class Structure {
           tiles[i].type !== `bridge`
         ) {
           tiles[i].type = this.type;
-          tiles[i].structureTeam = this.team;
+          if (tiles[i].structureTeam === undefined) {
+            tiles[i].structureTeam = this.team;
+          }
           i = tiles.length;
         }
       }
@@ -96,7 +96,9 @@ class Structure {
         let d = dist(this.x, this.y, tiles[i].x, tiles[i].y);
         if (d - 1 < grid.squareSize) {
           tiles[i].type = this.type;
-          tiles[i].structureTeam = this.team;
+          if (tiles[i].structureTeam === undefined) {
+            tiles[i].structureTeam = this.team;
+          }
           i = tiles.length;
         }
       }

@@ -66,6 +66,7 @@ let icons = {
   movement: undefined,
   attackable: undefined,
   healable: undefined,
+  conquest: undefined,
 };
 
 let players = [];
@@ -146,6 +147,7 @@ function preload() {
   icons.movement = loadImage(`assets/images/movement.svg`);
   icons.attackable = loadImage(`assets/images/attackable.svg`);
   icons.healable = loadImage(`assets/images/healable.svg`);
+  icons.conquest = loadImage(`assets/images/conquest.svg`);
 
   //  Load unit icons
   icons.infantry = loadImage(`assets/images/infantry.svg`);
@@ -320,13 +322,13 @@ function start() {
     }
 
     if (i === 0) {
-      lordUnit = new Lord(7, blueLordY, 1);
+      lordUnit = new Lord(3, blueLordY, 1);
     } else if (i === 1) {
       lordUnit = new Lord(2, blueLordY + 1, 1);
     } else if (i === 2) {
       lordUnit = new Lord(2, blueLordY - 1, 1);
     } else if (i === 3) {
-      lordUnit = new Lord(grid.width - 6, redLordY, 2);
+      lordUnit = new Lord(grid.width - 2, redLordY, 2);
     } else if (i === 4) {
       lordUnit = new Lord(grid.width - 1, redLordY + 1, 2);
     } else if (i === 5) {
@@ -368,6 +370,10 @@ function game() {
     if (units[i] instanceof Priest) {
       units[i].checkHealing();
     }
+
+    if (units[i] instanceof Lord) {
+      units[i].checkConquest();
+    }
   }
 
   for (let i = 0; i < units.length; i++) {
@@ -375,6 +381,10 @@ function game() {
 
     if (units[i] instanceof Priest) {
       units[i].displayHealing();
+    }
+
+    if (units[i] instanceof Lord) {
+      units[i].displayConquest();
     }
   }
 
@@ -466,6 +476,10 @@ function mouseClicked() {
 
     if (units[i] instanceof Priest) {
       units[i].heal();
+    }
+
+    if (units[i] instanceof Lord) {
+      units[i].conquer();
     }
 
     let d = dist(
