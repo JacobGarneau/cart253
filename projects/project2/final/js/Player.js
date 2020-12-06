@@ -3,6 +3,7 @@ class Player {
     this.currency = 500;
     this.lords = 3;
     this.buyable = [];
+    this.structures = [`castle`];
 
     for (let i = 0; i < unitTypes.length; i++) {
       if (

@@ -114,6 +114,8 @@ let unitSpeed = 8;
 let unitTypes = [];
 
 let structures = [];
+let blueY;
+let redY;
 
 let selectionActive = false;
 let overlayActive = false;
@@ -269,40 +271,6 @@ function setup() {
   structures.push(church);
   structures.push(tower);
   structures.push(lair);
-
-  //  Create the lords
-  // for (let i = 0; i < 6; i++) {
-  //   console.log(`for`);
-  //   let blueX;
-  //   let blueY;
-  //   let redX;
-  //   let redY;
-  //   for (let j = 0; j < tiles.length; j++) {
-  //     if (tiles[j].type === `castle` && tiles[j].structureTeam === 1) {
-  //       blueX = tiles[j].squareX;
-  //       blueY = tiles[j].squareY;
-  //     } else if (tiles[j].type === `castle` && tiles[j].structureTeam === 2) {
-  //       console.log(tiles[j].type);
-  //       redX = tiles[j].squareX;
-  //       redY = tiles[j].squareY;
-  //     }
-  //     console.log(`redX: ` + redX);
-  //   }
-  //   if (i === 0) {
-  //     let lord = new Lord(blueX + 1, blueY, 1);
-  //   } else if (i === 1) {
-  //     let lord = new Lord(blueX, blueY + 1, 1);
-  //   } else if (i === 2) {
-  //     let lord = new Lord(blueX, blueY - 1, 1);
-  //   } else if (i === 3) {
-  //     let lord = new Lord(redX + 1, redY, 1);
-  //   } else if (i === 4) {
-  //     let lord = new Lord(redX, redY + 1, 1);
-  //   } else if (i === 5) {
-  //     let lord = new Lord(redX, redY - 1, 1);
-  //   }
-  //   units.push(lord);
-  // }
 }
 
 //  Convert inputted numbers into a value that fits the size of the screen
@@ -337,9 +305,36 @@ function title() {
   text(`Press ENTER to play`, width / 2, height / 2 + 120);
 }
 
+function start() {
+  // Create the lords
+  for (let i = 0; i < 6; i++) {
+    let lordUnit;
+    let blueLordY = Math.floor(blueY / grid.squareSize);
+    let redLordY = Math.floor(redY / grid.squareSize);
+    if (i === 0) {
+      lordUnit = new Lord(3, blueLordY, 1);
+    } else if (i === 1) {
+      lordUnit = new Lord(2, blueLordY + 1, 1);
+    } else if (i === 2) {
+      lordUnit = new Lord(2, blueLordY - 1, 1);
+    } else if (i === 3) {
+      lordUnit = new Lord(grid.width - 2, redLordY, 2);
+    } else if (i === 4) {
+      lordUnit = new Lord(grid.width - 1, redLordY + 1, 2);
+    } else if (i === 5) {
+      lordUnit = new Lord(grid.width - 1, redLordY - 1, 2);
+    }
+    units.push(lordUnit);
+  }
+}
+
 function game() {
   background(0);
   stroke(0, 0, 0, 100);
+
+  for (let i = 0; i < tiles.length; i++) {
+    // console.log(tiles[i].structureTeam);
+  }
 
   //  Draw the grid
   for (let i = 0; i < tiles.length; i++) {
@@ -493,6 +488,7 @@ function mouseClicked() {
 
 function keyPressed() {
   if (state === `title` && keyCode === ENTER) {
+    start();
     state = `game`;
   }
 

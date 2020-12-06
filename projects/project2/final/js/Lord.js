@@ -6,8 +6,6 @@ class Lord extends Unit {
       description: `A noble leading his personal guard into battle. Lords have high offense and defense but cannot be purchased, so you should think twice before sending them out on the battlefield. They can capture neutral or enemy structures.`,
       icon: icons.lord,
     };
-    this.x = xPos;
-    this.y = yPos;
 
     this.stats = {
       movement: 3,

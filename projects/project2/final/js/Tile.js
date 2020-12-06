@@ -1,7 +1,5 @@
 class Tile {
   constructor(x, y, type) {
-    this.squareX;
-    this.squareY;
     this.x = selectSquare(x + 1) + marginX;
     this.y = selectSquare(y + 1) + menuHeight;
     this.type = type;
@@ -68,8 +66,5 @@ class Tile {
     } else if (this.structureTeam === 3) {
       fill(colors.purple.r, colors.purple.g, colors.purple.b);
     }
-
-    this.squareX = this.x / grid.squareSize + 1 - marginX;
-    this.squareY = this.y / grid.squareSize + 1 - menuHeight;
   }
 }
