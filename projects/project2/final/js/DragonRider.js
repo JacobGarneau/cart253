@@ -6,7 +6,7 @@ class DragonRider extends Unit {
       description: `Valorous knights mounted on fierce creatures. Dragon Riders have high offense and average defense, can move after attacking and are not hindered by water, mountains or forests. However, they take additional damage from archers.`,
       icon: icons.dragon,
       iconAlt: icons.dragonAlt,
-      cost: 100,
+      cost: 450,
     };
 
     this.banditEncounters = false;

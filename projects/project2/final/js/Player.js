@@ -1,9 +1,10 @@
 class Player {
   constructor() {
-    this.currency = 500;
+    this.currency = 150;
     this.lords = 3;
     this.buyable = [];
     this.structures = [`castle`];
+    this.gender = `male`;
 
     for (let i = 0; i < unitTypes.length; i++) {
       if (
@@ -15,8 +16,9 @@ class Player {
         this.buyable.push(unitTypes[i]);
       }
     }
+  }
 
-    this.gender = `male`;
+  createName() {
     if (this.gender === `male`) {
       this.title = random(maleTitles);
       this.firstName = random(maleFirstNames);

@@ -6,7 +6,7 @@ class Heavy extends Unit {
       description: `Infantry clad in heavy armor. Heavy units have low offense but very high defense and reduce the damage of all received attacks by 1.`,
       icon: icons.heavy,
       iconAlt: icons.heavyAlt,
-      cost: 100,
+      cost: 200,
     };
 
     this.stats = {

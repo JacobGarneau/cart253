@@ -6,7 +6,7 @@ class Priest extends Unit {
       description: `Servants of God blessed with divine power. Priests have average offense and high defense and can heal ally units from up to 2 squares away.`,
       icon: icons.priest,
       iconAlt: icons.priestAlt,
-      cost: 100,
+      cost: 350,
     };
 
     this.stats = {

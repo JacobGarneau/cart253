@@ -618,10 +618,16 @@ class Unit {
 
   checkDefeated() {
     if (this.stats.defense <= 0) {
-      if (this.info.type === `Lord` && this.team === 1) {
-        players[1].lords--;
-      } else if (this.info.type === `Lord` && this.team === 2) {
-        players[0].lords--;
+      if (this.team === 1) {
+        players[0].currency += this.info.cost / 2;
+        if (this.info.type === `Lord`) {
+          players[1].lords--;
+        }
+      } else if (this.team === 2) {
+        players[1].currency += this.info.cost / 2;
+        if (this.info.type === `Lord`) {
+          players[0].lords--;
+        }
       }
 
       this.tiles.current.occupied = 0;

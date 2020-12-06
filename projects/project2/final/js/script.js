@@ -87,10 +87,10 @@ let maleFirstNames = [
   `Hubert`,
 ];
 let femaleFirstNames = [
-  `Elizabeth`,
-  `Hildegarde`,
+  `Lizbeth`,
+  `Hilda`,
   `Mary`,
-  `Malina`,
+  `Marina`,
   `Isabel`,
   `Caitlyn`,
   `Rose`,
@@ -124,6 +124,8 @@ let overlayActive = false;
 let shopX;
 let spawningUnit;
 let choosingSpawn = false;
+let moneyPerTurn = 150;
+let conquestReward = 200;
 
 let tiles = [];
 let tileTypes = [
@@ -142,6 +144,8 @@ let banditDamage = 3;
 let banditTarget = undefined;
 let currentTurn = 2; // 1 (player1), 2 (player2)
 let state = `title`; //  title, game, player1, player2, ending
+let page = `main`; // main, tutorials
+let victor;
 
 function preload() {
   //  Load the font
@@ -157,6 +161,7 @@ function preload() {
   icons.conquest = loadImage(`assets/images/conquest.svg`);
   icons.bandits = loadImage(`assets/images/bandits.svg`);
   icons.pay = loadImage(`assets/images/pay.svg`);
+  icons.victory = loadImage(`assets/images/victory.png`);
 
   //  Load unit icons
   icons.infantry = loadImage(`assets/images/infantry.svg`);
@@ -275,25 +280,109 @@ function draw() {
     title();
   } else if (state === `game`) {
     game();
+  } else if (state === `ending`) {
+    ending();
   }
 }
 
 function title() {
+  if (page === `main`) {
+    drawMain();
+  }
+}
+
+function drawMain() {
   background(0);
+  let p1Y;
+  let p2Y;
+
+  //  Draw the menu text
+  push();
   fill(255);
+  textSize(96);
   textAlign(CENTER, CENTER);
-  textSize(64);
-  text(`This is the project's title`, width / 2, height / 2 - 100);
+  textFont(fontBold);
+  text(`Flames of Conquest`, width / 2, dyn(180));
+
+  fill(255);
   textSize(32);
-  text(
-    `Click on your units to select them and move them with WASD or the arrow keys.`,
-    width / 2,
-    height / 2 + 60
-  );
-  text(`Press ENTER to play`, width / 2, height / 2 + 120);
+  textAlign(CENTER, CENTER);
+  text(`Press ENTER to start`, width / 2, 702);
+
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  fill(colors.blue.r, colors.blue.g, colors.blue.b);
+  text(`Player 1`, width / 2 - dyn(360), 300);
+  fill(colors.red.r, colors.red.g, colors.red.b);
+  text(`Player 2`, width / 2 + dyn(360), 300);
+
+  textSize(24);
+  textAlign(LEFT, CENTER);
+  fill(255);
+  text(`Male`, width / 2 - dyn(360), 375);
+  push();
+  stroke(255);
+  strokeWeight(3);
+  fill(0);
+  ellipse(width / 2 - dyn(420), 377, 24);
+  pop();
+
+  text(`Female`, width / 2 - dyn(360), 417);
+  push();
+  stroke(255);
+  strokeWeight(3);
+  fill(0);
+  ellipse(width / 2 - dyn(420), 419, 24);
+  pop();
+
+  if (players[1].gender === `male`) {
+    p1Y = 377;
+  } else if (players[1].gender === `female`) {
+    p1Y = 419;
+  }
+
+  push();
+  noStroke();
+  fill(colors.blue.r, colors.blue.g, colors.blue.b);
+  ellipse(width / 2 - dyn(420), p1Y, 16);
+  pop();
+
+  text(`Male`, width / 2 + dyn(360), 375);
+  push();
+  stroke(255);
+  strokeWeight(3);
+  fill(0);
+  ellipse(width / 2 + dyn(300), 377, 24);
+  pop();
+  text(`Female`, width / 2 + dyn(360), 417);
+  push();
+  stroke(255);
+  strokeWeight(3);
+  fill(0);
+  ellipse(width / 2 + dyn(300), 419, 24);
+  pop();
+
+  if (players[0].gender === `male`) {
+    p2Y = 377;
+  } else if (players[0].gender === `female`) {
+    p2Y = 419;
+  }
+
+  push();
+  noStroke();
+  fill(colors.red.r, colors.red.g, colors.red.b);
+  ellipse(width / 2 + dyn(300), p2Y, 16);
+  pop();
+
+  pop();
 }
 
 function start() {
+  //  Create the player names
+  for (let i = 0; i < 2; i++) {
+    players[i].createName();
+  }
+
   // Create the lords
   for (let i = 0; i < 6; i++) {
     let lordUnit;
@@ -421,12 +510,50 @@ function changeTurns(player) {
     }
   }
 
+  //  Distribut money per turn
+  if (currentTurn === 1) {
+    players[0].currency += moneyPerTurn;
+  } else {
+    if (currentTurn === 2) {
+      players[1].currency += moneyPerTurn;
+    }
+  }
+
   for (let i = 0; i < tiles.length; i++) {
     tiles[i].spawnpoint = false;
   }
 
   choosingSpawn = false;
   currentTurn = player;
+}
+
+function ending() {
+  background(0);
+
+  imageMode(CENTER);
+  image(icons.victory, width / 2, height / 2);
+
+  if (victor === players[1]) {
+    fill(colors.blue.r, colors.blue.g, colors.blue.b);
+  } else if (victor === players[0]) {
+    fill(colors.red.r, colors.red.g, colors.red.b);
+  }
+  textAlign(CENTER, CENTER);
+  textSize(64);
+  text(`Victory!`, width / 2, height / 2 - 100);
+  fill(255);
+  textSize(32);
+  text(`These lands are now the property of`, width / 2, height / 2 + 60);
+  if (victor === players[1]) {
+    fill(colors.blue.r, colors.blue.g, colors.blue.b);
+  } else if (victor === players[0]) {
+    fill(colors.red.r, colors.red.g, colors.red.b);
+  }
+  text(
+    `${victor.title} ${victor.firstName} ${victor.lastName}`,
+    width / 2,
+    height / 2 + 120
+  );
 }
 
 function mouseMoved() {
@@ -452,6 +579,26 @@ function mouseMoved() {
 }
 
 function mouseClicked() {
+  //  Detect title menu clicks
+  if (state === `title`) {
+    if (page === `main`) {
+      let dM1 = dist(mouseX, mouseY, width / 2 - dyn(420), 377);
+      let dF1 = dist(mouseX, mouseY, width / 2 - dyn(420), 419);
+      let dM2 = dist(mouseX, mouseY, width / 2 + dyn(300), 377);
+      let dF2 = dist(mouseX, mouseY, width / 2 + dyn(300), 419);
+
+      if (dM1 <= 24) {
+        players[1].gender = `male`;
+      } else if (dF1 <= 24) {
+        players[1].gender = `female`;
+      } else if (dM2 <= 24) {
+        players[0].gender = `male`;
+      } else if (dF2 <= 24) {
+        players[0].gender = `female`;
+      }
+    }
+  }
+
   //  Detect "buy" menu clicks
   if (menu.shopOpen !== 0) {
     for (let i = 0; i < players[currentTurn - 1].buyable.length; i++) {

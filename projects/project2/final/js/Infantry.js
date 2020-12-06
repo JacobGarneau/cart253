@@ -6,7 +6,7 @@ class Infantry extends Unit {
       description: `Standard foot soldiers. With well-rounded stats and high versatility, infantry is the bread and butter of any army.`,
       icon: icons.infantry,
       iconAlt: icons.infantryAlt,
-      cost: 100,
+      cost: 150,
     };
 
     this.stats = {

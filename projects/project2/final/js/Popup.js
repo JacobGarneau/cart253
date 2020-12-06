@@ -23,7 +23,7 @@ class Popup {
     text(
       `You are attacked by bandits!\n\nPay the fee or pay with your life!`,
       this.x,
-      this.y - dyn(70)
+      this.y - dyn(80)
     );
     image(
       icons.attackable,

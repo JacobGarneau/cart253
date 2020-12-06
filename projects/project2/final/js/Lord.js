@@ -5,6 +5,7 @@ class Lord extends Unit {
       type: `Lord`,
       description: `A noble leading his personal guard into battle. Lords have high offense and defense but cannot be purchased, so you should think twice before sending them out on the battlefield. They can capture neutral or enemy structures.`,
       icon: icons.lord,
+      cost: 300,
     };
 
     this.stats = {
@@ -321,6 +322,7 @@ class Lord extends Unit {
       if (target.structureTeam === 3) {
         target.structureTeam = 1;
         players[this.team - 1].structures.push(target.type);
+        players[1].currency += conquestReward;
 
         if (target.type === `church`) {
           for (let i = 0; i < unitTypes.length; i++) {
@@ -379,6 +381,7 @@ class Lord extends Unit {
         if (target.structureTeam === 3) {
           target.structureTeam = 2;
           players[this.team - 1].structures.push(target.type);
+          players[0].currency += conquestReward;
 
           if (target.type === `church`) {
             for (let i = 0; i < unitTypes.length; i++) {

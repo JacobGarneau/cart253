@@ -34,7 +34,7 @@ class Menu {
     fill(255);
     textFont(fontBold);
     textSize(dyn(36));
-    text(`The West Marches`, width / 2, menuHeight / 2 - dyn(3));
+    text(`VS`, width / 2, menuHeight / 2 - dyn(16));
 
     push();
     if (currentTurn === 1) {
@@ -102,6 +102,11 @@ class Menu {
       pop();
     }
 
+    if (players[1].lords === 0) {
+      victor = players[0];
+      state = `ending`;
+    }
+
     text(`Currency: ${players[1].currency} $\n\n`, dyn(580), menuHeight / 2);
 
     //  Display Player 1's BUY button
@@ -165,6 +170,11 @@ class Menu {
         dyn(16)
       );
       pop();
+    }
+
+    if (players[0].lords === 0) {
+      victor = players[1];
+      state = `ending`;
     }
 
     text(
