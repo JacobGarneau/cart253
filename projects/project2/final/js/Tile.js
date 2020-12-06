@@ -242,7 +242,7 @@ class Tile {
     }
   }
 
-  spawn() {
+  spawn(up, down, left, right) {
     let dX = dist(mouseX, 0, this.x + grid.squareSize / 2, 0);
     let dY = dist(0, mouseY, 0, this.y + grid.squareSize / 2);
 
@@ -252,13 +252,10 @@ class Tile {
       dX < grid.squareSize * 0.5 &&
       mouseY < this.y &&
       mouseX > this.x &&
-      this.tiles.up.occupied === 0 &&
-      this.tiles.up.type !== `water`
+      up.occupied === 0 &&
+      up.type !== `water`
     ) {
-      if (
-        spawningUnit.type === `Cavalry` &&
-        this.tiles.up.type === `mountains`
-      ) {
+      if (spawningUnit.type === `Cavalry` && up.type === `mountains`) {
       } else {
         for (let i = 0; i < tiles.length; i++) {
           let d = dist(tiles[i].x, tiles[i].y, this.x, this.y);
@@ -268,6 +265,7 @@ class Tile {
             tiles[i].x <= this.x + 1 &&
             tiles[i].x >= this.x - 1
           ) {
+            console.log(`up`);
             this.createUnit(tiles[i].x, tiles[i].y);
           }
         }
@@ -280,13 +278,10 @@ class Tile {
       dX < grid.squareSize * 0.5 &&
       mouseY > this.y &&
       mouseX > this.x &&
-      this.tiles.down.occupied === 0 &&
-      this.tiles.down.type !== `water`
+      down.occupied === 0 &&
+      down.type !== `water`
     ) {
-      if (
-        spawningUnit.type === `Cavalry` &&
-        this.tiles.down.type === `mountains`
-      ) {
+      if (spawningUnit.type === `Cavalry` && down.type === `mountains`) {
       } else {
         for (let i = 0; i < tiles.length; i++) {
           let d = dist(tiles[i].x, tiles[i].y, this.x, this.y);
@@ -296,6 +291,7 @@ class Tile {
             tiles[i].x <= this.x + 1 &&
             tiles[i].x >= this.x - 1
           ) {
+            console.log(`down`);
             this.createUnit(tiles[i].x, tiles[i].y);
           }
         }
@@ -308,13 +304,10 @@ class Tile {
       dY < grid.squareSize * 0.5 &&
       mouseX < this.x &&
       mouseY > this.y &&
-      this.tiles.left.occupied === 0 &&
-      this.tiles.left.type !== `water`
+      left.occupied === 0 &&
+      left.type !== `water`
     ) {
-      if (
-        spawningUnit.type === `Cavalry` &&
-        this.tiles.left.type === `mountains`
-      ) {
+      if (spawningUnit.type === `Cavalry` && left.type === `mountains`) {
       } else {
         for (let i = 0; i < tiles.length; i++) {
           let d = dist(tiles[i].x, tiles[i].y, this.x, this.y);
@@ -324,6 +317,7 @@ class Tile {
             tiles[i].y <= this.y + 1 &&
             tiles[i].y >= this.y - 1
           ) {
+            console.log(`left`);
             this.createUnit(tiles[i].x, tiles[i].y);
           }
         }
@@ -336,13 +330,10 @@ class Tile {
       dY < grid.squareSize * 0.5 &&
       mouseX > this.x &&
       mouseY > this.y &&
-      this.tiles.right.occupied === 0 &&
-      this.tiles.right.type !== `water`
+      right.occupied === 0 &&
+      right.type !== `water`
     ) {
-      if (
-        spawningUnit.type === `Cavalry` &&
-        this.tiles.right.type === `mountains`
-      ) {
+      if (spawningUnit.type === `Cavalry` && right.type === `mountains`) {
       } else {
         for (let i = 0; i < tiles.length; i++) {
           let d = dist(tiles[i].x, tiles[i].y, this.x, this.y);
@@ -352,6 +343,7 @@ class Tile {
             tiles[i].y <= this.y + 1 &&
             tiles[i].y >= this.y - 1
           ) {
+            console.log(`right`);
             this.createUnit(tiles[i].x, tiles[i].y);
           }
         }
@@ -360,10 +352,31 @@ class Tile {
   }
 
   createUnit(x, y) {
-    players[currentTurn - 1].currency -= spawningUnit.info.cost;
+    if (currentTurn === 1) {
+      players[1].currency -= spawningUnit.info.cost;
+    } else if (currentTurn === 2) {
+      players[0].currency -= spawningUnit.info.cost;
+    }
+
     let newUnit;
     if (spawningUnit.info.type === `Infantry`) {
-      newUnit = new Infantry(x, y, currentTurn);
+      newUnit = new Infantry(x - marginX, y - menuHeight, currentTurn);
+    } else if (spawningUnit.info.type === `Cavalry`) {
+      newUnit = new Cavalry(x - marginX, y - menuHeight, currentTurn);
+    } else if (spawningUnit.info.type === `Archers`) {
+      newUnit = new Archer(x - marginX, y - menuHeight, currentTurn);
+    } else if (spawningUnit.info.type === `Heavies`) {
+      newUnit = new Heavy(x - marginX, y - menuHeight, currentTurn);
+    } else if (spawningUnit.info.type === `Mages`) {
+      newUnit = new Mage(x - marginX, y - menuHeight, currentTurn);
+    } else if (spawningUnit.info.type === `Priests`) {
+      newUnit = new Priest(x - marginX, y - menuHeight, currentTurn);
+    } else if (spawningUnit.info.type === `Dragon Riders`) {
+      newUnit = new DragonRider(x - marginX, y - menuHeight, currentTurn);
     }
+
+    units.push(newUnit);
+    choosingSpawn = false;
+    this.spawnpoint = false;
   }
 }

@@ -518,7 +518,19 @@ function mouseClicked() {
   //  Detect unit spawn clicks
   for (let i = 0; i < tiles.length; i++) {
     if (choosingSpawn) {
-      tiles[i].spawn();
+      if (
+        tiles[i].type === `castle` ||
+        tiles[i].type === `church` ||
+        tiles[i].type === `tower` ||
+        tiles[i].type === `lair`
+      ) {
+        tiles[i].spawn(
+          tiles[i].tiles.up,
+          tiles[i].tiles.down,
+          tiles[i].tiles.left,
+          tiles[i].tiles.right
+        );
+      }
     }
   }
 

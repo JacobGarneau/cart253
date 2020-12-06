@@ -34,7 +34,7 @@ class Menu {
     fill(255);
     textFont(fontBold);
     textSize(dyn(36));
-    text(`This is the game's title`, width / 2, menuHeight / 2 - dyn(3));
+    text(`The West Marches`, width / 2, menuHeight / 2 - dyn(3));
 
     push();
     if (currentTurn === 1) {
@@ -321,17 +321,26 @@ class Menu {
     overlayActive = false;
     spawningUnit = purchasedUnit;
 
-    if (players[currentTurn - 1].currency < spawningUnit.info.cost) {
-      alert(`Insufficient funds to purchase this unit`);
-      spawningUnit = undefined;
-    } else {
+    if (currentTurn === 1 && players[1].currency >= spawningUnit.info.cost) {
       for (let i = 0; i < tiles.length; i++) {
         if (tiles[i].structureTeam === currentTurn) {
           tiles[i].checkSurroundings();
         }
       }
-
       choosingSpawn = true;
+    } else if (
+      currentTurn === 2 &&
+      players[0].currency >= spawningUnit.info.cost
+    ) {
+      for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i].structureTeam === currentTurn) {
+          tiles[i].checkSurroundings();
+        }
+      }
+      choosingSpawn = true;
+    } else {
+      alert(`Insufficient funds to purchase this unit`);
+      spawningUnit = undefined;
     }
   }
 }
