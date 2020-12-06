@@ -21,6 +21,7 @@ let marginX;
 let fontReg;
 let fontBold;
 let menu;
+let popup;
 let river;
 let road;
 
@@ -151,6 +152,7 @@ function preload() {
   icons.attackable = loadImage(`assets/images/attackable.svg`);
   icons.healable = loadImage(`assets/images/healable.svg`);
   icons.conquest = loadImage(`assets/images/conquest.svg`);
+  icons.bandits = loadImage(`assets/images/bandits.svg`);
 
   //  Load unit icons
   icons.infantry = loadImage(`assets/images/infantry.svg`);
@@ -220,19 +222,6 @@ function setup() {
     players.push(player);
   }
 
-  // Create the starting units for each player
-  // for (let i = 0; i < unitAmount; i++) {
-  //   let priest = new Priest(i * 3 + 5, i * 3 + 4, 1);
-  //   let cavalry = new Cavalry(i * 3 + 4, i * 3 + 3, 1);
-  //   let mage = new Mage(i * 3 + 3, i * 3 + 2, 1);
-  //   let infantry = new Infantry(i * 3 + 2, i * 3 + 1, 1);
-  //
-  //   units.push(priest);
-  //   units.push(cavalry);
-  //   units.push(mage);
-  //   units.push(infantry);
-  // }
-
   //  Create the grid
   for (let i = 0; i < grid.width; i++) {
     for (let j = 0; j < grid.height; j++) {
@@ -241,6 +230,9 @@ function setup() {
       tiles.push(tile);
     }
   }
+
+  //  Create the popups
+  popup = new Popup();
 
   //  Create the menu
   menu = new Menu();
@@ -403,6 +395,10 @@ function game() {
   menu.display();
   if (menu.shopOpen !== 0) {
     menu.displayShop();
+  }
+
+  if (popup.active === `bandits`) {
+    popup.bandits();
   }
 }
 

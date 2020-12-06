@@ -373,6 +373,8 @@ class Tile {
 
     units.push(newUnit);
     choosingSpawn = false;
-    this.spawnpoint = false;
+    for (let i = 0; i < tiles.length; i++) {
+      tiles[i].spawnpoint = false;
+    }
   }
 }
