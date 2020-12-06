@@ -133,7 +133,7 @@ let tileTypes = [
 ];
 let banditChance = 25;
 let currentTurn = 2; // 1 (player1), 2 (player2)
-let state = `game`; //  title, game, player1, player2, ending
+let state = `title`; //  title, game, player1, player2, ending
 
 function preload() {
   //  Load the font
@@ -251,7 +251,6 @@ function setup() {
 
   //  Create the menu
   menu = new Menu();
-  changeTurns(1);
 
   //  Create the river
   river = new River();
@@ -309,16 +308,25 @@ function start() {
   // Create the lords
   for (let i = 0; i < 6; i++) {
     let lordUnit;
-    let blueLordY = Math.floor(blueY / grid.squareSize);
-    let redLordY = Math.floor(redY / grid.squareSize);
+    let blueLordY;
+    let redLordY;
+
+    if (width > 680) {
+      blueLordY = Math.floor(blueY / grid.squareSize);
+      redLordY = Math.floor(redY / grid.squareSize);
+    } else if (width <= 680) {
+      blueLordY = Math.floor(blueY / grid.squareSize) + 1;
+      redLordY = Math.floor(redY / grid.squareSize) + 1;
+    }
+
     if (i === 0) {
-      lordUnit = new Lord(3, blueLordY, 1);
+      lordUnit = new Lord(7, blueLordY, 1);
     } else if (i === 1) {
       lordUnit = new Lord(2, blueLordY + 1, 1);
     } else if (i === 2) {
       lordUnit = new Lord(2, blueLordY - 1, 1);
     } else if (i === 3) {
-      lordUnit = new Lord(grid.width - 2, redLordY, 2);
+      lordUnit = new Lord(grid.width - 6, redLordY, 2);
     } else if (i === 4) {
       lordUnit = new Lord(grid.width - 1, redLordY + 1, 2);
     } else if (i === 5) {
@@ -326,6 +334,8 @@ function start() {
     }
     units.push(lordUnit);
   }
+
+  changeTurns(1);
 }
 
 function game() {

@@ -11,8 +11,8 @@ class DragonRider extends Unit {
 
     this.banditEncounters = false;
     this.stats = {
-      movement: 5,
-      currentMovement: 5,
+      movement: 4,
+      currentMovement: 4,
       maxAttack: 4,
       attack: 4,
       maxDefense: 4,
