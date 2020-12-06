@@ -137,6 +137,9 @@ let tileTypes = [
   `mountains`,
 ];
 let banditChance = 25;
+let banditFee = 200;
+let banditDamage = 3;
+let banditTarget = undefined;
 let currentTurn = 2; // 1 (player1), 2 (player2)
 let state = `title`; //  title, game, player1, player2, ending
 
@@ -153,6 +156,7 @@ function preload() {
   icons.healable = loadImage(`assets/images/healable.svg`);
   icons.conquest = loadImage(`assets/images/conquest.svg`);
   icons.bandits = loadImage(`assets/images/bandits.svg`);
+  icons.pay = loadImage(`assets/images/pay.svg`);
 
   //  Load unit icons
   icons.infantry = loadImage(`assets/images/infantry.svg`);
@@ -462,6 +466,7 @@ function mouseClicked() {
         players[currentTurn - 1].buyable[i]
       ) {
         menu.buyUnit(players[currentTurn - 1].buyable[i]);
+        popup.active = undefined;
       }
     }
   }
@@ -479,6 +484,7 @@ function mouseClicked() {
   ) {
     menu.shopOpen = 1;
     overlayActive = true;
+    popup.active = `buy`;
   } else if (
     dBuyX2 < dyn(30) &&
     dBuyY < dyn(16) &&
@@ -487,12 +493,14 @@ function mouseClicked() {
   ) {
     menu.shopOpen = 2;
     overlayActive = true;
+    popup.active = `buy`;
   } else if (
     (dBuyX1 < dyn(30) && dBuyY < dyn(16) && menu.shopOpen === 1) ||
     (dBuyX2 < dyn(30) && dBuyY < dyn(16) && menu.shopOpen === 2)
   ) {
     menu.shopOpen = 0;
     overlayActive = false;
+    popup.active = undefined;
   }
 
   //  End turn
@@ -513,6 +521,7 @@ function mouseClicked() {
     }
     menu.shopOpen = 0;
     overlayActive = false;
+    popup.active = undefined;
   }
 
   //  Detect unit spawn clicks
@@ -536,57 +545,78 @@ function mouseClicked() {
 
   //  Detect unit interaction clicks
   for (let i = 0; i < units.length; i++) {
-    units[i].attack();
+    if (popup.active === undefined) {
+      units[i].attack();
 
-    if (units[i] instanceof Priest) {
-      units[i].heal();
-    }
+      if (units[i] instanceof Priest) {
+        units[i].heal();
+      }
 
-    if (units[i] instanceof Lord) {
-      units[i].conquer();
-    }
+      if (units[i] instanceof Lord) {
+        units[i].conquer();
+      }
 
-    let d = dist(
-      units[i].x + grid.squareSize / 2,
-      units[i].y + grid.squareSize / 2,
-      mouseX,
-      mouseY
-    );
-    if (d <= grid.squareSize / 2) {
-      if (units[i].selected) {
-        if (units[i].stats.currentMovement === 0) {
-          units[i].endTurn();
+      let d = dist(
+        units[i].x + grid.squareSize / 2,
+        units[i].y + grid.squareSize / 2,
+        mouseX,
+        mouseY
+      );
+      if (d <= grid.squareSize / 2) {
+        if (units[i].selected) {
+          if (units[i].stats.currentMovement === 0) {
+            units[i].endTurn();
+          }
+          units[i].selected = false;
+          selectionActive = false;
+        } else if (
+          currentTurn === units[i].team &&
+          units[i].tapped === false &&
+          !selectionActive
+        ) {
+          for (let j = 0; j < units.length; j++) {
+            units[j].selected = false;
+          }
+          units[i].selected = true;
+          selectionActive = true;
         }
-        units[i].selected = false;
-        selectionActive = false;
-      } else if (
-        currentTurn === units[i].team &&
-        units[i].tapped === false &&
-        !selectionActive
-      ) {
-        for (let j = 0; j < units.length; j++) {
-          units[j].selected = false;
-        }
-        units[i].selected = true;
-        selectionActive = true;
       }
     }
   }
 }
 
 function keyPressed() {
+  //  Start the game
   if (state === `title` && keyCode === ENTER) {
     start();
     state = `game`;
   }
 
+  //  Move the units
   for (let i = 0; i < units.length; i++) {
     if (
+      popup.active === undefined &&
       units[i].selected &&
       units[i].controllable &&
       units[i].stats.currentMovement > 0
     ) {
       units[i].handleInput(keyCode);
+    }
+  }
+
+  //  Handle bandits
+  if (popup.active === `bandits` && keyCode === 70) {
+    banditTarget.takeDamage(banditDamage, false);
+    banditTarget = undefined;
+    popup.close();
+  } else if (popup.active === `bandits` && keyCode === 80) {
+    if (currentTurn) popup.bandits();
+    if (currentTurn === 1 && players[1].currency >= banditFee) {
+      players[1].currency -= banditFee;
+      popup.close();
+    } else if (currentTurn === 2 && players[0].currency >= banditFee) {
+      players[0].currency -= banditFee;
+      popup.close();
     }
   }
 }

@@ -422,7 +422,8 @@ class Lord extends Unit {
         this.tiles.current.type === `forest` &&
         this.banditEncounters
       ) {
-        alert(`Bandits!`);
+        popup.active = `bandits`;
+        banditTarget = this;
       }
 
       if (this.stats.currentMovement === 0) {

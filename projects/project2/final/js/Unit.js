@@ -303,6 +303,7 @@ class Unit {
         this.banditEncounters
       ) {
         popup.active = `bandits`;
+        banditTarget = this;
       }
 
       if (this.stats.currentMovement === 0) {
