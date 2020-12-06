@@ -421,6 +421,11 @@ function changeTurns(player) {
     }
   }
 
+  for (let i = 0; i < tiles.length; i++) {
+    tiles[i].spawnpoint = false;
+  }
+
+  choosingSpawn = false;
   currentTurn = player;
 }
 
