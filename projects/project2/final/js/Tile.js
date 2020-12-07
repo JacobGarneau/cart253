@@ -90,167 +90,176 @@ class Tile {
   //  displaySpawnpoints()
   //  Displays the available spawpoints for new units
   displaySpawnpoints() {
-    if (
-      (this.tiles.up !== undefined &&
-        this.tiles.up.occupied === 0 &&
-        this.tiles.up.type !== `water` &&
-        this.tiles.up.type !== `castle` &&
-        this.tiles.up.type !== `tower` &&
-        this.tiles.up.type !== `church` &&
-        this.tiles.up.type !== `lair`) ||
-      (spawningUnit.info.type === `Dragon Riders` &&
-        this.tiles.up.type === `water`)
-    ) {
+    if (this.tiles.up !== undefined) {
+      console.log("not undefined");
       if (
-        spawningUnit.info.type === `Cavalry` &&
-        this.tiles.up.type === `mountains`
+        (this.tiles.up.occupied === 0 &&
+          this.tiles.up.type !== `water` &&
+          this.tiles.up.type !== `castle` &&
+          this.tiles.up.type !== `tower` &&
+          this.tiles.up.type !== `church` &&
+          this.tiles.up.type !== `lair`) ||
+        (spawningUnit.info.type === `Dragon Riders` &&
+          this.tiles.up.type === `water`)
       ) {
-      } else {
-        push();
-        rectMode(CENTER);
-        if (currentTurn === 1) {
-          fill(colors.blue.r, colors.blue.g, colors.blue.b, 100);
-        } else if (currentTurn === 2) {
-          fill(colors.red.r, colors.red.g, colors.red.b, 100);
+        if (
+          spawningUnit.info.type === `Cavalry` &&
+          this.tiles.up.type === `mountains`
+        ) {
+        } else {
+          push();
+          rectMode(CENTER);
+          if (currentTurn === 1) {
+            fill(colors.blue.r, colors.blue.g, colors.blue.b, 100);
+          } else if (currentTurn === 2) {
+            fill(colors.red.r, colors.red.g, colors.red.b, 100);
+          }
+          rect(
+            this.x + grid.squareSize / 2,
+            this.y + grid.squareSize / 2 - grid.squareSize,
+            grid.squareSize,
+            grid.squareSize
+          );
+          imageMode(CENTER);
+          image(
+            spawningUnit.info.icon,
+            this.x + grid.squareSize / 2,
+            this.y + grid.squareSize / 2 - grid.squareSize,
+            grid.squareSize / 1.5,
+            grid.squareSize / 1.5
+          );
+          pop();
         }
-        rect(
-          this.x + grid.squareSize / 2,
-          this.y + grid.squareSize / 2 - grid.squareSize,
-          grid.squareSize,
-          grid.squareSize
-        );
-        imageMode(CENTER);
-        image(
-          spawningUnit.info.icon,
-          this.x + grid.squareSize / 2,
-          this.y + grid.squareSize / 2 - grid.squareSize,
-          grid.squareSize / 1.5,
-          grid.squareSize / 1.5
-        );
-        pop();
+      }
+    } else {
+      console.log(`undefined`);
+    }
+
+    if (this.tiles.down !== undefined) {
+      if (
+        (this.tiles.down.occupied === 0 &&
+          this.tiles.down.type !== `water` &&
+          this.tiles.down.type !== `castle` &&
+          this.tiles.down.type !== `tower` &&
+          this.tiles.down.type !== `church` &&
+          this.tiles.down.type !== `lair`) ||
+        (spawningUnit.info.type === `Dragon Riders` &&
+          this.tiles.down.type === `water`)
+      ) {
+        if (
+          spawningUnit.info.type === `Cavalry` &&
+          this.tiles.down.type === `mountains`
+        ) {
+        } else {
+          push();
+          rectMode(CENTER);
+          if (currentTurn === 1) {
+            fill(colors.blue.r, colors.blue.g, colors.blue.b, 100);
+          } else if (currentTurn === 2) {
+            fill(colors.red.r, colors.red.g, colors.red.b, 100);
+          }
+          rect(
+            this.x + grid.squareSize / 2,
+            this.y + grid.squareSize / 2 + grid.squareSize,
+            grid.squareSize,
+            grid.squareSize
+          );
+          imageMode(CENTER);
+          image(
+            spawningUnit.info.icon,
+            this.x + grid.squareSize / 2,
+            this.y + grid.squareSize / 2 + grid.squareSize,
+            grid.squareSize / 1.5,
+            grid.squareSize / 1.5
+          );
+          pop();
+        }
       }
     }
 
-    if (
-      (this.tiles.down !== undefined &&
-        this.tiles.down.occupied === 0 &&
-        this.tiles.down.type !== `water` &&
-        this.tiles.down.type !== `castle` &&
-        this.tiles.down.type !== `tower` &&
-        this.tiles.down.type !== `church` &&
-        this.tiles.down.type !== `lair`) ||
-      (spawningUnit.info.type === `Dragon Riders` &&
-        this.tiles.down.type === `water`)
-    ) {
+    if (this.tiles.left !== undefined) {
       if (
-        spawningUnit.info.type === `Cavalry` &&
-        this.tiles.down.type === `mountains`
+        (this.tiles.left.occupied === 0 &&
+          this.tiles.left.type !== `water` &&
+          this.tiles.left.type !== `castle` &&
+          this.tiles.left.type !== `tower` &&
+          this.tiles.left.type !== `church` &&
+          this.tiles.left.type !== `lair`) ||
+        (spawningUnit.info.type === `Dragon Riders` &&
+          this.tiles.left.type === `water`)
       ) {
-      } else {
-        push();
-        rectMode(CENTER);
-        if (currentTurn === 1) {
-          fill(colors.blue.r, colors.blue.g, colors.blue.b, 100);
-        } else if (currentTurn === 2) {
-          fill(colors.red.r, colors.red.g, colors.red.b, 100);
+        if (
+          spawningUnit.info.type === `Cavalry` &&
+          this.tiles.left.type === `mountains`
+        ) {
+        } else {
+          push();
+          rectMode(CENTER);
+          if (currentTurn === 1) {
+            fill(colors.blue.r, colors.blue.g, colors.blue.b, 100);
+          } else if (currentTurn === 2) {
+            fill(colors.red.r, colors.red.g, colors.red.b, 100);
+          }
+          rect(
+            this.x + grid.squareSize / 2 - grid.squareSize,
+            this.y + grid.squareSize / 2,
+            grid.squareSize,
+            grid.squareSize
+          );
+          imageMode(CENTER);
+          image(
+            spawningUnit.info.icon,
+            this.x + grid.squareSize / 2 - grid.squareSize,
+            this.y + grid.squareSize / 2,
+            grid.squareSize / 1.5,
+            grid.squareSize / 1.5
+          );
+          pop();
         }
-        rect(
-          this.x + grid.squareSize / 2,
-          this.y + grid.squareSize / 2 + grid.squareSize,
-          grid.squareSize,
-          grid.squareSize
-        );
-        imageMode(CENTER);
-        image(
-          spawningUnit.info.icon,
-          this.x + grid.squareSize / 2,
-          this.y + grid.squareSize / 2 + grid.squareSize,
-          grid.squareSize / 1.5,
-          grid.squareSize / 1.5
-        );
-        pop();
       }
     }
 
-    if (
-      (this.tiles.left !== undefined &&
-        this.tiles.left.occupied === 0 &&
-        this.tiles.left.type !== `water` &&
-        this.tiles.left.type !== `castle` &&
-        this.tiles.left.type !== `tower` &&
-        this.tiles.left.type !== `church` &&
-        this.tiles.left.type !== `lair`) ||
-      (spawningUnit.info.type === `Dragon Riders` &&
-        this.tiles.left.type === `water`)
-    ) {
+    if (this.tiles.right !== undefined) {
       if (
-        spawningUnit.info.type === `Cavalry` &&
-        this.tiles.left.type === `mountains`
+        (this.tiles.right !== undefined &&
+          this.tiles.right.occupied === 0 &&
+          this.tiles.right.type !== `water` &&
+          this.tiles.right.type !== `castle` &&
+          this.tiles.right.type !== `tower` &&
+          this.tiles.right.type !== `church` &&
+          this.tiles.right.type !== `lair`) ||
+        (this.tiles.right !== undefined &&
+          spawningUnit.info.type === `Dragon Riders` &&
+          this.tiles.right.type === `water`)
       ) {
-      } else {
-        push();
-        rectMode(CENTER);
-        if (currentTurn === 1) {
-          fill(colors.blue.r, colors.blue.g, colors.blue.b, 100);
-        } else if (currentTurn === 2) {
-          fill(colors.red.r, colors.red.g, colors.red.b, 100);
+        if (
+          spawningUnit.info.type === `Cavalry` &&
+          this.tiles.right.type === `mountains`
+        ) {
+        } else {
+          push();
+          rectMode(CENTER);
+          if (currentTurn === 1) {
+            fill(colors.blue.r, colors.blue.g, colors.blue.b, 100);
+          } else if (currentTurn === 2) {
+            fill(colors.red.r, colors.red.g, colors.red.b, 100);
+          }
+          rect(
+            this.x + grid.squareSize / 2 + grid.squareSize,
+            this.y + grid.squareSize / 2,
+            grid.squareSize,
+            grid.squareSize
+          );
+          imageMode(CENTER);
+          image(
+            spawningUnit.info.icon,
+            this.x + grid.squareSize / 2 + grid.squareSize,
+            this.y + grid.squareSize / 2,
+            grid.squareSize / 1.5,
+            grid.squareSize / 1.5
+          );
+          pop();
         }
-        rect(
-          this.x + grid.squareSize / 2 - grid.squareSize,
-          this.y + grid.squareSize / 2,
-          grid.squareSize,
-          grid.squareSize
-        );
-        imageMode(CENTER);
-        image(
-          spawningUnit.info.icon,
-          this.x + grid.squareSize / 2 - grid.squareSize,
-          this.y + grid.squareSize / 2,
-          grid.squareSize / 1.5,
-          grid.squareSize / 1.5
-        );
-        pop();
-      }
-    }
-
-    if (
-      (this.tiles.right !== undefined &&
-        this.tiles.right.occupied === 0 &&
-        this.tiles.right.type !== `water` &&
-        this.tiles.right.type !== `castle` &&
-        this.tiles.right.type !== `tower` &&
-        this.tiles.right.type !== `church` &&
-        this.tiles.right.type !== `lair`) ||
-      (spawningUnit.info.type === `Dragon Riders` &&
-        this.tiles.right.type === `water`)
-    ) {
-      if (
-        spawningUnit.info.type === `Cavalry` &&
-        this.tiles.right.type === `mountains`
-      ) {
-      } else {
-        push();
-        rectMode(CENTER);
-        if (currentTurn === 1) {
-          fill(colors.blue.r, colors.blue.g, colors.blue.b, 100);
-        } else if (currentTurn === 2) {
-          fill(colors.red.r, colors.red.g, colors.red.b, 100);
-        }
-        rect(
-          this.x + grid.squareSize / 2 + grid.squareSize,
-          this.y + grid.squareSize / 2,
-          grid.squareSize,
-          grid.squareSize
-        );
-        imageMode(CENTER);
-        image(
-          spawningUnit.info.icon,
-          this.x + grid.squareSize / 2 + grid.squareSize,
-          this.y + grid.squareSize / 2,
-          grid.squareSize / 1.5,
-          grid.squareSize / 1.5
-        );
-        pop();
       }
     }
   }
