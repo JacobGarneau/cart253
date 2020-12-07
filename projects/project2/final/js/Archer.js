@@ -59,7 +59,6 @@ class Archer extends Unit {
       this.tiles.up.occupied !== 0
     ) {
       this.attackable.up = true;
-      console.log(`up`);
     } else {
       this.attackable.up = false;
     }
@@ -70,7 +69,6 @@ class Archer extends Unit {
       this.tiles.down.occupied !== 0
     ) {
       this.attackable.down = true;
-      console.log(`down`);
     } else {
       this.attackable.down = false;
     }
@@ -81,7 +79,6 @@ class Archer extends Unit {
       this.tiles.left.occupied !== 0
     ) {
       this.attackable.left = true;
-      console.log(`left`);
     } else {
       this.attackable.left = false;
     }
@@ -92,7 +89,6 @@ class Archer extends Unit {
       this.tiles.right.occupied !== 0
     ) {
       this.attackable.right = true;
-      console.log(`right`);
     } else {
       this.attackable.right = false;
     }
@@ -104,7 +100,6 @@ class Archer extends Unit {
       this.tiles.up2.occupied !== 0
     ) {
       this.attackable.up2 = true;
-      console.log(`up2`);
     } else {
       this.attackable.up2 = false;
     }
@@ -115,7 +110,6 @@ class Archer extends Unit {
       this.tiles.down2.occupied !== 0
     ) {
       this.attackable.down2 = true;
-      console.log(`down2`);
     } else {
       this.attackable.down2 = false;
     }
@@ -126,7 +120,6 @@ class Archer extends Unit {
       this.tiles.left2.occupied !== 0
     ) {
       this.attackable.left2 = true;
-      console.log(`left2`);
     } else {
       this.attackable.left2 = false;
     }
@@ -137,7 +130,6 @@ class Archer extends Unit {
       this.tiles.right2.occupied !== 0
     ) {
       this.attackable.right2 = true;
-      console.log(`right2`);
     } else {
       this.attackable.right2 = false;
     }
@@ -149,7 +141,6 @@ class Archer extends Unit {
       this.tiles.upLeft.occupied !== 0
     ) {
       this.attackable.upLeft = true;
-      console.log(`upLeft`);
     } else {
       this.attackable.upLeft = false;
     }
@@ -160,7 +151,6 @@ class Archer extends Unit {
       this.tiles.upRight.occupied !== 0
     ) {
       this.attackable.upRight = true;
-      console.log(`upRight`);
     } else {
       this.attackable.upRight = false;
     }
@@ -171,7 +161,6 @@ class Archer extends Unit {
       this.tiles.downLeft.occupied !== 0
     ) {
       this.attackable.downLeft = true;
-      console.log(`downLeft`);
     } else {
       this.attackable.downLeft = false;
     }
@@ -182,14 +171,13 @@ class Archer extends Unit {
       this.tiles.downRight.occupied !== 0
     ) {
       this.attackable.downRight = true;
-      console.log(`downRight`);
     } else {
       this.attackable.downRight = false;
     }
   }
 
   //  displayAttack()
-  //  Displays the unit's attack options
+  //  Displays the unit's attack options up to 2 tiles away
   displayAttack() {
     if (this.attackable.up && this.controllable) {
       push();
@@ -449,7 +437,7 @@ class Archer extends Unit {
   }
 
   //  attack()
-  //  Attacks the unit's target
+  //  Allows the unit to attack up to 2 tiles away
   attack() {
     let dX = dist(mouseX, 0, this.x + grid.squareSize / 2, 0);
     let dY = dist(0, mouseY, 0, this.y + grid.squareSize / 2);
@@ -463,15 +451,8 @@ class Archer extends Unit {
       this.attackable.up
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].y < this.y &&
-          units[i].y > this.y - grid.squareSize &&
-          units[i].x <= this.x + 1 &&
-          units[i].x >= this.x - 1 &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(units[i].x, units[i].y, this.tiles.up.x, this.tiles.up.y);
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -486,15 +467,13 @@ class Archer extends Unit {
       this.attackable.down
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].y > this.y &&
-          units[i].y < this.y + grid.squareSize &&
-          units[i].x <= this.x + 1 &&
-          units[i].x >= this.x - 1 &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.down.x,
+          this.tiles.down.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -509,15 +488,13 @@ class Archer extends Unit {
       this.attackable.left
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].x < this.x &&
-          units[i].x > this.x - grid.squareSize &&
-          units[i].y <= this.y + 1 &&
-          units[i].y >= this.y - 1 &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.left.x,
+          this.tiles.left.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -532,15 +509,13 @@ class Archer extends Unit {
       this.attackable.right
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].x > this.x &&
-          units[i].x > this.x + grid.squareSize &&
-          units[i].y <= this.y + 1 &&
-          units[i].y >= this.y - 1 &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.right.x,
+          this.tiles.right.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -557,15 +532,13 @@ class Archer extends Unit {
       this.attackable.up2
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].y < this.y - grid.squareSize &&
-          units[i].y > this.y - grid.squareSize * 2 &&
-          units[i].x <= this.x + 1 &&
-          units[i].x >= this.x - 1 &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.up2.x,
+          this.tiles.up2.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -580,15 +553,13 @@ class Archer extends Unit {
       this.attackable.down2
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].y > this.y + grid.squareSize &&
-          units[i].y < this.y + grid.squareSize * 2 &&
-          units[i].x <= this.x + 1 &&
-          units[i].x >= this.x - 1 &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.down2.x,
+          this.tiles.down2.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -603,15 +574,13 @@ class Archer extends Unit {
       this.attackable.left2
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].x < this.x - grid.squareSize &&
-          units[i].x > this.x - grid.squareSize * 2 &&
-          units[i].y <= this.y + 1 &&
-          units[i].y >= this.y - 1 &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.left2.x,
+          this.tiles.left2.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -626,15 +595,13 @@ class Archer extends Unit {
       this.attackable.right2
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].x > this.x + grid.squareSize &&
-          units[i].x > this.x + grid.squareSize * 2 &&
-          units[i].y <= this.y + 1 &&
-          units[i].y >= this.y - 1 &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.right2.x,
+          this.tiles.right2.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -648,19 +615,17 @@ class Archer extends Unit {
       dX < grid.squareSize * 1.5 &&
       dX > grid.squareSize * 0.5 &&
       mouseY < this.y &&
-      mouseX > this.x &&
+      mouseX < this.x &&
       this.attackable.upLeft
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].y < this.y &&
-          units[i].y > this.y - grid.squareSize &&
-          units[i].x < this.x &&
-          units[i].x > this.x - grid.squareSize &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.upLeft.x,
+          this.tiles.upLeft.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -671,20 +636,18 @@ class Archer extends Unit {
       dY > grid.squareSize * 0.5 &&
       dX < grid.squareSize * 1.5 &&
       dX > grid.squareSize * 0.5 &&
-      mouseY > this.y &&
+      mouseY < this.y &&
       mouseX > this.x &&
       this.attackable.upRight
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].y > this.y &&
-          units[i].y < this.y - grid.squareSize &&
-          units[i].x < this.x + grid.squareSize &&
-          units[i].x > this.x &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.upRight.x,
+          this.tiles.upRight.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -700,15 +663,13 @@ class Archer extends Unit {
       this.attackable.downLeft
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].x < this.x &&
-          units[i].x > this.x - grid.squareSize &&
-          units[i].y < this.y &&
-          units[i].y > this.y - grid.squareSize &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.downLeft.x,
+          this.tiles.downLeft.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -724,15 +685,13 @@ class Archer extends Unit {
       this.attackable.downRight
     ) {
       for (let i = 0; i < units.length; i++) {
-        let d = dist(units[i].x, units[i].y, this.x, this.y);
-        if (
-          d <= grid.squareSize * 1.5 + 1 &&
-          units[i].x > this.x &&
-          units[i].x > this.x + grid.squareSize &&
-          units[i].y < this.y + grid.squareSize &&
-          units[i].y > this.y &&
-          units[i].team !== this.team
-        ) {
+        let d = dist(
+          units[i].x,
+          units[i].y,
+          this.tiles.downRight.x,
+          this.tiles.downRight.y
+        );
+        if (d <= grid.squareSize / 2) {
           this.damage(units[i]);
         }
       }
@@ -740,7 +699,7 @@ class Archer extends Unit {
   }
 
   //  assignTileType()
-  //  Determines the type of the tiles surrounding the unit
+  //  Expands the detection of the surrounding tiles' types to 2 tiles of range
   assignTileType() {
     //  Assign their tile's type to the units
     for (let i = 0; i < tiles.length; i++) {
