@@ -3,7 +3,7 @@ class DragonRider extends Unit {
     super(xPos, yPos, team);
     this.info = {
       type: `Dragon Riders`,
-      description: `Valorous knights mounted on fierce creatures. Dragon Riders have high offense and average defense, can move after attacking and are not hindered by water, mountains or forests. However, they take additional damage from archers.`,
+      description: `Valorous knights mounted on fierce creatures. Dragon Riders have high offense and average defense and are not hindered by water, mountains or forests.`,
       icon: icons.dragon,
       iconAlt: icons.dragonAlt,
       cost: 450,
