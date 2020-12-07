@@ -56,7 +56,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.up.occupied !== this.team &&
-      this.tiles.up.occupied !== 0
+      this.tiles.up.occupied !== 0 &&
+      this.tiles.up.occupied !== undefined
     ) {
       this.attackable.up = true;
     } else {
@@ -66,7 +67,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.down.occupied !== this.team &&
-      this.tiles.down.occupied !== 0
+      this.tiles.down.occupied !== 0 &&
+      this.tiles.down.occupied !== undefined
     ) {
       this.attackable.down = true;
     } else {
@@ -76,7 +78,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.left.occupied !== this.team &&
-      this.tiles.left.occupied !== 0
+      this.tiles.left.occupied !== 0 &&
+      this.tiles.left.occupied !== undefined
     ) {
       this.attackable.left = true;
     } else {
@@ -86,7 +89,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.right.occupied !== this.team &&
-      this.tiles.right.occupied !== 0
+      this.tiles.right.occupied !== 0 &&
+      this.tiles.right.occupied !== undefined
     ) {
       this.attackable.right = true;
     } else {
@@ -97,7 +101,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.up2.occupied !== this.team &&
-      this.tiles.up2.occupied !== 0
+      this.tiles.up2.occupied !== 0 &&
+      this.tiles.up2.occupied !== undefined
     ) {
       this.attackable.up2 = true;
     } else {
@@ -107,7 +112,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.down2.occupied !== this.team &&
-      this.tiles.down2.occupied !== 0
+      this.tiles.down2.occupied !== 0 &&
+      this.tiles.down2.occupied !== undefined
     ) {
       this.attackable.down2 = true;
     } else {
@@ -117,7 +123,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.left2.occupied !== this.team &&
-      this.tiles.left2.occupied !== 0
+      this.tiles.left2.occupied !== 0 &&
+      this.tiles.left2.occupied !== undefined
     ) {
       this.attackable.left2 = true;
     } else {
@@ -127,7 +134,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.right2.occupied !== this.team &&
-      this.tiles.right2.occupied !== 0
+      this.tiles.right2.occupied !== 0 &&
+      this.tiles.right2.occupied !== undefined
     ) {
       this.attackable.right2 = true;
     } else {
@@ -138,7 +146,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.upLeft.occupied !== this.team &&
-      this.tiles.upLeft.occupied !== 0
+      this.tiles.upLeft.occupied !== 0 &&
+      this.tiles.upLeft.occupied !== undefined
     ) {
       this.attackable.upLeft = true;
     } else {
@@ -148,7 +157,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.upRight.occupied !== this.team &&
-      this.tiles.upRight.occupied !== 0
+      this.tiles.upRight.occupied !== 0 &&
+      this.tiles.upRight.occupied !== undefined
     ) {
       this.attackable.upRight = true;
     } else {
@@ -158,7 +168,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.downLeft.occupied !== this.team &&
-      this.tiles.downLeft.occupied !== 0
+      this.tiles.downLeft.occupied !== 0 &&
+      this.tiles.downLeft.occupied !== undefined
     ) {
       this.attackable.downLeft = true;
     } else {
@@ -168,7 +179,8 @@ class Archer extends Unit {
     if (
       this.selected &&
       this.tiles.downRight.occupied !== this.team &&
-      this.tiles.downRight.occupied !== 0
+      this.tiles.downRight.occupied !== 0 &&
+      this.tiles.downRight.occupied !== undefined
     ) {
       this.attackable.downRight = true;
     } else {

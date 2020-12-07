@@ -11,10 +11,7 @@ class Player {
         unitTypes[i].info.type === `Infantry` ||
         unitTypes[i].info.type === `Cavalry` ||
         unitTypes[i].info.type === `Archers` ||
-        unitTypes[i].info.type === `Heavies` ||
-        unitTypes[i].info.type === `Mages` ||
-        unitTypes[i].info.type === `Priests` ||
-        unitTypes[i].info.type === `Dragon Riders`
+        unitTypes[i].info.type === `Heavies`
       ) {
         this.buyable.push(unitTypes[i]);
       }
