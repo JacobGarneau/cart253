@@ -342,6 +342,7 @@ class Menu {
           tiles[i].checkSurroundings();
         }
       }
+      popup.active = undefined;
       choosingSpawn = true;
     } else if (
       currentTurn === 2 &&
@@ -352,9 +353,10 @@ class Menu {
           tiles[i].checkSurroundings();
         }
       }
+      popup.active = undefined;
       choosingSpawn = true;
     } else {
-      alert(`Insufficient funds to purchase this unit`);
+      popup.active = `insufficientFunds`;
       spawningUnit = undefined;
     }
   }

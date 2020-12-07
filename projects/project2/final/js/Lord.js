@@ -3,7 +3,7 @@ class Lord extends Unit {
     super(xPos, yPos, team);
     this.info = {
       type: `Lord`,
-      description: `A noble leading his personal guard into battle. Lords have high offense and very high defense but cannot be purchased, so you should think twice before sending them out on the battlefield. They can capture neutral or enemy structures.`,
+      description: `A noble leading his personal guard into battle.\n\nLords have high offense and very high defense\nbut cannot be purchased, so you should think twice before sending them out on the battlefield.\nThey can capture neutral or enemy structures.`,
       icon: icons.lord,
       cost: 300,
     };

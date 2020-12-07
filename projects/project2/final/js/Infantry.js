@@ -3,7 +3,7 @@ class Infantry extends Unit {
     super(xPos, yPos, team);
     this.info = {
       type: `Infantry`,
-      description: `Standard foot soldiers. With a low offense and average defense, infantry is the bread and butter of any army.`,
+      description: `Standard foot soldiers.\n\nWith low offense and average defense,\ninfantry is the bread and butter of any army.`,
       icon: icons.infantry,
       iconAlt: icons.infantryAlt,
       cost: 150,

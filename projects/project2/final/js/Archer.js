@@ -3,7 +3,7 @@ class Archer extends Unit {
     super(xPos, yPos, team);
     this.info = {
       type: `Archers`,
-      description: `Ranged units. Archers have high offense and low defense but can attack from 2 squares away.`,
+      description: `Ranged units.\n\nArchers have high offense and low defense\nbut can attack from 2 squares away.`,
       icon: icons.archer,
       iconAlt: icons.archerAlt,
       cost: 250,

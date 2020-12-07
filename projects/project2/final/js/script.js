@@ -125,7 +125,7 @@ let shopX;
 let spawningUnit;
 let choosingSpawn = false;
 let moneyPerTurn = 150;
-let conquestReward = 200;
+let conquestReward = 0;
 
 let tiles = [];
 let tileTypes = [
@@ -164,6 +164,7 @@ function preload() {
   icons.bandits = loadImage(`assets/images/bandits.svg`);
   icons.pay = loadImage(`assets/images/pay.svg`);
   icons.victory = loadImage(`assets/images/victory.png`);
+  icons.info = loadImage(`assets/images/info.svg`);
 
   //  Load unit icons
   icons.infantry = loadImage(`assets/images/infantry.svg`);
@@ -432,6 +433,7 @@ function start() {
     units.push(lordUnit);
   }
 
+  //  Set turn to player 1
   changeTurns(1);
 }
 
@@ -476,6 +478,7 @@ function game() {
     }
   }
 
+  //  Display the available unit actions
   for (let i = 0; i < units.length; i++) {
     units[i].displayAttack();
 
@@ -494,13 +497,20 @@ function game() {
     rect(0, 0, width, height);
     pop();
   }
+
+  //  Display the menu
   menu.display();
   if (menu.shopOpen !== 0) {
     menu.displayShop();
   }
 
+  //  Display the popups
   if (popup.active === `bandits`) {
     popup.bandits();
+  } else if (popup.active === `insufficientFunds`) {
+    popup.insufficientFunds();
+  } else if (popup.active === `unitInfo`) {
+    popup.unitInfo();
   }
 }
 
@@ -590,6 +600,8 @@ function mouseMoved() {
           players[currentTurn - 1].buyable[j].hovered = false;
         }
         players[currentTurn - 1].buyable[i].hovered = true;
+        popup.active = `unitInfo`;
+        popup.unitID = players[currentTurn - 1].buyable[i];
       }
     }
   }
@@ -632,7 +644,6 @@ function mouseClicked() {
         players[currentTurn - 1].buyable[i]
       ) {
         menu.buyUnit(players[currentTurn - 1].buyable[i]);
-        popup.active = undefined;
       }
     }
   }
@@ -778,7 +789,6 @@ function keyPressed() {
     banditTarget = undefined;
     popup.close();
   } else if (popup.active === `bandits` && keyCode === 80) {
-    if (currentTurn) popup.bandits();
     if (currentTurn === 1 && players[1].currency >= banditFee) {
       players[1].currency -= banditFee;
       popup.close();
@@ -786,5 +796,7 @@ function keyPressed() {
       players[0].currency -= banditFee;
       popup.close();
     }
+  } else if (popup.active === `insufficientFunds` && keyCode === 88) {
+    popup.close();
   }
 }
