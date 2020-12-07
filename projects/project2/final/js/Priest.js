@@ -275,18 +275,20 @@ class Priest extends Unit {
       }
 
       if (this.stats.currentMovement === 0) {
-        if (
-          !this.attackable.up &&
-          !this.attackable.down &&
-          !this.attackable.left &&
-          !this.attackable.right &&
-          !this.healable.up &&
-          !this.healable.down &&
-          !this.healable.left &&
-          !this.healable.right
-        ) {
-          this.endTurn();
-        }
+        setTimeout(() => {
+          if (
+            !this.attackable.up &&
+            !this.attackable.down &&
+            !this.attackable.left &&
+            !this.attackable.right &&
+            !this.healable.up &&
+            !this.healable.down &&
+            !this.healable.left &&
+            !this.healable.right
+          ) {
+            this.endTurn();
+          }
+        });
       }
     }, timeoutDelay);
   }

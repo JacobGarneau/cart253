@@ -317,7 +317,7 @@ class Unit {
       }
 
       if (this.stats.currentMovement === 0) {
-        setInterval(() => {
+        setTimeout(() => {
           if (
             !this.attackable.up &&
             !this.attackable.down &&
