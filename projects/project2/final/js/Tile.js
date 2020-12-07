@@ -91,7 +91,6 @@ class Tile {
   //  Displays the available spawpoints for new units
   displaySpawnpoints() {
     if (this.tiles.up !== undefined) {
-      console.log("not undefined");
       if (
         (this.tiles.up.occupied === 0 &&
           this.tiles.up.type !== `water` &&
@@ -131,8 +130,6 @@ class Tile {
           pop();
         }
       }
-    } else {
-      console.log(`undefined`);
     }
 
     if (this.tiles.down !== undefined) {
