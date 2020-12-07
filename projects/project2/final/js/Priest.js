@@ -251,6 +251,7 @@ class Priest extends Unit {
     } else {
       target.stats.defense += this.stats.healing;
     }
+    sounds.heal.play();
   }
 
   //  animateMovement()
@@ -272,6 +273,7 @@ class Priest extends Unit {
       ) {
         popup.active = `bandits`;
         banditTarget = this;
+        sounds.bandits.play();
       }
 
       if (this.stats.currentMovement === 0) {

@@ -155,7 +155,7 @@ class Unit {
   checkAttack() {
     if (
       this.selected &&
-      this.tiles.up !== undefined &&
+      this.tiles.up.occupied !== undefined &&
       this.tiles.up.occupied !== this.team &&
       this.tiles.up.occupied !== 0
     ) {
@@ -166,7 +166,7 @@ class Unit {
 
     if (
       this.selected &&
-      this.tiles.down !== undefined &&
+      this.tiles.down.occupied !== undefined &&
       this.tiles.down.occupied !== this.team &&
       this.tiles.down.occupied !== 0
     ) {
@@ -177,7 +177,7 @@ class Unit {
 
     if (
       this.selected &&
-      this.tiles.left !== undefined &&
+      this.tiles.left.occupied !== undefined &&
       this.tiles.left.occupied !== this.team &&
       this.tiles.left.occupied !== 0
     ) {
@@ -188,7 +188,7 @@ class Unit {
 
     if (
       this.selected &&
-      this.tiles.right !== undefined &&
+      this.tiles.right.occupied !== undefined &&
       this.tiles.right.occupied !== this.team &&
       this.tiles.right.occupied !== 0
     ) {
@@ -318,6 +318,7 @@ class Unit {
       ) {
         popup.active = `bandits`;
         banditTarget = this;
+        sounds.bandits.play();
       }
 
       if (this.stats.currentMovement === 0) {
@@ -522,6 +523,12 @@ class Unit {
   //  Deals damage to the unit's target
   damage(target) {
     target.takeDamage(this.stats.attack, this.stats.magical);
+    if (this.stats.magical) {
+      sounds.magicAttack.play();
+    } else {
+      sounds.attack.play();
+    }
+
     this.endTurn();
   }
 
@@ -652,11 +659,13 @@ class Unit {
         players[0].currency += this.info.cost / 2;
         if (this.info.type === `Lord`) {
           players[1].lords--;
+          sounds.lordDefeat.play();
         }
       } else if (this.team === 2) {
         players[1].currency += this.info.cost / 2;
         if (this.info.type === `Lord`) {
           players[0].lords--;
+          sounds.lordDefeat.play();
         }
       }
 

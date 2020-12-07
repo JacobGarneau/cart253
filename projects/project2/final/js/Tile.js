@@ -91,9 +91,15 @@ class Tile {
   //  Displays the available spawpoints for new units
   displaySpawnpoints() {
     if (
-      this.tiles.up !== undefined &&
-      this.tiles.up.occupied === 0 &&
-      this.tiles.up.type !== `water`
+      (this.tiles.up !== undefined &&
+        this.tiles.up.occupied === 0 &&
+        this.tiles.up.type !== `water` &&
+        this.tiles.up.type !== `castle` &&
+        this.tiles.up.type !== `tower` &&
+        this.tiles.up.type !== `church` &&
+        this.tiles.up.type !== `lair`) ||
+      (spawningUnit.info.type === `Dragon Riders` &&
+        this.tiles.up.type === `water`)
     ) {
       if (
         spawningUnit.info.type === `Cavalry` &&
@@ -126,9 +132,15 @@ class Tile {
     }
 
     if (
-      this.tiles.down !== undefined &&
-      this.tiles.down.occupied === 0 &&
-      this.tiles.down.type !== `water`
+      (this.tiles.down !== undefined &&
+        this.tiles.down.occupied === 0 &&
+        this.tiles.down.type !== `water` &&
+        this.tiles.down.type !== `castle` &&
+        this.tiles.down.type !== `tower` &&
+        this.tiles.down.type !== `church` &&
+        this.tiles.down.type !== `lair`) ||
+      (spawningUnit.info.type === `Dragon Riders` &&
+        this.tiles.down.type === `water`)
     ) {
       if (
         spawningUnit.info.type === `Cavalry` &&
@@ -161,9 +173,15 @@ class Tile {
     }
 
     if (
-      this.tiles.left !== undefined &&
-      this.tiles.left.occupied === 0 &&
-      this.tiles.left.type !== `water`
+      (this.tiles.left !== undefined &&
+        this.tiles.left.occupied === 0 &&
+        this.tiles.left.type !== `water` &&
+        this.tiles.left.type !== `castle` &&
+        this.tiles.left.type !== `tower` &&
+        this.tiles.left.type !== `church` &&
+        this.tiles.left.type !== `lair`) ||
+      (spawningUnit.info.type === `Dragon Riders` &&
+        this.tiles.left.type === `water`)
     ) {
       if (
         spawningUnit.info.type === `Cavalry` &&
@@ -196,9 +214,15 @@ class Tile {
     }
 
     if (
-      this.tiles.right !== undefined &&
-      this.tiles.right.occupied === 0 &&
-      this.tiles.right.type !== `water`
+      (this.tiles.right !== undefined &&
+        this.tiles.right.occupied === 0 &&
+        this.tiles.right.type !== `water` &&
+        this.tiles.right.type !== `castle` &&
+        this.tiles.right.type !== `tower` &&
+        this.tiles.right.type !== `church` &&
+        this.tiles.right.type !== `lair`) ||
+      (spawningUnit.info.type === `Dragon Riders` &&
+        this.tiles.right.type === `water`)
     ) {
       if (
         spawningUnit.info.type === `Cavalry` &&
@@ -280,8 +304,13 @@ class Tile {
       dX < grid.squareSize * 0.5 &&
       mouseY < this.y &&
       mouseX > this.x &&
-      up.occupied === 0 &&
-      up.type !== `water`
+      ((up.occupied === 0 &&
+        up.type !== `water` &&
+        up.type !== `castle` &&
+        up.type !== `tower` &&
+        up.type !== `church` &&
+        up.type !== `lair`) ||
+        (spawningUnit.info.type === `Dragon Riders` && up.type === `water`))
     ) {
       if (spawningUnit.info.type === `Cavalry` && up.type === `mountains`) {
       } else {
@@ -305,8 +334,13 @@ class Tile {
       dX < grid.squareSize * 0.5 &&
       mouseY > this.y &&
       mouseX > this.x &&
-      down.occupied === 0 &&
-      down.type !== `water`
+      ((down.occupied === 0 &&
+        down.type !== `water` &&
+        down.type !== `castle` &&
+        down.type !== `tower` &&
+        down.type !== `church` &&
+        down.type !== `lair`) ||
+        (spawningUnit.info.type === `Dragon Riders` && down.type === `water`))
     ) {
       if (spawningUnit.info.type === `Cavalry` && down.type === `mountains`) {
       } else {
@@ -330,8 +364,13 @@ class Tile {
       dY < grid.squareSize * 0.5 &&
       mouseX < this.x &&
       mouseY > this.y &&
-      left.occupied === 0 &&
-      left.type !== `water`
+      ((left.occupied === 0 &&
+        left.type !== `water` &&
+        left.type !== `castle` &&
+        left.type !== `tower` &&
+        left.type !== `church` &&
+        left.type !== `lair`) ||
+        (spawningUnit.info.type === `Dragon Riders` && left.type === `water`))
     ) {
       if (spawningUnit.info.type === `Cavalry` && left.type === `mountains`) {
       } else {
@@ -355,8 +394,13 @@ class Tile {
       dY < grid.squareSize * 0.5 &&
       mouseX > this.x &&
       mouseY > this.y &&
-      right.occupied === 0 &&
-      right.type !== `water`
+      ((right.occupied === 0 &&
+        right.type !== `water` &&
+        right.type !== `castle` &&
+        right.type !== `tower` &&
+        right.type !== `church` &&
+        right.type !== `lair`) ||
+        (spawningUnit.info.type === `Dragon Riders` && right.type === `water`))
     ) {
       if (spawningUnit.info.type === `Cavalry` && right.type === `mountains`) {
       } else {
@@ -378,6 +422,10 @@ class Tile {
   //  createUnit(x, y)
   //  Places the new unit on the map
   createUnit(x, y) {
+    for (let i = 0; i < units.length; i++) {
+      units[i].selected = false;
+      selectionActive = false;
+    }
     if (currentTurn === 1) {
       players[1].currency -= spawningUnit.info.cost;
     } else if (currentTurn === 2) {

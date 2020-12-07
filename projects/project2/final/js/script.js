@@ -68,6 +68,24 @@ let icons = {
   conquest: undefined,
 };
 
+let sounds = {
+  attack: undefined,
+  magicAttack: undefined,
+  heal: undefined,
+  conquest: undefined,
+  lordDefeat: undefined,
+  selectUnit: undefined,
+  bandits: undefined,
+  pay: undefined,
+};
+
+let music = {
+  track1: undefined,
+  track2: undefined,
+  track3: undefined,
+  selected: `tranquility`,
+};
+
 let players = [];
 
 //  List the possible titles
@@ -138,7 +156,7 @@ let tileTypes = [
   `forest`,
   `mountains`,
 ];
-let banditChance = 25;
+let banditChance = 20;
 let banditFee = 200;
 let banditDamage = 3;
 let banditTarget = undefined;
@@ -195,6 +213,38 @@ function preload() {
   icons.church = loadImage(`assets/images/church.svg`);
   icons.tower = loadImage(`assets/images/tower.svg`);
   icons.lair = loadImage(`assets/images/lair.svg`);
+
+  //  Load sound effects
+  soundFormats("wav");
+  sounds.attack = loadSound("assets/sounds/attack");
+  sounds.magicAttack = loadSound("assets/sounds/attack_magic");
+  sounds.heal = loadSound("assets/sounds/heal");
+  sounds.conquest = loadSound("assets/sounds/conquest");
+  sounds.lordDefeat = loadSound("assets/sounds/lord_defeat");
+  sounds.selectUnit = loadSound("assets/sounds/select");
+  sounds.bandits = loadSound("assets/sounds/bandits");
+  sounds.pay = loadSound("assets/sounds/pay");
+
+  //  Set volume of the sound effects
+  sounds.attack.setVolume(0.05);
+  sounds.magicAttack.setVolume(0.5);
+  sounds.heal.setVolume(1);
+  sounds.conquest.setVolume(0.1);
+  sounds.lordDefeat.setVolume(0.5);
+  sounds.selectUnit.setVolume(0.1);
+  sounds.bandits.setVolume(0.05);
+  sounds.pay.setVolume(1);
+
+  //  Load music tracks
+  soundFormats("mp3");
+  music.track1 = loadSound("assets/sounds/cold_music");
+  music.track2 = loadSound("assets/sounds/forest_music");
+  music.track3 = loadSound("assets/sounds/desert_music");
+
+  //  Set volume of themusic tracks
+  music.track1.setVolume(0.1);
+  music.track2.setVolume(0.1);
+  music.track3.setVolume(0.1);
 }
 
 //  setup()
@@ -301,6 +351,7 @@ function drawMain() {
   background(0);
   let p1Y;
   let p2Y;
+  let musicY;
 
   //  Draw the menu text
   push();
@@ -313,8 +364,41 @@ function drawMain() {
   fill(255);
   textSize(32);
   textAlign(CENTER, CENTER);
-  text(`Press ENTER to start`, width / 2, 702);
+  text(`Press ENTER to start`, width / 2, height - dyn(80));
 
+  //  Music options
+  text(`Music`, width / 2, 300);
+  textSize(24);
+  textAlign(LEFT, CENTER);
+  fill(255);
+  text(`Tranquility`, width / 2 - dyn(40), 377);
+  text(`Brightwood`, width / 2 - dyn(40), 419);
+  text(`Vestige`, width / 2 - dyn(40), 462);
+
+  push();
+  stroke(255);
+  strokeWeight(3);
+  fill(0);
+  ellipse(width / 2 - dyn(100), 377, 24);
+  ellipse(width / 2 - dyn(100), 419, 24);
+  ellipse(width / 2 - dyn(100), 462, 24);
+  pop();
+
+  if (music.selected === `tranquility`) {
+    musicY = 377;
+  } else if (music.selected === `brightwood`) {
+    musicY = 419;
+  } else if (music.selected === `vestige`) {
+    musicY = 462;
+  }
+
+  push();
+  noStroke();
+  fill(200);
+  ellipse(width / 2 - dyn(100), musicY, 16);
+  pop();
+
+  //  Player options
   textSize(32);
   textAlign(CENTER, CENTER);
   fill(colors.blue.r, colors.blue.g, colors.blue.b);
@@ -435,6 +519,18 @@ function start() {
 
   //  Set turn to player 1
   changeTurns(1);
+
+  //  Start the music
+  if (music.selected === `tranquility`) {
+    music.track1.loop();
+    music.track1.play();
+  } else if (music.selected === `brightwood`) {
+    music.track2.loop();
+    music.track2.play();
+  } else if (music.selected === `vestige`) {
+    music.track3.loop();
+    music.track3.play();
+  }
 }
 
 //  game()
@@ -617,6 +713,9 @@ function mouseClicked() {
       let dF1 = dist(mouseX, mouseY, width / 2 - dyn(420), 419);
       let dM2 = dist(mouseX, mouseY, width / 2 + dyn(300), 377);
       let dF2 = dist(mouseX, mouseY, width / 2 + dyn(300), 419);
+      let dMusic1 = dist(mouseX, mouseY, width / 2 - dyn(100), 377);
+      let dMusic2 = dist(mouseX, mouseY, width / 2 - dyn(100), 419);
+      let dMusic3 = dist(mouseX, mouseY, width / 2 - dyn(100), 462);
 
       if (dM1 <= 24) {
         players[1].gender = `male`;
@@ -626,6 +725,12 @@ function mouseClicked() {
         players[0].gender = `male`;
       } else if (dF2 <= 24) {
         players[0].gender = `female`;
+      } else if (dMusic1 <= 24) {
+        music.selected = `tranquility`;
+      } else if (dMusic2 <= 24) {
+        music.selected = `brightwood`;
+      } else if (dMusic3 <= 24) {
+        music.selected = `vestige`;
       }
     }
   }
@@ -756,6 +861,7 @@ function mouseClicked() {
           }
           units[i].selected = true;
           selectionActive = true;
+          sounds.selectUnit.play();
         }
       }
     }
@@ -787,13 +893,16 @@ function keyPressed() {
   if (popup.active === `bandits` && keyCode === 70) {
     banditTarget.takeDamage(banditDamage, false);
     banditTarget = undefined;
+    sounds.attack.play();
     popup.close();
   } else if (popup.active === `bandits` && keyCode === 80) {
     if (currentTurn === 1 && players[1].currency >= banditFee) {
       players[1].currency -= banditFee;
+      sounds.pay.play();
       popup.close();
     } else if (currentTurn === 2 && players[0].currency >= banditFee) {
       players[0].currency -= banditFee;
+      sounds.pay.play();
       popup.close();
     }
   } else if (popup.active === `insufficientFunds` && keyCode === 88) {

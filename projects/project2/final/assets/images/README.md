@@ -1,3 +1,7 @@
 # Images folder
 
-This is the folder where you would keep all the images associated with your project, such as `.png`, `.jpg`, and other formats. An example image, `clown.png`, is here in case you need something to play around with.
+This folder hold all of the icons and images used in this project.
+
+## Attribution
+
+All icons except for the offense, defense, and movement icons (made by me) were taken from FontAwesome (fontawesome.com) under Creative Commons license.

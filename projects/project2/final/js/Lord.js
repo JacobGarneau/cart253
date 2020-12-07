@@ -354,67 +354,66 @@ class Lord extends Unit {
       } else if (target.structureTeam === 2) {
         target.structureTeam = 3;
       }
-    } else {
-      if (this.team === 2) {
-        players[0].structures = players[0].structures.filter(
-          (e) => e !== target.type
-        );
+    } else if (this.team === 2) {
+      players[0].structures = players[0].structures.filter(
+        (e) => e !== target.type
+      );
+
+      if (target.type === `church`) {
+        for (let i = 0; i < unitTypes.length; i++) {
+          if (unitTypes[i].info.type === `Priests`) {
+            players[0].buyable = players[0].buyable.filter(
+              (e) => e !== unitTypes[i]
+            );
+          }
+        }
+      } else if (target.type === `tower`) {
+        for (let i = 0; i < unitTypes.length; i++) {
+          if (unitTypes[i].info.type === `Mages`) {
+            players[0].buyable = players[0].buyable.filter(
+              (e) => e !== unitTypes[i]
+            );
+          }
+        }
+      } else if (target.type === `lair`) {
+        for (let i = 0; i < unitTypes.length; i++) {
+          if (unitTypes[i].info.type === `Dragon Riders`) {
+            players[0].buyable = players[0].buyable.filter(
+              (e) => e !== unitTypes[i]
+            );
+          }
+        }
+      }
+
+      if (target.structureTeam === 3) {
+        target.structureTeam = 2;
+        players[this.team - 1].structures.push(target.type);
+        players[0].currency += conquestReward;
 
         if (target.type === `church`) {
           for (let i = 0; i < unitTypes.length; i++) {
             if (unitTypes[i].info.type === `Priests`) {
-              players[0].buyable = players[0].buyable.filter(
-                (e) => e !== unitTypes[i]
-              );
+              players[this.team - 1].buyable.push(unitTypes[i]);
             }
           }
         } else if (target.type === `tower`) {
           for (let i = 0; i < unitTypes.length; i++) {
             if (unitTypes[i].info.type === `Mages`) {
-              players[0].buyable = players[0].buyable.filter(
-                (e) => e !== unitTypes[i]
-              );
+              players[this.team - 1].buyable.push(unitTypes[i]);
             }
           }
         } else if (target.type === `lair`) {
           for (let i = 0; i < unitTypes.length; i++) {
             if (unitTypes[i].info.type === `Dragon Riders`) {
-              players[0].buyable = players[0].buyable.filter(
-                (e) => e !== unitTypes[i]
-              );
+              players[this.team - 1].buyable.push(unitTypes[i]);
             }
           }
         }
-
-        if (target.structureTeam === 3) {
-          target.structureTeam = 2;
-          players[this.team - 1].structures.push(target.type);
-          players[0].currency += conquestReward;
-
-          if (target.type === `church`) {
-            for (let i = 0; i < unitTypes.length; i++) {
-              if (unitTypes[i].info.type === `Priests`) {
-                players[this.team - 1].buyable.push(unitTypes[i]);
-              }
-            }
-          } else if (target.type === `tower`) {
-            for (let i = 0; i < unitTypes.length; i++) {
-              if (unitTypes[i].info.type === `Mages`) {
-                players[this.team - 1].buyable.push(unitTypes[i]);
-              }
-            }
-          } else if (target.type === `lair`) {
-            for (let i = 0; i < unitTypes.length; i++) {
-              if (unitTypes[i].info.type === `Dragon Riders`) {
-                players[this.team - 1].buyable.push(unitTypes[i]);
-              }
-            }
-          }
-        } else if (target.structureTeam === 1) {
-          target.structureTeam = 3;
-        }
+      } else if (target.structureTeam === 1) {
+        target.structureTeam = 3;
       }
     }
+    sounds.conquest.play();
   }
 
   //  animateMovement()
@@ -436,6 +435,7 @@ class Lord extends Unit {
       ) {
         popup.active = `bandits`;
         banditTarget = this;
+        sounds.bandits.play();
       }
 
       if (this.stats.currentMovement === 0) {
