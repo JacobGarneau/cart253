@@ -155,9 +155,9 @@ class Unit {
   checkAttack() {
     if (
       this.selected &&
+      this.tiles.up !== undefined &&
       this.tiles.up.occupied !== this.team &&
-      this.tiles.up.occupied !== 0 &&
-      this.tiles.up.occupied !== undefined
+      this.tiles.up.occupied !== 0
     ) {
       this.attackable.up = true;
     } else {
@@ -166,9 +166,9 @@ class Unit {
 
     if (
       this.selected &&
+      this.tiles.down !== undefined &&
       this.tiles.down.occupied !== this.team &&
-      this.tiles.down.occupied !== 0 &&
-      this.tiles.down.occupied !== undefined
+      this.tiles.down.occupied !== 0
     ) {
       this.attackable.down = true;
     } else {
@@ -177,9 +177,9 @@ class Unit {
 
     if (
       this.selected &&
+      this.tiles.left !== undefined &&
       this.tiles.left.occupied !== this.team &&
-      this.tiles.left.occupied !== 0 &&
-      this.tiles.left.occupied !== undefined
+      this.tiles.left.occupied !== 0
     ) {
       this.attackable.left = true;
     } else {
@@ -188,9 +188,9 @@ class Unit {
 
     if (
       this.selected &&
+      this.tiles.right !== undefined &&
       this.tiles.right.occupied !== this.team &&
-      this.tiles.right.occupied !== 0 &&
-      this.tiles.right.occupied !== undefined
+      this.tiles.right.occupied !== 0
     ) {
       this.attackable.right = true;
     } else {
@@ -329,7 +329,6 @@ class Unit {
             !this.attackable.right
           ) {
             this.endTurn();
-            console.log(`no targets`);
           }
         });
       }

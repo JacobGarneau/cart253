@@ -90,7 +90,11 @@ class Tile {
   //  displaySpawnpoints()
   //  Displays the available spawpoints for new units
   displaySpawnpoints() {
-    if (this.tiles.up.occupied === 0 && this.tiles.up.type !== `water`) {
+    if (
+      this.tiles.up !== undefined &&
+      this.tiles.up.occupied === 0 &&
+      this.tiles.up.type !== `water`
+    ) {
       if (
         spawningUnit.info.type === `Cavalry` &&
         this.tiles.up.type === `mountains`
@@ -121,7 +125,11 @@ class Tile {
       }
     }
 
-    if (this.tiles.down.occupied === 0 && this.tiles.down.type !== `water`) {
+    if (
+      this.tiles.down !== undefined &&
+      this.tiles.down.occupied === 0 &&
+      this.tiles.down.type !== `water`
+    ) {
       if (
         spawningUnit.info.type === `Cavalry` &&
         this.tiles.down.type === `mountains`
@@ -152,7 +160,11 @@ class Tile {
       }
     }
 
-    if (this.tiles.left.occupied === 0 && this.tiles.left.type !== `water`) {
+    if (
+      this.tiles.left !== undefined &&
+      this.tiles.left.occupied === 0 &&
+      this.tiles.left.type !== `water`
+    ) {
       if (
         spawningUnit.info.type === `Cavalry` &&
         this.tiles.left.type === `mountains`
@@ -183,7 +195,11 @@ class Tile {
       }
     }
 
-    if (this.tiles.right.occupied === 0 && this.tiles.right.type !== `water`) {
+    if (
+      this.tiles.right !== undefined &&
+      this.tiles.right.occupied === 0 &&
+      this.tiles.right.type !== `water`
+    ) {
       if (
         spawningUnit.info.type === `Cavalry` &&
         this.tiles.right.type === `mountains`
