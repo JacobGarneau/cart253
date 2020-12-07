@@ -807,4 +807,48 @@ class Archer extends Unit {
       }
     }
   }
+
+  //  animateMovement()
+  //  Prevents the unit from ending its turn when reaching 0 Movement if a target is within range
+  animateMovement() {
+    this.stats.currentMovement--;
+    this.controllable = false;
+
+    let timeoutDelay = (grid.squareSize / unitSpeed / 60) * 1000;
+    setTimeout(() => {
+      this.x = this.destinationX;
+      this.y = this.destinationY;
+      this.controllable = true;
+      let banditRoll = random(0, 100);
+      if (
+        banditRoll <= banditChance &&
+        this.tiles.current.type === `forest` &&
+        this.banditEncounters
+      ) {
+        popup.active = `bandits`;
+        banditTarget = this;
+      }
+
+      if (this.stats.currentMovement === 0) {
+        setTimeout(() => {
+          if (
+            !this.attackable.up &&
+            !this.attackable.down &&
+            !this.attackable.left &&
+            !this.attackable.right &&
+            !this.attackable.up2 &&
+            !this.attackable.Down2 &&
+            !this.attackable.left2 &&
+            !this.attackable.right2 &&
+            !this.attackable.upLeft &&
+            !this.attackable.upRight &&
+            !this.attackable.downLeft &&
+            !this.attackable.downRight
+          ) {
+            this.endTurn();
+          }
+        });
+      }
+    }, timeoutDelay);
+  }
 }
