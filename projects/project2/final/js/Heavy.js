@@ -20,6 +20,8 @@ class Heavy extends Unit {
     };
   }
 
+  //  takeDamage(amount, magic)
+  //  Reduces all nonmagical damage taken by 1
   takeDamage(amount, magic) {
     if (magic) {
       this.stats.defense -= amount;

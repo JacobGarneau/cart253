@@ -9,6 +9,8 @@ class River {
     this.positionRiver();
   }
 
+  //  positionRiver()
+  //  Determines the river's path()
   positionRiver() {
     let riverY = 0;
     let lastDirection;
@@ -76,10 +78,12 @@ class River {
     }
   }
 
+  //  drawRiver()
+  //  Draws the river on the map
   drawRiver() {
     for (let i = 0; i < tiles.length; i++) {
       let d = dist(this.xCurrent, this.yCurrent, tiles[i].x, tiles[i].y);
-      if (d - 1 < grid.squareSize) {
+      if (d - unitSpeed < grid.squareSize) {
         tiles[i].type = `water`;
         i = tiles.length;
       }

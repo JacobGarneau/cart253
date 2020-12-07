@@ -56,6 +56,8 @@ class Unit {
     };
   }
 
+  //  display()
+  //  Displays the unit on the map
   display() {
     //  Draw the unit
     noStroke();
@@ -148,6 +150,8 @@ class Unit {
     );
   }
 
+  //  checkAttack()
+  //  Checks where the unit can attack
   checkAttack() {
     if (
       this.selected &&
@@ -190,6 +194,8 @@ class Unit {
     }
   }
 
+  //  checkMovement()
+  //  Chekcs where the unit can move
   checkMovement() {
     if (
       this.tiles.up.type === `castle` ||
@@ -244,6 +250,8 @@ class Unit {
     }
   }
 
+  //  handleInput(keyCode)
+  //  Handles keyboard inputs for unit movement
   handleInput(keyCode) {
     if (
       keyCode === LEFT_ARROW ||
@@ -287,6 +295,8 @@ class Unit {
     }
   }
 
+  //  animateMovement()
+  //  Animates the unit's movement from one tile to the next
   animateMovement() {
     this.stats.currentMovement--;
     this.controllable = false;
@@ -307,18 +317,22 @@ class Unit {
       }
 
       if (this.stats.currentMovement === 0) {
-        if (
-          !this.attackable.up &&
-          !this.attackable.down &&
-          !this.attackable.left &&
-          !this.attackable.right
-        ) {
-          this.endTurn();
-        }
+        setInterval(() => {
+          if (
+            !this.attackable.up &&
+            !this.attackable.down &&
+            !this.attackable.left &&
+            !this.attackable.right
+          ) {
+            this.endTurn();
+          }
+        });
       }
     }, timeoutDelay);
   }
 
+  //  displayAttack()
+  //  Displays the unit's attack options
   displayAttack() {
     if (this.attackable.up && this.controllable) {
       push();
@@ -405,6 +419,8 @@ class Unit {
     }
   }
 
+  //  attack()
+  //  Attacks the unit's target
   attack() {
     let dX = dist(mouseX, 0, this.x + grid.squareSize / 2, 0);
     let dY = dist(0, mouseY, 0, this.y + grid.squareSize / 2);
@@ -498,15 +514,21 @@ class Unit {
     }
   }
 
+  //  damage(target)
+  //  Deals damage to the unit's target
   damage(target) {
     target.takeDamage(this.stats.attack, this.stats.magical);
     this.endTurn();
   }
 
+  //  takeDamage(amount, magic)
+  //  Takes damage when attacked
   takeDamage(amount, magic) {
     this.stats.defense -= amount;
   }
 
+  //  move()
+  //  Draws the movement options
   move() {
     //  Draw the movement options
     if (
@@ -580,6 +602,8 @@ class Unit {
     }
   }
 
+  //  assignTileType()
+  //  Determines the type of the tiles surrounding the unit
   assignTileType() {
     //  Assign their tile's type to the units
     for (let i = 0; i < tiles.length; i++) {
@@ -616,6 +640,8 @@ class Unit {
     }
   }
 
+  //  checkDefeated()
+  //  Checks if the unit has reached 0 Defense
   checkDefeated() {
     if (this.stats.defense <= 0) {
       if (this.team === 1) {
@@ -636,6 +662,8 @@ class Unit {
     }
   }
 
+  //  endTurn()
+  //  Taps the unit
   endTurn() {
     this.currentMovement = 0;
     this.tapped = true;

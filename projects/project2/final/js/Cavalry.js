@@ -20,6 +20,8 @@ class Cavalry extends Unit {
     };
   }
 
+  //  checkMovement()
+  //  Prevents the cavalry unit from moving over mountain tiles
   checkMovement() {
     if (
       this.tiles.up.type === `castle` ||

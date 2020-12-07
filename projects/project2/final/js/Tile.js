@@ -16,6 +16,8 @@ class Tile {
     };
   }
 
+  //  display()
+  //  Displays the tile as part of the map
   display() {
     fill(255);
     if (this.type === `mountains`) {
@@ -66,6 +68,8 @@ class Tile {
     }
   }
 
+  //  defineStructure()
+  //  Defines additional parameters if the tile's type is a structure
   defineStructure() {
     if (this.structureTeam === 1) {
       fill(colors.blue.r, colors.blue.g, colors.blue.b);
@@ -76,11 +80,15 @@ class Tile {
     }
   }
 
+  //  checkSurroundings()
+  //  Handles tile type assignment for new unit spawning
   checkSurroundings() {
     this.assignTileType();
     this.spawnpoint = true;
   }
 
+  //  displaySpawnpoints()
+  //  Displays the available spawpoints for new units
   displaySpawnpoints() {
     if (this.tiles.up.occupied === 0 && this.tiles.up.type !== `water`) {
       if (
@@ -207,6 +215,8 @@ class Tile {
     }
   }
 
+  //  assignTileType()
+  //  Determines the type of the tiles surrounding this one
   assignTileType() {
     //  Assign their tile's type to the units
     for (let i = 0; i < tiles.length; i++) {
@@ -242,6 +252,8 @@ class Tile {
     }
   }
 
+  //  spawn()
+  //  Handles new unit spawning
   spawn(up, down, left, right) {
     let dX = dist(mouseX, 0, this.x + grid.squareSize / 2, 0);
     let dY = dist(0, mouseY, 0, this.y + grid.squareSize / 2);
@@ -347,6 +359,8 @@ class Tile {
     }
   }
 
+  //  createUnit(x, y)
+  //  Places the new unit on the map
   createUnit(x, y) {
     if (currentTurn === 1) {
       players[1].currency -= spawningUnit.info.cost;

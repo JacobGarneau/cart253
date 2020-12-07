@@ -9,6 +9,8 @@ class Road {
     this.positionRoad();
   }
 
+  //  positionRoad()
+  //  Determines the road's path
   positionRoad() {
     let roadX = 0;
     let lastDirection;
@@ -75,10 +77,12 @@ class Road {
     }
   }
 
+  //  drawRoad()
+  //  Draws the road on the map
   drawRoad() {
     for (let i = 0; i < tiles.length; i++) {
       let d = dist(this.xCurrent, this.yCurrent, tiles[i].x, tiles[i].y);
-      if (d - 1 < grid.squareSize / 2) {
+      if (d - unitSpeed < grid.squareSize / 2) {
         if (tiles[i].type === `water`) {
           tiles[i].type = `bridge`;
         } else {

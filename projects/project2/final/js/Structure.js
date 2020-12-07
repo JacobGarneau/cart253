@@ -55,6 +55,8 @@ class Structure {
     }
   }
 
+  //  display()
+  //  Displays the structure on the map
   display() {
     for (let i = 0; i < tiles.length; i++) {
       if (this.type === `castle`) {

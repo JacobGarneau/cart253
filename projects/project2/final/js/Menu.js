@@ -20,6 +20,8 @@ class Menu {
     this.shopOpen = 0; //  0 (shop closed), 1 (player1 shop open), 2 (player2 shop open)
   }
 
+  //  display()
+  //  Displays the menu components
   display() {
     textAlign(CENTER, CENTER);
 
@@ -202,6 +204,8 @@ class Menu {
     pop();
   }
 
+  //  displayShop()
+  //  Displays the shop popup and the buyable units
   displayShop() {
     if (this.shopOpen === 1) {
       shopX = dyn(580) - dyn(192);
@@ -325,12 +329,12 @@ class Menu {
     pop();
   }
 
+  //  buyUnit(purchasedUnit)
+  //  Buys the unit selected in the shop menu
   buyUnit(purchasedUnit) {
-    console.log("Buy 1 " + purchasedUnit.info.type + " unit");
     this.shopOpen = 0;
     overlayActive = false;
     spawningUnit = purchasedUnit;
-    console.log(spawningUnit);
 
     if (currentTurn === 1 && players[1].currency >= spawningUnit.info.cost) {
       for (let i = 0; i < tiles.length; i++) {

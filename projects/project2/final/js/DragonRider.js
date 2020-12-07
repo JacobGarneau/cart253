@@ -21,6 +21,8 @@ class DragonRider extends Unit {
     };
   }
 
+  //  checkMovement()
+  //  Allows the Dragon Rider unit to move over any type of tile except for structures
   checkMovement() {
     if (
       this.tiles.up.type === `castle` ||

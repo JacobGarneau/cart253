@@ -28,6 +28,8 @@ class Priest extends Unit {
     };
   }
 
+  //  checkHealing()
+  //  Checks for nearby healable units
   checkHealing() {
     if (this.selected && this.tiles.up.occupied === this.team) {
       this.healable.up = true;
@@ -54,6 +56,8 @@ class Priest extends Unit {
     }
   }
 
+  //  displayHealing()
+  //  Displays the available healing options
   displayHealing() {
     if (this.healable.up && this.controllable) {
       push();
@@ -140,6 +144,8 @@ class Priest extends Unit {
     }
   }
 
+  //  heal()
+  //  Handles unit healing
   heal() {
     let dX = dist(mouseX, 0, this.x + grid.squareSize / 2, 0);
     let dY = dist(0, mouseY, 0, this.y + grid.squareSize / 2);
@@ -237,6 +243,8 @@ class Priest extends Unit {
     }
   }
 
+  //  healDefense(target)
+  //  Heals the targeted unit by a specific amount
   healDefense(target) {
     if (target.stats.defense + this.stats.healing > target.stats.maxDefense) {
       target.stats.defense = target.stats.maxDefense;
@@ -245,6 +253,8 @@ class Priest extends Unit {
     }
   }
 
+  //  animateMovement()
+  //  Prevents turn from ending if healabe unit is nearby
   animateMovement() {
     this.stats.currentMovement--;
     this.controllable = false;

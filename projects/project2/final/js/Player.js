@@ -18,6 +18,8 @@ class Player {
     }
   }
 
+  //  createName()
+  //  Creates the player's name from their gender and random parts
   createName() {
     if (this.gender === `male`) {
       this.title = random(maleTitles);

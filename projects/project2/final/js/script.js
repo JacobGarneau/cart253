@@ -4,10 +4,7 @@ Jacob Garneau
 
 A strategy game about medieval warfare.
 
-This prototype focuses on showcasing the movement of the units on the grid.
-All units cannot cross water (blue) tiles, and cavalry units cannot cross mountain (grey) tiles.
-
-Icons in the proposal document were taken from FontAwesome (fontawesome.com) under Creative Commons license.
+All icons except for the offense, defense and movement icons (made by me) were taken from FontAwesome (fontawesome.com) under Creative Commons license.
 **************************************************/
 
 let grid = {
@@ -25,6 +22,7 @@ let popup;
 let river;
 let road;
 
+//  Define the color palette
 let colors = {
   blue: {
     r: 85,
@@ -72,9 +70,11 @@ let icons = {
 
 let players = [];
 
+//  List the possible titles
 let maleTitles = [`King`, `Prince`, `Duke`, `Lord`];
 let femaleTitles = [`Queen`, `Princess`, `Duchess`, `Lady`];
 
+//  List the possible names
 let maleFirstNames = [
   `Edward`,
   `Richard`,
@@ -147,6 +147,8 @@ let state = `title`; //  title, game, player1, player2, ending
 let page = `main`; // main, tutorials
 let victor;
 
+//  preload()
+//  p5: Loads the required assets (fonts, icons and sounds)
 function preload() {
   //  Load the font
   fontReg = loadFont("assets/fonts/Roboto-Regular.ttf");
@@ -194,9 +196,8 @@ function preload() {
   icons.lair = loadImage(`assets/images/lair.svg`);
 }
 
-// setup()
-//
-// Description of setup() goes here.
+//  setup()
+//  Sets up the units types, the grid, the structures, the players and the UI components
 function setup() {
   createCanvas(windowWidth, windowHeight);
   menuHeight = dyn(120);
@@ -266,15 +267,15 @@ function setup() {
   structures.push(lair);
 }
 
-//  Convert inputted numbers into a value that fits the size of the screen
+//  dyn(num)
+//  Converts inputted numbers into a value that fits the size of the screen
 function dyn(num) {
   let result = width / (1920 / num);
   return result;
 }
 
-// draw()
-//
-// Description of draw() goes here.
+//  draw()
+//  p5: Handles the various states
 function draw() {
   if (state === `title`) {
     title();
@@ -285,12 +286,16 @@ function draw() {
   }
 }
 
+//  title()
+//  Handles the various pages of the title screen
 function title() {
   if (page === `main`) {
     drawMain();
   }
 }
 
+//  drawMain()
+//  Displays the main page of the title screen
 function drawMain() {
   background(0);
   let p1Y;
@@ -377,6 +382,8 @@ function drawMain() {
   pop();
 }
 
+//  start()
+//  Starts the game
 function start() {
   //  Create the player names
   for (let i = 0; i < 2; i++) {
@@ -428,6 +435,8 @@ function start() {
   changeTurns(1);
 }
 
+//  game()
+//  Handles the displaying of the game elements and the actions taken by units or menus
 function game() {
   background(0);
   stroke(0, 0, 0, 100);
@@ -495,11 +504,15 @@ function game() {
   }
 }
 
+//  selectSquare(value)
+//  Selects a tile from its x and y coordinates on the grid
 function selectSquare(value) {
   let selected = (value - 1) * grid.squareSize;
   return selected;
 }
 
+//  changeTurns(player)
+//  Changes the active turn from one player to the other
 function changeTurns(player) {
   for (let i = 0; i < units.length; i++) {
     if (units[i].team === currentTurn) {
@@ -510,7 +523,7 @@ function changeTurns(player) {
     }
   }
 
-  //  Distribut money per turn
+  //  Distribute money per turn
   if (currentTurn === 1) {
     players[0].currency += moneyPerTurn;
   } else {
@@ -527,6 +540,8 @@ function changeTurns(player) {
   currentTurn = player;
 }
 
+//  ending()
+//  Displays the ending screen
 function ending() {
   background(0);
 
@@ -556,6 +571,8 @@ function ending() {
   );
 }
 
+//  mouseMoved()
+//  p5: Handles the hover animations
 function mouseMoved() {
   //  Detect "buy" menu item hover
   if (menu.shopOpen !== 0) {
@@ -578,6 +595,8 @@ function mouseMoved() {
   }
 }
 
+//  mouseClicked()
+//  p5: Handles the click interactions with units, menu elements, and the like
 function mouseClicked() {
   //  Detect title menu clicks
   if (state === `title`) {
@@ -732,6 +751,8 @@ function mouseClicked() {
   }
 }
 
+//  keyPressed()
+//  p5: Handles the key events for units, menus, and popups
 function keyPressed() {
   //  Start the game
   if (state === `title` && keyCode === ENTER) {

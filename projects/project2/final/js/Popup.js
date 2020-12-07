@@ -5,11 +5,15 @@ class Popup {
     this.active = undefined;
   }
 
+  //  close()
+  //  Closes the currently active popup
   close() {
     this.active = undefined;
     overlayActive = false;
   }
 
+  //  bandits()
+  //  Opens the popup for a bandit ambush
   bandits() {
     overlayActive = true;
     push();

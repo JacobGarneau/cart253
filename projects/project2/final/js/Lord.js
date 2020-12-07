@@ -26,6 +26,8 @@ class Lord extends Unit {
     };
   }
 
+  //  checkConquest()
+  //  Checks for nearby conquerable structures
   checkConquest() {
     if (
       this.selected &&
@@ -76,6 +78,8 @@ class Lord extends Unit {
     }
   }
 
+  //  displayConquest()
+  //  Displays the availabe conquest options
   displayConquest() {
     if (this.conquerable.up && this.controllable) {
       push();
@@ -178,6 +182,8 @@ class Lord extends Unit {
     }
   }
 
+  //  conquer()
+  //  handles structure conquest
   conquer() {
     let dX = dist(mouseX, 0, this.x + grid.squareSize / 2, 0);
     let dY = dist(0, mouseY, 0, this.y + grid.squareSize / 2);
@@ -287,6 +293,8 @@ class Lord extends Unit {
     }
   }
 
+  //  conquerStructure(target)
+  //  Conquers the targeted structure
   conquerStructure(target) {
     if (this.team === 1) {
       players[1].structures = players[1].structures.filter(
@@ -409,6 +417,7 @@ class Lord extends Unit {
     }
   }
 
+  //  animateMovement()
   //  Prevents turn from ending if conquerable structure is nearby
   animateMovement() {
     this.stats.currentMovement--;
