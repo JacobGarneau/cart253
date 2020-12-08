@@ -394,7 +394,7 @@ function drawMain() {
 
   push();
   noStroke();
-  fill(200);
+  fill(colors.purple.r, colors.purple.g, colors.purple.b);
   ellipse(width / 2 - dyn(100), musicY, 16);
   pop();
 
@@ -748,7 +748,9 @@ function mouseClicked() {
         mouseY > menuHeight / 2 + dyn(96) * (i + 1) &&
         players[currentTurn - 1].buyable[i]
       ) {
-        menu.buyUnit(players[currentTurn - 1].buyable[i]);
+        setTimeout(() => {
+          menu.buyUnit(players[currentTurn - 1].buyable[i]);
+        }, 50);
       }
     }
   }
@@ -762,7 +764,8 @@ function mouseClicked() {
     dBuyX1 < dyn(30) &&
     dBuyY < dyn(16) &&
     menu.shopOpen === 0 &&
-    currentTurn === 1
+    currentTurn === 1 &&
+    popup.active !== `bandits`
   ) {
     menu.shopOpen = 1;
     overlayActive = true;
@@ -771,7 +774,8 @@ function mouseClicked() {
     dBuyX2 < dyn(30) &&
     dBuyY < dyn(16) &&
     menu.shopOpen === 0 &&
-    currentTurn === 2
+    currentTurn === 2 &&
+    popup.active !== `bandits`
   ) {
     menu.shopOpen = 2;
     overlayActive = true;
@@ -791,7 +795,8 @@ function mouseClicked() {
 
   if (
     dEndTurnX < menu.endTurn.width / 2 &&
-    dEndTurnY < menu.endTurn.height / 2
+    dEndTurnY < menu.endTurn.height / 2 &&
+    popup.active !== `bandits`
   ) {
     for (let i = 0; i < units.length; i++) {
       units[i].endTurn();

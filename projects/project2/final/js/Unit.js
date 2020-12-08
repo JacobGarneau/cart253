@@ -331,7 +331,7 @@ class Unit {
           ) {
             this.endTurn();
           }
-        });
+        }, 50);
       }
     }, timeoutDelay);
   }

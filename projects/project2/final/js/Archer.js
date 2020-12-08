@@ -837,9 +837,11 @@ class Archer extends Unit {
         this.tiles.current.type === `forest` &&
         this.banditEncounters
       ) {
-        popup.active = `bandits`;
-        banditTarget = this;
-        sounds.bandits.play();
+        setTimeout(() => {
+          popup.active = `bandits`;
+          banditTarget = this;
+          sounds.bandits.play();
+        }, 50);
       }
 
       if (this.stats.currentMovement === 0) {
@@ -860,7 +862,7 @@ class Archer extends Unit {
           ) {
             this.endTurn();
           }
-        });
+        }, 50);
       }
     }, timeoutDelay);
   }

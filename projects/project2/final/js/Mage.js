@@ -860,7 +860,7 @@ class Mage extends Unit {
           ) {
             this.endTurn();
           }
-        });
+        }, 50);
       }
     }, timeoutDelay);
   }
