@@ -2,15 +2,35 @@
 
 ## Artist Statement
 
-_Flames of Conquest_ is a turn-based strategy game about medieval warfare.
-
-The game is optimised for a window resolution of 1920 x 940 pixels. Other resolutions may experience some minor issues with map generation.
+_Flames of Conquest_ is a two-player turn-based strategy game about medieval warfare.
 
 ## How to Play
 
-### Objective
+### Basics
+
+#### Objective
 
 The main objective of the game is to defeat all three enemy lords. To do that, the player will have to manage armies and think strategically to outmaneuver their opponent.
+
+#### Controlling Units
+
+To control their units, the players will first need to select them by clicking on them and will then be able to use WASD or the arrow keys to move them on the board. To select a different unit, players will first have to deselect the one they have selected at the moment. Special options such as attacking, healing or capturing will appear only when available and are activated by clicking on their respective icons.
+
+#### Purchasing Units
+
+During the game, players will be able to purchase new units. To do so, they will need to click on the "Buy" button and then click on one of the unit types displayed in the shop menu. If they have sufficient funds, the shop menu will be closed and possible locations for the new unit to appear will be displayed on the map in the form of icons representing the unit's type.
+
+#### Popups
+
+At some points of the game, popup windows may appear to announce special events. Popup windows are not clickable and require the player to press one of the keys indicated in [BRACKETS] to interact with them.
+
+#### Ending Turns
+
+Once all of their units are grayed out and can't do anything else or once they have decided that they were done with their turn, players will need to click the "End Turn" button to end their turn and begin their opponent's.
+
+#### Optimal Resolution
+
+The game is optimised for a window resolution of 1920 x 940 pixels. Other resolutions may possibly experience some minor issues with map generation.
 
 ### Units
 

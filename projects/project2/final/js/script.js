@@ -364,7 +364,7 @@ function drawMain() {
   fill(255);
   textSize(32);
   textAlign(CENTER, CENTER);
-  text(`Press ENTER to start`, width / 2, height - dyn(80));
+  text(`Press ENTER to start`, width / 2, height - dyn(180));
 
   //  Music options
   text(`Music`, width / 2, 300);
