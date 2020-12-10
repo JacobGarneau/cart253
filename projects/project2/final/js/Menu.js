@@ -107,6 +107,14 @@ class Menu {
     if (players[1].lords === 0) {
       victor = players[0];
       state = `ending`;
+
+      if (music.selected === `tranquility`) {
+        music.track1.stop();
+      } else if (music.selected === `brightwood`) {
+        music.track2.stop();
+      } else if (music.selected === `vestige`) {
+        music.track3.stop();
+      }
     }
 
     text(`Currency: ${players[1].currency} $\n\n`, dyn(580), menuHeight / 2);
@@ -177,6 +185,14 @@ class Menu {
     if (players[0].lords === 0) {
       victor = players[1];
       state = `ending`;
+
+      if (music.selected === `tranquility`) {
+        music.track1.stop();
+      } else if (music.selected === `brightwood`) {
+        music.track2.stop();
+      } else if (music.selected === `vestige`) {
+        music.track3.stop();
+      }
     }
 
     text(
