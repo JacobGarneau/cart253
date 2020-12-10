@@ -92,7 +92,7 @@ All icons except for the offense, defense, and movement icons (made by me) were 
 
 All music tracks were made by me.
 
-All sound effects were taken from **Freesound** (freesound.org) under Creative Commons license.
+All sound effects were taken from **Freesound** (freesound.org) under Creative Commons license. Here are the users credited for each of the sound effects:
 
 Attack: user **Abyssmal**  
 Magic attack: user **SilverIllusionist**  
