@@ -277,7 +277,7 @@ class Priest extends Unit {
           banditTarget = this;
           sounds.bandits.play();
         }
-      }, 50);
+      }, 25);
 
       if (this.stats.currentMovement === 0) {
         setTimeout(() => {

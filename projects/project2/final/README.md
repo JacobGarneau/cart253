@@ -4,21 +4,29 @@
 
 _Flames of Conquest_ is a two-player turn-based strategy game about medieval warfare.
 
+Inspired by other video games of the same sort such as _Fire Emblem_ or _Age of Empires_, but also by classic board games like chess and _Stratego_, I wanted to create an engaging experience that encouraged tactical thinking and favored replayability. I wanted my game to have a good amount of depth so that new players could have fun with it, but also that more experienced players could keep discovering new strategies as they played. More than simply making a game, I wanted to make a fun and interesting game that anyone interested in strategy could enjoy.
+
+On a technical level, I am proud to say that I successfully implemented the turn and grid systems on which most of the game heavily relies, but also a functional semi-random map generation system that makes each round unique. I was also able to implement special abilities for each type of unit, making the game much more diversified and giving it an additional layer of depth. I think I have also succeeded on an artistic level, mainly because of the feedback from those who tested the game, which was overwhelmingly positive, but also simply because of my own perception of the project. A frequent comment I received was that the game had real depth and strategy built into it. This is exactly what I was going for, so it makes me think it safe to say that I did indeed reach my goal.
+
 ## How to Play
 
 ### Basics
 
 #### Objective
 
-The main objective of the game is to defeat all three enemy lords. To do that, the player will have to manage armies and think strategically to outmaneuver their opponent.
+The main objective of the game is to defeat all three enemy lords, represented on the battlefield by units with crown icons. To do so, the player will have to manage armies and think strategically to outmaneuver their opponent.
 
 #### Controlling Units
 
-To control their units, the players will first need to select them by clicking on them and will then be able to use WASD or the arrow keys to move them on the board. To select a different unit, players will first have to deselect the one they have selected at the moment. Special options such as attacking, healing or capturing will appear only when available and are activated by clicking on their respective icons.
+To control their units, the players will first need to select them by clicking on them and will then be able to use WASD or the arrow keys to move them on the board. To deselect a selected unit, they will be able to simply click on it once more. Special options such as attacking, healing or capturing will appear only when available and are activated by clicking on their respective icons. If a unit is grayed out, this means it has done everything it could for this turn and can no longer be selected until the next turn.
 
 #### Purchasing Units
 
 During the game, players will be able to purchase new units. To do so, they will need to click on the "Buy" button and then click on one of the unit types displayed in the shop menu. If they have sufficient funds, the shop menu will be closed and possible locations for the new unit to appear will be displayed on the map in the form of icons representing the unit's type.
+
+#### Defeating Units
+
+When a unit gets attacked to the point where its Defense reaches 0 or less, it is defeated and disappear from the map. Defeating a unit gives half of its cost in currency to the player who defeated it. Even though they cannot be purchased, defeating a Lord is worth 150 \$.
 
 #### Popups
 
@@ -71,7 +79,7 @@ Four types of structures will be placed on the map. These structures are strateg
 The map of _Flames of Conquest_ is made up of randomly-generated tiles, which can be of one of seven types:
 
 - **Plains:** Plains are the default type of terrain. They have no special effect.
-- **Road:** Road tiles exist to ensure that there is always a clear path between bot castles. They have no special effect.
+- **Road:** Road tiles exist to ensure that there is always a clear path between both castles. They have no special effect.
 - **Bridge:** Bridge tiles exist to make sure that the players can always cross the river. They have no special effect.
 - **Forest:** Forest tiles are dangerous to traverse. Units (other than Dragon Riders) that land on a forest tile have a 20% chance of encountering bandits. They can then choose to pay their fee or to try and fight them.
 - **Mountains:** Mountain tiles are difficult terrain for horses to move through. They cannot be crossed by Cavalry units.
@@ -87,7 +95,7 @@ All music tracks were made by me.
 All sound effects were taken from **Freesound** (freesound.org) under Creative Commons license.
 
 Attack: user **Abyssmal**  
-Magic Attack: user **SilverIllusionist**  
+Magic attack: user **SilverIllusionist**  
 Heal: user **ryusa**  
 Conquest: user **ryusa**  
 Lord defeat: user **Kneeling**  

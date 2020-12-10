@@ -2,9 +2,7 @@
 Project 2 - Anything
 Jacob Garneau
 
-A strategy game about medieval warfare.
-
-All icons except for the offense, defense and movement icons (made by me) were taken from FontAwesome (fontawesome.com) under Creative Commons license.
+Flames of Conquest - A strategy game about medieval warfare
 **************************************************/
 
 let grid = {
@@ -750,6 +748,7 @@ function mouseClicked() {
       ) {
         setTimeout(() => {
           menu.buyUnit(players[currentTurn - 1].buyable[i]);
+          players[currentTurn - 1].buyable[i].hovered = false;
         }, 50);
       }
     }
@@ -856,11 +855,7 @@ function mouseClicked() {
           }
           units[i].selected = false;
           selectionActive = false;
-        } else if (
-          currentTurn === units[i].team &&
-          units[i].tapped === false &&
-          !selectionActive
-        ) {
+        } else if (currentTurn === units[i].team && units[i].tapped === false) {
           for (let j = 0; j < units.length; j++) {
             units[j].selected = false;
           }
