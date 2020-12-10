@@ -157,7 +157,7 @@ let tileTypes = [
   `mountains`,
 ];
 let banditChance = 20;
-let banditFee = 200;
+let banditFee = 150;
 let banditDamage = 3;
 let banditTarget = undefined;
 let currentTurn = 2; // 1 (player1), 2 (player2)
