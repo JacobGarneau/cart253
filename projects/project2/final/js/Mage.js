@@ -830,17 +830,20 @@ class Mage extends Unit {
     setTimeout(() => {
       this.x = this.destinationX;
       this.y = this.destinationY;
-      this.controllable = true;
+
       let banditRoll = random(0, 100);
-      if (
-        banditRoll <= banditChance &&
-        this.tiles.current.type === `forest` &&
-        this.banditEncounters
-      ) {
-        popup.active = `bandits`;
-        banditTarget = this;
-        sounds.bandits.play();
-      }
+      setTimeout(() => {
+        this.controllable = true;
+        if (
+          banditRoll <= banditChance &&
+          this.tiles.current.type === `forest` &&
+          this.banditEncounters
+        ) {
+          popup.active = `bandits`;
+          banditTarget = this;
+          sounds.bandits.play();
+        }
+      }, 50);
 
       if (this.stats.currentMovement === 0) {
         setTimeout(() => {
@@ -860,7 +863,7 @@ class Mage extends Unit {
           ) {
             this.endTurn();
           }
-        }, 50);
+        }, 100);
       }
     }, timeoutDelay);
   }

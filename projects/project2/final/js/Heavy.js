@@ -3,7 +3,7 @@ class Heavy extends Unit {
     super(xPos, yPos, team);
     this.info = {
       type: `Heavies`,
-      description: `Infantry clad in heavy armor.\n\nHeavy units have low offense but very high defense\nand reduce the damage of all nonmagical attacks by 1.`,
+      description: `Infantry clad in heavy armor.\n\nHeavy units have low offense but very high defense\nand reduce the damage of all nonmagical attacks by 2.`,
       icon: icons.heavy,
       iconAlt: icons.heavyAlt,
       cost: 200,
@@ -26,7 +26,7 @@ class Heavy extends Unit {
     if (magic) {
       this.stats.defense -= amount;
     } else {
-      this.stats.defense -= amount - 1;
+      this.stats.defense -= amount - 2;
     }
   }
 }
