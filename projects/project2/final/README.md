@@ -81,7 +81,7 @@ The map of _Flames of Conquest_ is made up of randomly-generated tiles, which ca
 - **Plains:** Plains are the default type of terrain. They have no special effect.
 - **Road:** Road tiles exist to ensure that there is always a clear path between both castles. They have no special effect.
 - **Bridge:** Bridge tiles exist to make sure that the players can always cross the river. They have no special effect.
-- **Forest:** Forest tiles are dangerous to traverse. Units (other than Dragon Riders) that land on a forest tile have a 20% chance of encountering bandits. They can then choose to pay their fee or to try and fight them.
+- **Forest:** Forest tiles are dangerous to traverse. Units (other than Dragon Riders) that land on a forest tile have a 25% chance of encountering bandits. They can then choose to pay their fee or to try and fight them.
 - **Mountains:** Mountain tiles are difficult terrain for horses to move through. They cannot be crossed by Cavalry units.
 - **Water:** Water tiles form a river that goes across the map. They cannot be crossed by units (other than Dragon Riders).
 - **Structure:** Structure tiles cannot be crossed by any type of unit. When controlled by a player, they serve as spawn points for new units.

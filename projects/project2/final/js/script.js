@@ -154,7 +154,7 @@ let tileTypes = [
   `forest`,
   `mountains`,
 ];
-let banditChance = 20;
+let banditChance = 25;
 let banditFee = 150;
 let banditDamage = 3;
 let banditTarget = undefined;
