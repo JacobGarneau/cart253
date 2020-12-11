@@ -853,7 +853,7 @@ class Archer extends Unit {
             !this.attackable.left &&
             !this.attackable.right &&
             !this.attackable.up2 &&
-            !this.attackable.Down2 &&
+            !this.attackable.down2 &&
             !this.attackable.left2 &&
             !this.attackable.right2 &&
             !this.attackable.upLeft &&
