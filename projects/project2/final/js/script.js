@@ -2,7 +2,7 @@
 Project 2 - Anything
 Jacob Garneau
 
-Flames of Conquest - A strategy game about medieval warfare
+Conquest - A strategy game about medieval warfare
 **************************************************/
 
 let grid = {
@@ -357,7 +357,7 @@ function drawMain() {
   textSize(96);
   textAlign(CENTER, CENTER);
   textFont(fontBold);
-  text(`Flames of Conquest`, width / 2, dyn(180));
+  text(`Conquest`, width / 2, dyn(180));
 
   fill(255);
   textSize(32);
